@@ -7,6 +7,174 @@
       "value": "{semantic.border.decorative}",
       "description": "Bootstrap select border reference.",
       "stability": "bootstrap"
+    },
+    "component.select.triggerBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select trigger background reference.",
+      "stability": "experimental"
+    },
+    "component.select.triggerForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental select trigger foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.placeholderForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental select placeholder foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.hoverBorder": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental select hover border reference.",
+      "stability": "experimental"
+    },
+    "component.select.openBorder": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental select open border reference.",
+      "stability": "experimental"
+    },
+    "component.select.disabledBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select disabled background reference.",
+      "stability": "experimental"
+    },
+    "component.select.disabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental select disabled foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.readOnlyBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select read-only background reference.",
+      "stability": "experimental"
+    },
+    "component.select.focus.ring": {
+      "type": "color",
+      "value": "{semantic.focus.ring}",
+      "description": "Experimental select focus ring reference.",
+      "stability": "experimental"
+    },
+    "component.select.paddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental select inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.select.paddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental select block padding reference.",
+      "stability": "experimental"
+    },
+    "component.select.minHeight": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental select minimum height reference.",
+      "stability": "experimental"
+    },
+    "component.select.radius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental select radius reference.",
+      "stability": "experimental"
+    },
+    "component.select.popoverBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select popover background reference.",
+      "stability": "experimental"
+    },
+    "component.select.popoverBorder": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental select popover border reference.",
+      "stability": "experimental"
+    },
+    "component.select.popoverShadow": {
+      "type": "shadow",
+      "value": "{primitive.shadow.none}",
+      "description": "Experimental select popover shadow reference.",
+      "stability": "experimental"
+    },
+    "component.select.popoverMaxHeight": {
+      "type": "dimension",
+      "value": "16rem",
+      "description": "Experimental select popover maximum height reference.",
+      "stability": "experimental"
+    },
+    "component.select.popoverZIndex": {
+      "type": "number",
+      "value": "{primitive.zIndex.overlay}",
+      "description": "Experimental select popover z-index reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select option background reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental select option foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionHoverBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental select option hover background reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionFocusedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental select option focused background reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionSelectedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental select option selected background reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionSelectedForeground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental select option selected foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionDisabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental select option disabled foreground reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionPaddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental select option inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionPaddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental select option block padding reference.",
+      "stability": "experimental"
+    },
+    "component.select.optionGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental select option content gap reference.",
+      "stability": "experimental"
     }
   }
 }
