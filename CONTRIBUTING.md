@@ -34,4 +34,6 @@ Standard Select behavior must be consumed through `@om/ui/select`. Public Select
 
 Standard dialogs must be consumed through `@om/ui/dialog` and `@om/ui/alert-dialog`. Public dialog callbacks expose booleans or no-argument callbacks, never press, keyboard, pointer, or overlay events. Dialogs require titles. AlertDialogs require titles and consequence descriptions, default focus to Cancel, do not dismiss through outside interaction, and block dismissal while confirmation is pending. Do not expose React Aria Dialog, Modal, ModalOverlay, DialogTrigger, overlay state, or press-event types in public declarations.
 
+Standard action menus must be consumed through `@om/ui/menu`. Public Menu entries are OM-owned serializable action, link, and separator definitions with stable unique string IDs. Public callbacks expose IDs and booleans, never vendor keys, collection objects, state, or events. Destructive action styling must not rely only on color. Generic Popover, ContextMenu, Menubar, submenu support, and router adapters remain deferred.
+
 New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.

@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1G Status
+## Phase 1H Status
 
-Phase 1G extends the permanent `@om/ui` pattern with the first overlay family: `Dialog` and `AlertDialog`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, and `AlertDialog`.
+Phase 1H extends the permanent `@om/ui` pattern with the first action-menu family: `Menu`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, and `Menu`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -88,6 +88,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui/icon-button`
 - `@om/ui/label`
 - `@om/ui/link`
+- `@om/ui/menu`
 - `@om/ui/radio`
 - `@om/ui/radio-group`
 - `@om/ui/select`
@@ -111,7 +112,9 @@ Selection controls require accessible labels through visible child content or a 
 
 `Select` exposes an OM-owned `SelectOption` data contract and `string | null` value model. Option values and labels must be non-empty strings, values must be unique, and `null` represents no selection. Placeholder text is not an option or a label. `Select` supports controlled and uncontrolled values, hidden form integration for selected string values, read-only behavior that remains focusable but does not open or change, disabled options, empty-options behavior, descriptions, errors, and a ref to the visible trigger `HTMLButtonElement`. Standalone `ListBox`, `Popover`, grouped options, multi-select, searchable Select, async loading, custom option rendering, and `ComboBox` remain deferred.
 
-`Dialog` and `AlertDialog` are experimental modal overlays. `Dialog` requires a title, supports optional descriptions, controlled and uncontrolled open state, optional triggers, dismissable and keyboard-dismiss policies, a visible close button by default, internal focus trapping, focus restoration, long-content scrolling, and a public ref to the dialog surface `HTMLDivElement`. `AlertDialog` requires a title and consequence description, defaults focus to Cancel, does not dismiss on outside interaction, blocks dismissal while confirmation is pending, exposes no event objects from confirm or cancel callbacks, and is intended to support future replacement of ad-hoc confirmation patterns. Public generic Modal, Overlay, Portal, Popover, Menu, Tooltip, Drawer, and application migration remain deferred.
+`Dialog` and `AlertDialog` are experimental modal overlays. `Dialog` requires a title, supports optional descriptions, controlled and uncontrolled open state, optional triggers, dismissable and keyboard-dismiss policies, a visible close button by default, internal focus trapping, focus restoration, long-content scrolling, and a public ref to the dialog surface `HTMLDivElement`. `AlertDialog` requires a title and consequence description, defaults focus to Cancel, does not dismiss on outside interaction, blocks dismissal while confirmation is pending, exposes no event objects from confirm or cancel callbacks, and is intended to support future replacement of ad-hoc confirmation patterns.
+
+`Menu` is an experimental action-menu component using OM-owned serializable item contracts. `MenuEntry` supports action items, link items, and separators with stable unique string IDs. `onAction` receives only the selected action ID. Link items render semantic anchors and `_blank` links receive safe `rel` behavior. The public ref targets the trigger `HTMLButtonElement`. Empty menus and separator-only menus do not open an empty interactive collection. Public generic Popover, MenuItem, MenuTrigger, ContextMenu, Menubar, nested menus, router adapters, and application migration remain deferred.
 
 ## Theme Precedence
 
