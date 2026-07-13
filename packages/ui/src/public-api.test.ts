@@ -19,9 +19,11 @@ describe("@om/ui package boundaries", () => {
   it("declares public export paths", () => {
     expect(Object.keys(packageJson.exports).sort()).toEqual([
       ".",
+      "./alert-dialog",
       "./button",
       "./checkbox",
       "./css",
+      "./dialog",
       "./field-error",
       "./icon-button",
       "./label",
@@ -38,7 +40,9 @@ describe("@om/ui package boundaries", () => {
   it("does not expose React Aria types in source public contracts", async () => {
     const files = [
       "src/button/Button.tsx",
+      "src/alert-dialog/AlertDialog.tsx",
       "src/checkbox/Checkbox.tsx",
+      "src/dialog/Dialog.tsx",
       "src/field-error/FieldError.tsx",
       "src/link/Link.tsx",
       "src/icon-button/IconButton.tsx",
@@ -50,6 +54,7 @@ describe("@om/ui package boundaries", () => {
       "src/text-area/TextArea.tsx",
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
+      "src/shared/dialog-types.ts",
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
       "src/index.ts"
@@ -58,7 +63,7 @@ describe("@om/ui package boundaries", () => {
     for (const content of contents) {
       expect(content).not.toMatch(/extends .*react-aria-components/u);
       expect(content).not.toMatch(
-        /PressEvent|RenderProps|ValidationResult|ToggleState|RadioGroupState|@react-types/u
+        /PressEvent|RenderProps|ValidationResult|ToggleState|RadioGroupState|OverlayTriggerState|@react-types/u
       );
       expect(content).not.toMatch(/onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
       expect(content).not.toMatch(/onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
@@ -73,5 +78,24 @@ describe("@om/ui package boundaries", () => {
     );
     expect(content).toMatch(/readonly value: string/u);
     expect(content).toMatch(/onValueChange\?: \(value: string \| null\) => void/u);
+  });
+
+  it("keeps dialog contracts free of vendor overlay types and events", async () => {
+    const contents = await Promise.all(
+      [
+        "src/dialog/Dialog.tsx",
+        "src/alert-dialog/AlertDialog.tsx",
+        "src/shared/dialog-types.ts"
+      ].map((file) => readFile(file, "utf8"))
+    );
+
+    for (const content of contents) {
+      expect(content).not.toMatch(
+        /DialogTriggerProps|ModalOverlayProps|ModalProps|PressEvent|OverlayTrigger|AriaDialogProps|AriaModalOverlayProps/u
+      );
+      expect(content).not.toMatch(/onOpenChange\??:\s*\([^)]*(Event|event|PressEvent)/u);
+      expect(content).not.toMatch(/onConfirm\??:\s*\([^)]*(Event|event|PressEvent)/u);
+      expect(content).not.toMatch(/onCancel\??:\s*\([^)]*(Event|event|PressEvent)/u);
+    }
   });
 });
