@@ -15,6 +15,10 @@
       "types": "./dist/button/index.d.ts",
       "import": "./dist/button/index.js"
     },
+    "./checkbox": {
+      "types": "./dist/checkbox/index.d.ts",
+      "import": "./dist/checkbox/index.js"
+    },
     "./icon-button": {
       "types": "./dist/icon-button/index.d.ts",
       "import": "./dist/icon-button/index.js"
@@ -30,6 +34,18 @@
     "./link": {
       "types": "./dist/link/index.d.ts",
       "import": "./dist/link/index.js"
+    },
+    "./radio": {
+      "types": "./dist/radio/index.d.ts",
+      "import": "./dist/radio/index.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group/index.d.ts",
+      "import": "./dist/radio-group/index.js"
+    },
+    "./switch": {
+      "types": "./dist/switch/index.d.ts",
+      "import": "./dist/switch/index.js"
     },
     "./text-area": {
       "types": "./dist/text-area/index.d.ts",
@@ -50,7 +66,7 @@
   "scripts": {
     "build": "rm -rf dist .tsbuildinfo && tsc -b && pnpm copy:css && pnpm verify:public-api",
     "clean": "rm -rf dist .tsbuildinfo",
-    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css > dist/styles/index.css",
+    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css > dist/styles/index.css",
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",

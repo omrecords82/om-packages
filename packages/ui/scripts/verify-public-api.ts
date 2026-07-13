@@ -12,10 +12,17 @@ const prohibitedPatterns = [
   /\bLinkRenderProps\b/u,
   /\bTextFieldRenderProps\b/u,
   /\bFieldErrorRenderProps\b/u,
+  /\bCheckboxRenderProps\b/u,
+  /\bRadioGroupRenderProps\b/u,
+  /\bRadioRenderProps\b/u,
+  /\bSwitchRenderProps\b/u,
   /\bValidationResult\b/u,
+  /\bToggleState\b/u,
+  /\bRadioGroupState\b/u,
   /\bAria[A-Z][A-Za-z]+Props\b/u,
   /extends\s+[A-Za-z]*Props/u,
-  /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
+  /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
+  /onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
 ] as const;
 
 export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): Promise<void> {
@@ -35,10 +42,14 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   >;
   for (const exportName of [
     "Button",
+    "Checkbox",
     "FieldError",
     "IconButton",
     "Label",
     "Link",
+    "Radio",
+    "RadioGroup",
+    "Switch",
     "TextArea",
     "TextField"
   ]) {
@@ -49,10 +60,14 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
 
   const expectedSubpaths = [
     ["button", "Button"],
+    ["checkbox", "Checkbox"],
     ["field-error", "FieldError"],
     ["icon-button", "IconButton"],
     ["label", "Label"],
     ["link", "Link"],
+    ["radio", "Radio"],
+    ["radio-group", "RadioGroup"],
+    ["switch", "Switch"],
     ["text-area", "TextArea"],
     ["text-field", "TextField"]
   ] as const;
@@ -77,6 +92,21 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   ]);
   await verifyDeclarationContains(distRoot, "label/Label.d.ts", [
     "RefAttributes<HTMLLabelElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "checkbox/Checkbox.d.ts", [
+    "RefAttributes<HTMLInputElement>",
+    "onSelectionChange?: (isSelected: boolean) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "radio/Radio.d.ts", [
+    "RefAttributes<HTMLInputElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "radio-group/RadioGroup.d.ts", [
+    "RefAttributes<HTMLDivElement>",
+    "onValueChange?: (value: string) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "switch/Switch.d.ts", [
+    "RefAttributes<HTMLInputElement>",
+    "onSelectionChange?: (isSelected: boolean) => void"
   ]);
 }
 
