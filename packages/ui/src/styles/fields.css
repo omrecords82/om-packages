@@ -1,0 +1,126 @@
+@layer om.components {
+  .om-field {
+    display: grid;
+    gap: calc(var(--om-component-field-gap) / 4);
+  }
+
+  .om-field__label {
+    align-items: center;
+    color: var(--om-component-field-label-foreground);
+    display: inline-flex;
+    gap: calc(var(--om-primitive-space-4) / 4);
+    font: inherit;
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-field__label[data-om-label-visibility="visually-hidden"] {
+    block-size: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    inline-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .om-field__required-marker {
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-field__description {
+    color: var(--om-component-field-description-foreground);
+    font: inherit;
+  }
+
+  .om-field__control {
+    appearance: none;
+    background: var(--om-component-input-background);
+    border: var(--om-primitive-border-width-1) solid var(--om-component-input-border);
+    border-radius: var(--om-component-input-radius);
+    color: var(--om-component-input-foreground);
+    font: inherit;
+    inline-size: 100%;
+    line-height: var(--om-primitive-line-height-body);
+    min-block-size: var(--om-component-input-min-height);
+    padding-block: calc(var(--om-component-input-padding-block) / 2);
+    padding-inline: var(--om-component-input-padding-inline);
+    transition-duration: var(--om-primitive-motion-duration-fast);
+    transition-property: background-color, border-color, color, opacity;
+    transition-timing-function: var(--om-primitive-motion-easing-standard);
+  }
+
+  .om-field__control::placeholder {
+    color: var(--om-component-input-placeholder-foreground);
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-field[data-om-size="sm"] .om-field__control {
+    min-block-size: calc(var(--om-component-input-min-height) - (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-component-input-padding-block) / 4);
+  }
+
+  .om-field[data-om-size="lg"] .om-field__control {
+    min-block-size: calc(var(--om-component-input-min-height) + (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-component-input-padding-block) * 0.75);
+  }
+
+  .om-field__control[data-hovered]:not([data-disabled], [data-readonly]) {
+    border-color: var(--om-component-input-hover-border);
+  }
+
+  .om-field__control[data-focus-visible] {
+    outline: var(--om-accessibility-focus-enhanced-width, 2px) solid
+      var(--om-component-input-focus-ring);
+    outline-offset: var(--om-primitive-border-width-1);
+  }
+
+  .om-field[data-invalid] .om-field__control {
+    border-color: var(--om-component-field-error-foreground);
+  }
+
+  .om-field[data-disabled] .om-field__control {
+    background: var(--om-component-input-disabled-background);
+    color: var(--om-component-input-disabled-foreground);
+    cursor: not-allowed;
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-field[data-read-only] .om-field__control {
+    background: var(--om-component-input-read-only-background);
+  }
+
+  .om-field__error {
+    color: var(--om-component-field-error-foreground);
+    font: inherit;
+  }
+
+  .om-text-area .om-field__control {
+    min-block-size: calc(var(--om-component-text-area-min-height) * 2);
+    resize: vertical;
+  }
+
+  .om-text-area[data-om-resize="none"] .om-field__control {
+    resize: none;
+  }
+
+  .om-text-area[data-om-resize="horizontal"] .om-field__control {
+    resize: horizontal;
+  }
+
+  .om-text-area[data-om-resize="both"] .om-field__control {
+    resize: both;
+  }
+
+  @media (forced-colors: active) {
+    .om-field__control {
+      border-color: CanvasText;
+    }
+
+    .om-field__control[data-focus-visible] {
+      outline-color: Highlight;
+    }
+  }
+}

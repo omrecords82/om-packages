@@ -2,11 +2,113 @@
   "schemaVersion": 1,
   "layer": "component",
   "tokens": {
+    "component.field.labelForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental field label foreground reference.",
+      "stability": "experimental"
+    },
+    "component.field.descriptionForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental field description foreground reference.",
+      "stability": "experimental"
+    },
+    "component.field.errorForeground": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental field error foreground reference.",
+      "stability": "experimental"
+    },
+    "component.field.gap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental field content gap reference.",
+      "stability": "experimental"
+    },
+    "component.input.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental input background reference.",
+      "stability": "experimental"
+    },
+    "component.input.foreground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental input foreground reference.",
+      "stability": "experimental"
+    },
+    "component.input.placeholderForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental input placeholder foreground reference.",
+      "stability": "experimental"
+    },
     "component.input.border": {
       "type": "color",
       "value": "{semantic.border.decorative}",
       "description": "Bootstrap input border reference.",
       "stability": "bootstrap"
+    },
+    "component.input.hoverBorder": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental input hover border reference.",
+      "stability": "experimental"
+    },
+    "component.input.disabledBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental disabled input background reference.",
+      "stability": "experimental"
+    },
+    "component.input.disabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental disabled input foreground reference.",
+      "stability": "experimental"
+    },
+    "component.input.readOnlyBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental read-only input background reference.",
+      "stability": "experimental"
+    },
+    "component.input.focus.ring": {
+      "type": "color",
+      "value": "{semantic.focus.ring}",
+      "description": "Experimental input focus ring reference.",
+      "stability": "experimental"
+    },
+    "component.input.paddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental input inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.input.paddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental input block padding reference.",
+      "stability": "experimental"
+    },
+    "component.input.minHeight": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental input minimum height reference.",
+      "stability": "experimental"
+    },
+    "component.input.radius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental input radius reference.",
+      "stability": "experimental"
+    },
+    "component.textArea.minHeight": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental text area minimum height reference.",
+      "stability": "experimental"
     }
   }
 }

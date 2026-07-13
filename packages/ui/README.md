@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1C establishes the component architecture with `Button`, `Link`, and `IconButton`.
+Phase 1D establishes the text-entry component family alongside `Button`, `Link`, and `IconButton`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -18,9 +18,21 @@ import "@om/ui/css";
 
 - `@om/ui`
 - `@om/ui/button`
+- `@om/ui/field-error`
 - `@om/ui/link`
 - `@om/ui/icon-button`
+- `@om/ui/label`
+- `@om/ui/text-area`
+- `@om/ui/text-field`
 - `@om/ui/css`
+
+## Text Fields
+
+`Label`, `FieldError`, `TextField`, and `TextArea` are experimental. `TextField` forwards refs to `HTMLInputElement`; `TextArea` forwards refs to `HTMLTextAreaElement`; `Label` forwards refs to `HTMLLabelElement`.
+
+Text-entry components require labels. Use `labelVisibility="visually-hidden"` when a visual label is not desired. Placeholder text is not a label. Controlled and uncontrolled values are supported through `value`, `defaultValue`, and `onValueChange`, where callbacks receive only the next string value.
+
+Validation supports native constraints and application-controlled invalid state through `isInvalid` plus `errorMessage`. Error styling uses validation tokens and must not be replaced by liturgical overlays. Disabled and read-only states remain semantically distinct.
 
 ## API Status
 

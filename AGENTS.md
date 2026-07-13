@@ -38,6 +38,15 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - OM components must use semantic or component tokens from `@om/tokens`.
 - Production components require unit, Storybook, keyboard, and package-boundary tests.
 - New component families require a scoped phase or reviewed work item.
+- Standard text-entry components must be consumed through `@om/ui`.
+- Applications must not import React Aria text-field primitives when an OM equivalent exists.
+- Every field requires an accessible label; placeholder text is never a label.
+- Public field callbacks expose values, not vendor or native event objects.
+- Error and validation tokens cannot be replaced by liturgical overlays.
+- Read-only and disabled behavior must remain semantically distinct.
+- Public field props must not extend vendor interfaces.
+- New field families require reviewed scope and tests.
+- Form orchestration belongs in a later `@om/forms` package or reviewed layer, not inside these primitives.
 
 ## Completion Reports
 

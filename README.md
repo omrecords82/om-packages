@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1C Status
+## Phase 1D Status
 
-Phase 1C establishes the initial permanent pattern for `@om/ui`. Orthodox Metrics owns the public component API, React Aria Components is an internal behavior dependency, and `@om/tokens` owns styling values. The first experimental production component families are `Button`, `Link`, and `IconButton`.
+Phase 1D extends the permanent `@om/ui` pattern with the first text-entry component family. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, and `TextArea`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -81,8 +81,12 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 
 - `@om/ui`
 - `@om/ui/button`
-- `@om/ui/link`
+- `@om/ui/field-error`
 - `@om/ui/icon-button`
+- `@om/ui/label`
+- `@om/ui/link`
+- `@om/ui/text-area`
+- `@om/ui/text-field`
 - `@om/ui/css`
 
 Consumers must import token CSS before component CSS:
@@ -93,6 +97,8 @@ import "@om/ui/css";
 ```
 
 React Aria Components provides internal accessibility and interaction behavior. Application repositories should consume `@om/ui` rather than importing React Aria Components directly when an OM equivalent exists.
+
+Text-entry components require labels. Placeholder text is not a label. `TextField` and `TextArea` support controlled and uncontrolled string values, native constraints, application-controlled invalid state, descriptions, errors, disabled and read-only states, and refs to the underlying native input or textarea.
 
 ## Theme Precedence
 

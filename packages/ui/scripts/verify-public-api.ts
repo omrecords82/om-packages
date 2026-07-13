@@ -9,7 +9,13 @@ const prohibitedPatterns = [
   /from ["']@react-types\//u,
   /\bPressEvent\b/u,
   /\bButtonRenderProps\b/u,
-  /\bLinkRenderProps\b/u
+  /\bLinkRenderProps\b/u,
+  /\bTextFieldRenderProps\b/u,
+  /\bFieldErrorRenderProps\b/u,
+  /\bValidationResult\b/u,
+  /\bAria[A-Z][A-Za-z]+Props\b/u,
+  /extends\s+[A-Za-z]*Props/u,
+  /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
 ] as const;
 
 export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): Promise<void> {
@@ -27,11 +33,51 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     string,
     unknown
   >;
-  for (const exportName of ["Button", "IconButton", "Link"]) {
+  for (const exportName of [
+    "Button",
+    "FieldError",
+    "IconButton",
+    "Label",
+    "Link",
+    "TextArea",
+    "TextField"
+  ]) {
     if (entry[exportName] === undefined || entry[exportName] === null) {
       throw new Error(`Missing public export: ${exportName}`);
     }
   }
+
+  const expectedSubpaths = [
+    ["button", "Button"],
+    ["field-error", "FieldError"],
+    ["icon-button", "IconButton"],
+    ["label", "Label"],
+    ["link", "Link"],
+    ["text-area", "TextArea"],
+    ["text-field", "TextField"]
+  ] as const;
+
+  for (const [subpath, exportName] of expectedSubpaths) {
+    const module = (await import(
+      pathToFileURL(join(distRoot, subpath, "index.js")).href
+    )) as Record<string, unknown>;
+    if (module[exportName] === undefined || module[exportName] === null) {
+      throw new Error(`Missing public subpath export: ${subpath}/${exportName}`);
+    }
+  }
+
+  await verifyDeclarationContains(distRoot, "text-field/TextField.d.ts", [
+    "ForwardRefExoticComponent",
+    "RefAttributes<HTMLInputElement>",
+    "CommonTextFieldProps"
+  ]);
+  await verifyDeclarationContains(distRoot, "text-area/TextArea.d.ts", [
+    "RefAttributes<HTMLTextAreaElement>",
+    "CommonTextFieldProps"
+  ]);
+  await verifyDeclarationContains(distRoot, "label/Label.d.ts", [
+    "RefAttributes<HTMLLabelElement>"
+  ]);
 }
 
 async function listFiles(root: string, suffix: string): Promise<readonly string[]> {
@@ -46,6 +92,19 @@ async function listFiles(root: string, suffix: string): Promise<readonly string[
     }
   }
   return files.sort();
+}
+
+async function verifyDeclarationContains(
+  distRoot: string,
+  relativePath: string,
+  expectedSnippets: readonly string[]
+): Promise<void> {
+  const content = await readFile(join(distRoot, relativePath), "utf8");
+  for (const snippet of expectedSnippets) {
+    if (!content.includes(snippet)) {
+      throw new Error(`Missing expected declaration snippet in ${relativePath}: ${snippet}`);
+    }
+  }
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
