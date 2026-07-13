@@ -49,6 +49,9 @@ jobs:
       - name: Token validation
         run: pnpm validate:tokens
 
+      - name: Token artifact determinism
+        run: pnpm check:tokens
+
       - name: Build packages
         run: pnpm build
 

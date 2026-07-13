@@ -1,9 +1,9 @@
 /**
- * Phase 1A marker for the canonical JSON token-source architecture.
- * This is bootstrap-only metadata, not a generated token API.
+ * Source-only marker for the canonical JSON token-source architecture.
+ * Public Phase 1B token APIs are generated into dist and exported from package subpaths.
  */
-export const phase1aTokenSourceStatus = {
+export const phase1bTokenSourceStatus = {
   canonicalSource: "json",
-  cssGeneration: "deferred-to-phase-1b",
+  cssGeneration: "generated-in-phase-1b",
   stability: "bootstrap"
 } as const;
