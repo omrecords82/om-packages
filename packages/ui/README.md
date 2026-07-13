@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1E establishes the first selection-control component family alongside `Button`, `Link`, `IconButton`, and the text-entry components.
+Phase 1F establishes the first single-selection component family alongside `Button`, `Link`, `IconButton`, text-entry components, and selection controls.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -25,6 +25,7 @@ import "@om/ui/css";
 - `@om/ui/label`
 - `@om/ui/radio`
 - `@om/ui/radio-group`
+- `@om/ui/select`
 - `@om/ui/switch`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
@@ -45,6 +46,25 @@ Validation supports native constraints and application-controlled invalid state 
 `Checkbox` and `Switch` support controlled and uncontrolled boolean state through `isSelected`, `defaultSelected`, and `onSelectionChange`. `RadioGroup` owns `Radio` selection and supports controlled and uncontrolled string values through `value`, `defaultValue`, and `onValueChange`.
 
 `Checkbox` supports indeterminate state through `isIndeterminate`. `Radio` values must be non-empty and unique within a `RadioGroup`. Error messages render only when `isInvalid` is active. Selected state uses visible marks or thumb position in addition to color.
+
+## Select
+
+`Select` is experimental. It exposes an OM-owned `SelectOption` data contract:
+
+```ts
+interface SelectOption {
+  readonly value: string;
+  readonly label: string;
+  readonly description?: string;
+  readonly isDisabled?: boolean;
+}
+```
+
+Values are `string | null`; `null` represents no selection. Option values and labels must be non-empty strings, and values must be unique within one Select. Placeholder text is not an option and is not a label.
+
+`Select` supports controlled and uncontrolled values through `value`, `defaultValue`, and `onValueChange`, where callbacks receive only `string | null`. The public ref targets the visible trigger `HTMLButtonElement`. Hidden form integration submits selected string values and does not submit the placeholder as a value.
+
+Read-only Selects remain focusable, display the current value, and do not open or change. Disabled Selects are unavailable for interaction. Error messages render only when `isInvalid` is active. Standalone ListBox, Popover, grouped options, custom option rendering, searchable Select, multi-select, async loading, and ComboBox are deferred.
 
 ## API Status
 

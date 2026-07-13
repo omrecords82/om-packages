@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1E Status
+## Phase 1F Status
 
-Phase 1E extends the permanent `@om/ui` pattern with the first selection-control component family. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, and `Switch`.
+Phase 1F extends the permanent `@om/ui` pattern with the first single-selection component family: `Select`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, and `Select`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -88,6 +88,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui/link`
 - `@om/ui/radio`
 - `@om/ui/radio-group`
+- `@om/ui/select`
 - `@om/ui/switch`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
@@ -105,6 +106,8 @@ React Aria Components provides internal accessibility and interaction behavior. 
 Text-entry components require labels. Placeholder text is not a label. `TextField` and `TextArea` support controlled and uncontrolled string values, native constraints, application-controlled invalid state, descriptions, errors, disabled and read-only states, and refs to the underlying native input or textarea.
 
 Selection controls require accessible labels through visible child content or a group label. `Checkbox` and `Switch` support controlled and uncontrolled boolean state. `RadioGroup` owns `Radio` selection and exposes string values through `onValueChange`. Error messages render only when invalid state is active. Selected, disabled, read-only, invalid, and focused states are represented without exposing React Aria contracts.
+
+`Select` exposes an OM-owned `SelectOption` data contract and `string | null` value model. Option values and labels must be non-empty strings, values must be unique, and `null` represents no selection. Placeholder text is not an option or a label. `Select` supports controlled and uncontrolled values, hidden form integration for selected string values, read-only behavior that remains focusable but does not open or change, disabled options, empty-options behavior, descriptions, errors, and a ref to the visible trigger `HTMLButtonElement`. Standalone `ListBox`, `Popover`, grouped options, multi-select, searchable Select, async loading, custom option rendering, and `ComboBox` remain deferred.
 
 ## Theme Precedence
 
