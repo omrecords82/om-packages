@@ -8,6 +8,8 @@ Phase 1B generates experimental ESM token exports, TypeScript declarations, norm
 
 Phase 1C adds minimal experimental component-state tokens for the initial `@om/ui` Button and Link styling. These values prove the token pipeline and are not final design decisions.
 
+Phase 1D adds minimal experimental field and input tokens for `Label`, `FieldError`, `TextField`, and `TextArea`. These tokens prove component styling, validation treatment, and focus behavior only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`
