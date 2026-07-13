@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.input.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Bootstrap input border reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

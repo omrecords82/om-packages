@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.color.neutral.0": {
+      "type": "color",
+      "value": "#ffffff",
+      "description": "Bootstrap neutral color reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.color.neutral.900": {
+      "type": "color",
+      "value": "#111111",
+      "description": "Bootstrap neutral text reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.color.accent.red": {
+      "type": "color",
+      "value": "#7f1d1d",
+      "description": "Bootstrap liturgical red reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

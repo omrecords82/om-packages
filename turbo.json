@@ -4,6 +4,7 @@
     "eslint.config.js",
     "playwright.config.ts",
     "tsconfig.base.json",
+    "tsconfig.eslint.json",
     "vitest.config.ts"
   ],
   "tasks": {

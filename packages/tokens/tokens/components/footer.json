@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.footer.accent": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap footer accent reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.dialog.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Bootstrap dialog background reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

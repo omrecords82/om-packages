@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "layer": "semantic",
+  "tokens": {
+    "semantic.background.canvas": {
+      "type": "color",
+      "value": "{primitive.color.neutral.0}",
+      "description": "Bootstrap light canvas background.",
+      "stability": "bootstrap"
+    },
+    "semantic.text.primary": {
+      "type": "color",
+      "value": "{primitive.color.neutral.900}",
+      "description": "Bootstrap light primary text.",
+      "stability": "bootstrap"
+    },
+    "semantic.action.accent": {
+      "type": "color",
+      "value": "{primitive.color.accent.red}",
+      "description": "Bootstrap action accent reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.border.decorative": {
+      "type": "color",
+      "value": "{primitive.color.accent.red}",
+      "description": "Bootstrap decorative border reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.focus.ring": {
+      "type": "color",
+      "value": "{primitive.color.neutral.900}",
+      "description": "Bootstrap focus ring reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.status.error": {
+      "type": "color",
+      "value": "{primitive.color.neutral.900}",
+      "description": "Bootstrap error status reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

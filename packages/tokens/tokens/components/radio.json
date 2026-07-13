@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.radio.accent": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap radio accent reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

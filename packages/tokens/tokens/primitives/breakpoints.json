@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.breakpoint.md": {
+      "type": "dimension",
+      "value": "48rem",
+      "description": "Bootstrap breakpoint reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

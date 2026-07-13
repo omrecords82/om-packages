@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "layer": "liturgical",
+  "tokens": {
+    "liturgical.red.accent": {
+      "type": "color",
+      "value": "{primitive.color.accent.red}",
+      "description": "Bootstrap liturgical red decorative accent.",
+      "stability": "bootstrap"
+    },
+    "component.header.accent": {
+      "type": "color",
+      "value": "{liturgical.red.accent}",
+      "description": "Bootstrap liturgical header accent override.",
+      "stability": "bootstrap"
+    }
+  }
+}

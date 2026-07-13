@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.checkbox.accent": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap checkbox accent reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

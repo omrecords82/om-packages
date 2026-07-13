@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.card.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Bootstrap card background reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

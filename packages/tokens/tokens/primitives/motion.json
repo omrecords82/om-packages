@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.motion.duration.fast": {
+      "type": "duration",
+      "value": "150ms",
+      "description": "Bootstrap fast motion duration reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.motion.easing.standard": {
+      "type": "cubicBezier",
+      "value": "cubic-bezier(0.2, 0, 0, 1)",
+      "description": "Bootstrap motion easing reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

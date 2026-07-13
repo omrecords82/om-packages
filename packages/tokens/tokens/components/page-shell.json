@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.pageShell.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Bootstrap page shell background reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

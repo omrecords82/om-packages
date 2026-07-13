@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "example-parish",
+  "version": "0.0.0",
+  "identity": {
+    "id": "example-parish",
+    "fullChurchName": "Example Orthodox Parish",
+    "shortChurchName": "Example Parish",
+    "jurisdiction": "Example Jurisdiction",
+    "address": {
+      "line1": "100 Example Way",
+      "city": "Example City",
+      "region": "EX",
+      "postalCode": "00000",
+      "countryCode": "US"
+    },
+    "parishWebsite": "https://example.org"
+  },
+  "assets": [
+    {
+      "kind": "primary-logo",
+      "src": "assets/example-parish/logo.svg",
+      "alt": "Example Orthodox Parish logo",
+      "mediaType": "image/svg+xml",
+      "width": 128,
+      "height": 128
+    }
+  ],
+  "typographyPresetId": "bootstrap",
+  "headerPresetId": "bootstrap",
+  "footerPresetId": "bootstrap",
+  "layoutDensity": "comfortable",
+  "supportedColorSchemes": ["light", "dark"],
+  "tokenOverrides": {
+    "component.header.accent": "{liturgical.red.accent}"
+  },
+  "liturgicalMode": "automatic"
+}

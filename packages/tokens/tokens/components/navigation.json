@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.navigation.activeIndicator": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap navigation active indicator reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

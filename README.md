@@ -2,14 +2,16 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 0 Status
+## Phase 1A Status
 
-Phase 0 establishes workspace tooling, validation, package boundaries, Storybook, and minimal bootstrap exports. The exports are intentionally small and marked bootstrap-only; they are not stable public APIs.
+Phase 1A establishes framework-independent theme contracts and canonical JSON token-source data. The exported contracts and token source files are experimental bootstrap architecture, not final production APIs or final Orthodox Metrics visual design values.
+
+CSS custom property generation, generated token manifests, cascade-layer CSS, Storybook token previews, and final generated package export paths are deferred to Phase 1B.
 
 ## Packages
 
-- `@om/contracts`: shared TypeScript contracts with no internal package dependencies.
-- `@om/tokens`: future canonical token source using CSS custom properties.
+- `@om/contracts`: shared framework-independent TypeScript contracts with no internal package dependencies.
+- `@om/tokens`: canonical JSON token-source data plus Phase 1A validation and experimental resolution tooling.
 - `@om/ui`: React UI package that may consume `@om/contracts` and `@om/tokens`.
 
 Dependency direction:
@@ -21,6 +23,48 @@ Dependency direction:
 ```
 
 No package may depend on `apps/storybook`, and internal dependencies must use `workspace:*`.
+
+## Token Source
+
+JSON is the canonical token authoring source. Token paths use dot notation:
+
+```text
+primitive.color.neutral.0
+semantic.background.canvas
+component.button.primary.background
+liturgical.red.accent
+accessibility.focus.enhanced.width
+```
+
+Token references wrap canonical token paths in braces:
+
+```text
+{semantic.text.primary}
+```
+
+References must not use CSS custom-property syntax, whitespace, vendor names, or tenant-specific identifiers.
+
+## Theme Precedence
+
+Theme layers resolve in this permanent order:
+
+```text
+om-defaults
+application-defaults
+brand-pack
+liturgical-overlay
+accessibility-preferences
+```
+
+Accessibility preferences are always the final layer. Liturgical styling must not override status, validation, destructive, focus, disabled-readability, or accessibility-critical tokens.
+
+Brand packs may only override approved decorative or accent token roles and must use token references, not raw arbitrary colors.
+
+## Schema Versioning
+
+Serialized theme and brand data use the explicit integer schema version exported by `@om/contracts`.
+
+Package versions continue to use semantic versioning. Increment the serialized schema version only when stored theme or brand configuration requires migration.
 
 ## Setup
 
@@ -39,6 +83,7 @@ pnpm format:check
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm validate:tokens
 pnpm build
 pnpm storybook:build
 pnpm test:e2e

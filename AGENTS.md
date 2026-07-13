@@ -22,7 +22,13 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 ## API Changes
 
 - Future public API changes require tests and a Changeset.
-- Bootstrap-only exports in Phase 0 are not stable public APIs.
+- Bootstrap-only and Phase 1A experimental exports are not stable public APIs.
+- Serialized public contracts must use explicit JSON-compatible fields and `extensions?: JsonObject` as the only general extensibility point.
+- Do not use unrestricted `Record<string, unknown>` in serialized public contracts.
+- Token source data is canonical JSON in `packages/tokens/tokens`.
+- CSS generation, generated manifests, and final token export paths are deferred to Phase 1B.
+- Liturgical styling must not override error, warning, success, destructive, validation, focus, disabled-readability, or accessibility-critical tokens.
+- Accessibility preferences must remain the highest-precedence theme layer.
 
 ## Completion Reports
 
