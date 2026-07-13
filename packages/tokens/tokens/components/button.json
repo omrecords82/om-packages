@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.button.primary.background": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap button background reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

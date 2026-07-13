@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.typography.fontFamily.sans": {
+      "type": "fontFamily",
+      "value": "system-ui",
+      "description": "Bootstrap sans-serif font family reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.typography.size.body": {
+      "type": "dimension",
+      "value": "1rem",
+      "description": "Bootstrap body text size reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.fontWeight.regular": {
+      "type": "fontWeight",
+      "value": 400,
+      "description": "Bootstrap regular font weight reference.",
+      "stability": "bootstrap"
+    },
+    "primitive.lineHeight.body": {
+      "type": "number",
+      "value": 1.5,
+      "description": "Bootstrap body line-height reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

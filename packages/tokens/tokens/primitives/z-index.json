@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.zIndex.overlay": {
+      "type": "number",
+      "value": 1000,
+      "description": "Bootstrap overlay z-index reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

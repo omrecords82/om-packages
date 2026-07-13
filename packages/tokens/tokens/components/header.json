@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.header.accent": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Bootstrap header accent reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

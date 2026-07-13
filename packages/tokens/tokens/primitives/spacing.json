@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.space.4": {
+      "type": "dimension",
+      "value": "1rem",
+      "description": "Bootstrap spacing reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

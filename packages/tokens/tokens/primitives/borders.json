@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.border.width.1": {
+      "type": "dimension",
+      "value": "1px",
+      "description": "Bootstrap border-width reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

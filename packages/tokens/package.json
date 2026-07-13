@@ -10,14 +10,13 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./css": "./dist/tokens.css"
+    }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && cp src/tokens.css dist/tokens.css",
+    "build": "tsc -b",
     "clean": "tsc -b --clean",
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",

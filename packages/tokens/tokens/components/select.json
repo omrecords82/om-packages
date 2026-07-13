@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.select.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Bootstrap select border reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

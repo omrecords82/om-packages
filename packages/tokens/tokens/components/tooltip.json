@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.tooltip.background": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Bootstrap tooltip background reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

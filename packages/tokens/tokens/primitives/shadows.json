@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "primitive",
+  "tokens": {
+    "primitive.shadow.none": {
+      "type": "shadow",
+      "value": "none",
+      "description": "Bootstrap shadow reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

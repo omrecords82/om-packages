@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.table.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Bootstrap table border reference.",
+      "stability": "bootstrap"
+    }
+  }
+}

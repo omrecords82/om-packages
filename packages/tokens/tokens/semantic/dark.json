@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "layer": "semantic",
+  "tokens": {
+    "semantic.background.canvas": {
+      "type": "color",
+      "value": "{primitive.color.neutral.900}",
+      "description": "Bootstrap dark canvas background.",
+      "stability": "bootstrap"
+    },
+    "semantic.text.primary": {
+      "type": "color",
+      "value": "{primitive.color.neutral.0}",
+      "description": "Bootstrap dark primary text.",
+      "stability": "bootstrap"
+    }
+  }
+}

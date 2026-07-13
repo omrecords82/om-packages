@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "layer": "accessibility",
+  "tokens": {
+    "accessibility.focus.enhanced.width": {
+      "type": "dimension",
+      "value": "3px",
+      "description": "Bootstrap enhanced focus width.",
+      "stability": "bootstrap"
+    },
+    "semantic.focus.ring": {
+      "type": "color",
+      "value": "{primitive.color.neutral.900}",
+      "description": "Bootstrap accessibility final focus ring override.",
+      "stability": "bootstrap"
+    }
+  }
+}
