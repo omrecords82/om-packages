@@ -197,13 +197,163 @@ test("UI field themes preserve focus, validation, liturgical, and large-text beh
   await expect(page.getByText("Error remains visible.")).toBeVisible();
 });
 
-test("existing Phase 1C stories continue loading", async ({ page }) => {
+test("UI Checkbox story supports keyboard, blocked states, validation, and themes", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-checkbox--examples");
+
+  const unselected = page.getByRole("checkbox", { name: "Unselected" });
+  await tabUntilFocused(page, unselected);
+  await page.keyboard.press("Space");
+  await expect(unselected).toBeChecked();
+
+  const mixed = page.getByRole("checkbox", { name: "Indeterminate" });
+  await expect(mixed).toHaveJSProperty("indeterminate", true);
+
+  const disabled = page.getByRole("checkbox", { name: "Disabled" });
+  await expect(disabled).toBeDisabled();
+  await disabled.click({ force: true }).catch(() => undefined);
+  await expect(disabled).not.toBeChecked();
+
+  const readOnly = page.getByRole("checkbox", { name: "Read only" });
+  await expect(readOnly).toBeChecked();
+  await readOnly.click({ force: true });
+  await expect(readOnly).toBeChecked();
+
+  const invalid = page.getByRole("checkbox", { name: "Invalid" });
+  await expect(invalid).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByText("Example checkbox error.")).toBeVisible();
+
+  await page.goto("/iframe.html?id=ui-checkbox--themes");
+  const enhanced = page.getByRole("checkbox", { name: "Enhanced focus" });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => {
+    const container = element.closest(".om-selection-control");
+    return container === null ? "0px" : getComputedStyle(container).outlineWidth;
+  });
+  const indicatorOutline = await enhanced.evaluate((element) => {
+    const indicator = element
+      .closest(".om-selection-control")
+      ?.querySelector(".om-selection-control__indicator");
+    return indicator === null || indicator === undefined
+      ? "0px"
+      : getComputedStyle(indicator).outlineWidth;
+  });
+  expect(outlineWidth !== "0px" || indicatorOutline !== "0px").toBe(true);
+
+  const dark = page.getByRole("checkbox", { name: "Dark mode" });
+  const darkColor = await dark.evaluate((element) => {
+    const container = element.closest(".om-selection-control");
+    return container === null ? "rgba(0, 0, 0, 0)" : getComputedStyle(container).color;
+  });
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const liturgical = page.getByRole("checkbox", { name: "Liturgical overlay" });
+  await expect(liturgical).toHaveAttribute("aria-invalid", "true");
+  const errorColor = await page
+    .getByText("Validation stays protected.")
+    .evaluate((element) => getComputedStyle(element).color);
+  const focusColor = await liturgical.evaluate((element) => {
+    element.focus();
+    const indicator = element
+      .closest(".om-selection-control")
+      ?.querySelector(".om-selection-control__indicator");
+    return indicator === null || indicator === undefined
+      ? "rgba(0, 0, 0, 0)"
+      : getComputedStyle(indicator).outlineColor;
+  });
+  expect(focusColor).not.toBe(errorColor);
+
+  await expect(page.getByText("Description remains visible.")).toBeVisible();
+  await expect(page.getByText("Error remains visible.")).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
+test("UI RadioGroup story supports arrow navigation and blocked states", async ({ page }) => {
+  await page.goto("/iframe.html?id=ui-radiogroup--examples");
+
+  const defaultGroup = page.getByRole("radiogroup", { name: "Default vertical" });
+  const baptism = defaultGroup.getByRole("radio", { name: "Baptism" });
+  const marriage = defaultGroup.getByRole("radio", { name: "Marriage" });
+  await baptism.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(marriage).toBeChecked();
+
+  const disabledGroup = page.getByRole("radiogroup", { name: "Disabled option" });
+  const disabledOption = disabledGroup.getByRole("radio", { name: "Disabled option" });
+  await disabledOption.click({ force: true }).catch(() => undefined);
+  await expect(disabledOption).not.toBeChecked();
+
+  const readOnlyGroup = page.getByRole("radiogroup", { name: "Read only" });
+  const readOnlyTwo = readOnlyGroup.getByRole("radio", { name: "Read-only two" });
+  await readOnlyTwo.click({ force: true });
+  await expect(readOnlyTwo).not.toBeChecked();
+
+  const invalidGroup = page.getByRole("radiogroup", { name: "Invalid" });
+  await expect(invalidGroup).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByText("Example radio group error.")).toBeVisible();
+});
+
+test("UI Switch story supports keyboard, blocked states, validation, and themes", async ({
+  page
+}) => {
+  await page.goto("/iframe.html?id=ui-switch--examples");
+
+  const off = page.getByRole("switch", { name: "Off" });
+  await tabUntilFocused(page, off);
+  await page.keyboard.press("Space");
+  await expect(off).toBeChecked();
+
+  const disabled = page.getByRole("switch", { name: "Disabled" });
+  await expect(disabled).toBeDisabled();
+  await disabled.click({ force: true }).catch(() => undefined);
+  await expect(disabled).not.toBeChecked();
+
+  const readOnly = page.getByRole("switch", { name: "Read only" });
+  await expect(readOnly).toBeChecked();
+  await readOnly.click({ force: true });
+  await expect(readOnly).toBeChecked();
+
+  const invalid = page.getByRole("switch", { name: "Invalid" });
+  await expect(invalid).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByText("Example switch error.")).toBeVisible();
+
+  const selectedTrackOffset = await page
+    .getByRole("switch", { name: "On", exact: true })
+    .evaluate((element) => {
+      const thumb = element.closest(".om-switch")?.querySelector(".om-switch__thumb");
+      return thumb === null || thumb === undefined ? "none" : getComputedStyle(thumb).transform;
+    });
+  expect(selectedTrackOffset).not.toBe("none");
+
+  await page.goto("/iframe.html?id=ui-switch--themes");
+  const enhanced = page.getByRole("switch", { name: "Enhanced focus" });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => {
+    const track = element.closest(".om-switch")?.querySelector(".om-switch__track");
+    return track === null || track === undefined ? "0px" : getComputedStyle(track).outlineWidth;
+  });
+  expect(outlineWidth).not.toBe("0px");
+});
+
+test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-link--variants");
   await expect(page.getByRole("link", { name: "Inline link" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-iconbutton--sizes");
   await expect(page.getByRole("button", { name: "Small add action" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-textfield--examples");
+  await expect(page.getByRole("textbox", { name: "Default" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-textarea--examples");
+  await expect(page.getByRole("textbox", { name: "Default" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-checkbox--examples");
+  await expect(page.getByRole("checkbox", { name: "Unselected" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-radiogroup--examples");
+  await expect(page.getByRole("radiogroup", { name: "Default vertical" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-switch--examples");
+  await expect(page.getByRole("switch", { name: "Off" })).toBeVisible();
 });
 
 async function tabUntilFocused(
