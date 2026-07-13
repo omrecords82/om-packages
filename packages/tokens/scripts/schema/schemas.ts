@@ -4,7 +4,7 @@ import { z } from "zod";
 import { approvedBrandOverrideTokens, tokenCategories, tokenValueTypes } from "./constants.js";
 import { getReferencedTokenPath, isCanonicalTokenPath } from "./path-policy.js";
 
-const jsonValueSchema: z.ZodType<unknown> = z.lazy(() =>
+const jsonValueSchema: z.ZodType = z.lazy(() =>
   z.union([
     z.string(),
     z.number(),
@@ -94,7 +94,7 @@ export const brandPackSchema = z
           countryCode: z.string().regex(/^[A-Z]{2}$/u)
         })
         .optional(),
-      parishWebsite: z.string().url().optional(),
+      parishWebsite: z.url().optional(),
       extensions: z.record(z.string(), jsonValueSchema).optional()
     }),
     assets: z.array(assetSchema).optional(),

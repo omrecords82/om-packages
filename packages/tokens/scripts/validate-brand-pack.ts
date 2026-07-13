@@ -10,6 +10,8 @@ export async function validateBrandPack(
   brandPackSchema.parse(raw);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const entrypoint = process.argv[1];
+
+if (entrypoint !== undefined && import.meta.url === `file://${entrypoint}`) {
   await validateBrandPack();
 }

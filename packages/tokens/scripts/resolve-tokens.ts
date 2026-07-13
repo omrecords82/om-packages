@@ -104,7 +104,11 @@ function applyBrandPack(
     if (referencedPath === undefined || !resolved.has(referencedPath)) {
       throw new Error(`Brand pack override ${path} references an unresolved token.`);
     }
-    resolved.set(path, resolved.get(referencedPath)!);
+    const referencedValue = resolved.get(referencedPath);
+    if (referencedValue === undefined) {
+      throw new Error(`Brand pack override ${path} references an unresolved token.`);
+    }
+    resolved.set(path, referencedValue);
   }
 }
 
@@ -117,7 +121,11 @@ function applyAccessibility(
     preferences.focusVisibility === "enhanced" &&
     resolved.has("accessibility.focus.enhanced.width")
   ) {
-    resolved.set("semantic.focus.width", resolved.get("accessibility.focus.enhanced.width")!);
+    const enhancedFocusWidth = resolved.get("accessibility.focus.enhanced.width");
+    if (enhancedFocusWidth === undefined) {
+      return;
+    }
+    resolved.set("semantic.focus.width", enhancedFocusWidth);
     warnings.push({
       code: "accessibility-override-applied",
       message: "Enhanced focus visibility applied as final layer.",

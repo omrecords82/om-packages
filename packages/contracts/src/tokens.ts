@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style -- Public token maps require readonly index signatures keyed by token path. */
 import type { JsonObject } from "./json.js";
 
 export type TokenCategory = "primitive" | "semantic" | "component" | "liturgical" | "accessibility";
@@ -19,6 +20,8 @@ export type TokenPath = string;
 
 export type TokenReference = `{${string}}`;
 
+// Required public contract separates literal values from reference syntax.
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type TokenValue = TokenLiteral | TokenReference;
 
 export type TokenStability = "bootstrap" | "experimental" | "stable" | "deprecated";

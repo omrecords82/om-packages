@@ -19,6 +19,8 @@ export async function validatePolicy(): Promise<void> {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const entrypoint = process.argv[1];
+
+if (entrypoint !== undefined && import.meta.url === `file://${entrypoint}`) {
   await validatePolicy();
 }
