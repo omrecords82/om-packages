@@ -337,6 +337,96 @@ test("UI Switch story supports keyboard, blocked states, validation, and themes"
   expect(outlineWidth).not.toBe("0px");
 });
 
+test("UI Select story supports keyboard selection, blocked states, validation, and themes", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-select--examples");
+
+  const placeholder = page.getByRole("button", { name: /Placeholder/ });
+  await tabUntilFocused(page, placeholder);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(placeholder).toContainText("Marriage");
+
+  const selected = page.getByRole("button", { name: /Selected value/ });
+  await selected.focus();
+  await page.keyboard.press("Space");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("listbox")).toBeHidden();
+
+  await expect(page.getByRole("button", { name: /Hidden select label/ })).toBeVisible();
+
+  const disabledOptionSelect = page.getByRole("button", { name: /Disabled option/ });
+  await disabledOptionSelect.click();
+  const disabledOption = page.getByRole("option", { name: /Disabled option/ });
+  await expect(disabledOption).toHaveAttribute("aria-disabled", "true");
+  await disabledOption.click({ force: true }).catch(() => undefined);
+  await expect(disabledOptionSelect).not.toContainText("Disabled option");
+  await page.keyboard.press("Escape").catch(() => undefined);
+
+  const disabled = page.getByRole("button", {
+    exact: true,
+    name: "Select an option Disabled"
+  });
+  await expect(disabled).toBeDisabled();
+  await disabled.click({ force: true }).catch(() => undefined);
+  await expect(page.getByRole("listbox")).toBeHidden();
+
+  const readOnly = page.getByRole("button", { name: /Read only/ });
+  await readOnly.focus();
+  await expect(readOnly).toBeFocused();
+  await page.keyboard.press("Enter");
+  await readOnly.click({ force: true }).catch(() => undefined);
+  await expect(page.getByRole("listbox")).toBeHidden();
+
+  const invalid = page.getByRole("button", { name: /Invalid/ });
+  await expect(invalid).toHaveAttribute("data-om-invalid", "true");
+  await expect(page.getByText("Example select error.")).toBeVisible();
+
+  const describedBy = await page
+    .getByRole("button", { name: /Description/ })
+    .getAttribute("aria-describedby");
+  expect(describedBy).toBeTruthy();
+  await expect(page.getByText("Description is associated with the Select trigger.")).toBeVisible();
+
+  const longList = page.getByRole("button", { name: /Long option list/ });
+  await longList.click();
+  const listbox = page.getByRole("listbox");
+  await expect(listbox).toBeVisible();
+  const canScroll = await listbox.evaluate(
+    (element) => element.scrollHeight > element.clientHeight
+  );
+  expect(canScroll).toBe(true);
+
+  await page.goto("/iframe.html?id=ui-select--themes");
+  const dark = page.getByRole("button", { name: /Dark mode/ });
+  const darkColor = await dark.evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const liturgical = page.getByRole("button", { name: /Liturgical overlay/ });
+  await expect(liturgical).toHaveAttribute("data-om-invalid", "true");
+  await expect(page.getByText("Validation and focus treatment stay protected.")).toBeVisible();
+  await liturgical.focus();
+  const focusOutline = await liturgical.evaluate(
+    (element) => getComputedStyle(element).outlineWidth
+  );
+  expect(focusOutline).not.toBe("0px");
+
+  const highContrast = page.getByRole("button", { name: /High contrast/ });
+  await expect(highContrast).toBeVisible();
+  const enhanced = page.getByRole("button", { name: /Enhanced focus/ });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+
+  await expect(page.getByText("Large-text error remains visible.")).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
 test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
@@ -354,6 +444,8 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("radiogroup", { name: "Default vertical" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-switch--examples");
   await expect(page.getByRole("switch", { name: "Off" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-select--examples");
+  await expect(page.getByRole("button", { name: /Placeholder/ })).toBeVisible();
 });
 
 async function tabUntilFocused(
