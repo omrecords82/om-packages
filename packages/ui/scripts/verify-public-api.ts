@@ -21,6 +21,10 @@ const prohibitedPatterns = [
   /\bSwitchRenderProps\b/u,
   /\bMenuRenderProps\b/u,
   /\bMenuItemRenderProps\b/u,
+  /\bTabsRenderProps\b/u,
+  /\bTabListRenderProps\b/u,
+  /\bTabRenderProps\b/u,
+  /\bTabPanelRenderProps\b/u,
   /\bValidationResult\b/u,
   /\bToggleState\b/u,
   /\bRadioGroupState\b/u,
@@ -34,6 +38,11 @@ const prohibitedPatterns = [
   /\bMenuItemProps\b/u,
   /\bMenuTriggerProps\b/u,
   /\bMenuProps\b.*from ["']react-aria-components["']/u,
+  /\bTabsProps\b.*from ["']react-aria-components["']/u,
+  /\bTabListProps\b/u,
+  /\bTabProps\b/u,
+  /\bTabPanelProps\b/u,
+  /\bSelectionManager\b/u,
   /\bPopoverProps\b/u,
   /\bFocusEvent\b/u,
   /\bKeyboardEvent\b/u,
@@ -82,6 +91,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "RadioGroup",
     "Select",
     "Switch",
+    "Tabs",
     "TextArea",
     "TextField"
   ]) {
@@ -104,6 +114,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["radio-group", "RadioGroup"],
     ["select", "Select"],
     ["switch", "Switch"],
+    ["tabs", "Tabs"],
     ["text-area", "TextArea"],
     ["text-field", "TextField"]
   ] as const;
@@ -173,6 +184,12 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   await verifyDeclarationContains(distRoot, "switch/Switch.d.ts", [
     "RefAttributes<HTMLInputElement>",
     "onSelectionChange?: (isSelected: boolean) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "tabs/Tabs.d.ts", ["RefAttributes<HTMLDivElement>"]);
+  await verifyDeclarationContains(distRoot, "shared/tabs-types.d.ts", [
+    "export type TabItem",
+    "readonly id: string",
+    "onSelectionChange?: (id: string) => void"
   ]);
 }
 

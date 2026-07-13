@@ -617,6 +617,117 @@ test("UI Menu story supports keyboard, typeahead, links, and themes", async ({ p
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Tabs story supports keyboard selection, mounting, and themes", async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-tabs--examples");
+
+  const defaultList = page.getByRole("tablist", { name: "Default horizontal" });
+  const overview = defaultList.getByRole("tab", { name: "Overview" });
+  await tabUntilFocused(page, overview);
+  await page.keyboard.press("ArrowRight");
+  await expect(defaultList.getByRole("tab", { name: "Records" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+  await page.keyboard.press("ArrowLeft");
+  await expect(overview).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("End");
+  await expect(defaultList.getByRole("tab", { name: "Activity" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+  await page.keyboard.press("Home");
+  await expect(overview).toHaveAttribute("aria-selected", "true");
+
+  const verticalList = page.getByRole("tablist", { name: "Vertical sections" });
+  await verticalList.getByRole("tab", { name: "Overview" }).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(verticalList.getByRole("tab", { name: "Records" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+  await page.keyboard.press("ArrowUp");
+  await expect(verticalList.getByRole("tab", { name: "Overview" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+
+  const manualList = page.getByRole("tablist", { name: "Manual activation" });
+  await manualList.getByRole("tab", { name: "Overview" }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(manualList.getByRole("tab", { name: "Overview" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+  await page.keyboard.press("Enter");
+  await expect(manualList.getByRole("tab", { name: "Records" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("Space");
+  await expect(manualList.getByRole("tab", { name: "Activity" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+
+  const disabledList = page.getByRole("tablist", { name: "Disabled tab" });
+  await disabledList.getByRole("tab", { name: "Records" }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(disabledList.getByRole("tab", { name: "Disabled" })).toHaveAttribute(
+    "aria-disabled",
+    "true"
+  );
+  await expect(disabledList.getByRole("tab", { name: "Activity" })).toHaveAttribute(
+    "aria-selected",
+    "true"
+  );
+
+  const allPanels = page
+    .getByRole("tablist", { name: "All panel mounting" })
+    .locator("xpath=ancestor::div[contains(@class, 'om-tabs')][1]");
+  await expect(allPanels.locator(".om-tabs__panel")).toHaveCount(3);
+  await expect(allPanels.locator(".om-tabs__panel[data-inert='true']").first()).toBeAttached();
+
+  const narrowTabs = page
+    .getByRole("tablist", { name: "Narrow scrolling tabs" })
+    .locator("xpath=ancestor::div[contains(@class, 'om-tabs')][1]")
+    .locator(".om-tabs__list");
+  const canScroll = await narrowTabs.evaluate(
+    (element) => element.scrollWidth > element.clientWidth
+  );
+  expect(canScroll).toBe(true);
+
+  await page.goto("/iframe.html?id=ui-tabs--themes");
+  const darkList = page.getByRole("tablist", { name: "Dark mode sections" });
+  const darkColor = await darkList
+    .getByRole("tab", { name: "Overview" })
+    .evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const liturgicalTab = page
+    .getByRole("tablist", { name: "Liturgical sections" })
+    .getByRole("tab", { name: "Overview" });
+  await liturgicalTab.focus();
+  const liturgicalOutline = await liturgicalTab.evaluate(
+    (element) => getComputedStyle(element).outlineWidth
+  );
+  expect(liturgicalOutline).not.toBe("0px");
+
+  const enhancedTab = page
+    .getByRole("tablist", { name: "Enhanced focus sections" })
+    .getByRole("tab", { name: "Overview" });
+  await enhancedTab.focus();
+  const outlineWidth = await enhancedTab.evaluate(
+    (element) => getComputedStyle(element).outlineWidth
+  );
+  expect(outlineWidth).not.toBe("0px");
+
+  await expect(page.getByRole("tablist", { name: "High contrast sections" })).toBeVisible();
+  await expect(page.getByRole("tablist", { name: "Large text sections" })).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
 test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
@@ -642,6 +753,8 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Open confirmation alert" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-menu--examples");
   await expect(page.getByRole("button", { name: "Basic action menu" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-tabs--examples");
+  await expect(page.getByRole("tablist", { name: "Default horizontal" })).toBeVisible();
 });
 
 async function tabUntilFocused(

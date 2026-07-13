@@ -10,6 +10,7 @@ import { Radio } from "./radio/index.js";
 import { RadioGroup } from "./radio-group/index.js";
 import { Select } from "./select/index.js";
 import { Switch } from "./switch/index.js";
+import { Tabs } from "./tabs/index.js";
 import { TextArea } from "./text-area/index.js";
 import { TextField } from "./text-field/index.js";
 
@@ -45,6 +46,16 @@ describe("@om/ui SSR", () => {
           onConfirm={() => undefined}
           trigger={<button type="button">Open server alert</button>}
         />
+        <Tabs
+          accessibleLabel="Server tabs"
+          items={[
+            {
+              id: "server-tab",
+              label: "Server tab",
+              content: "Server panel"
+            }
+          ]}
+        />
       </>
     );
 
@@ -57,6 +68,9 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server radio");
     expect(markup).toContain("Server select");
     expect(markup).toContain("Server switch");
+    expect(markup).toContain("Server tabs");
+    expect(markup).toContain("Server tab");
+    expect(markup).toContain("Server panel");
     expect(markup).toContain("Open server dialog");
     expect(markup).toContain("Open server alert");
   });
