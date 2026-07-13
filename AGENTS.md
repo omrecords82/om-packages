@@ -67,6 +67,19 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Read-only and disabled Select behavior must remain distinct.
 - Validation and focus tokens cannot be replaced by liturgical overlays.
 - Standalone ListBox and ComboBox require separately reviewed phases.
+- Standard dialogs must be consumed through `@om/ui`.
+- Applications must not directly import React Aria Dialog, Modal, ModalOverlay, or DialogTrigger primitives when an OM equivalent exists.
+- Public dialog props must not extend vendor interfaces.
+- Public dialog callbacks must not expose press, keyboard, pointer, or overlay events.
+- Every Dialog requires a title.
+- Every AlertDialog requires a title and consequence description.
+- AlertDialog defaults focus to Cancel.
+- Destructive confirmation must not receive initial focus by default.
+- AlertDialog outside interaction must not dismiss.
+- Pending confirmation blocks dismissal.
+- Dialog focus must be trapped and restored correctly.
+- Destructive, warning, validation, and focus behavior cannot be replaced by liturgical overlays.
+- Generic Popover, Menu, Tooltip, and Drawer require separately reviewed phases.
 
 ## Completion Reports
 

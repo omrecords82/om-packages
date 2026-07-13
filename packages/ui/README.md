@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1F establishes the first single-selection component family alongside `Button`, `Link`, `IconButton`, text-entry components, and selection controls.
+Phase 1G establishes the first overlay family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, and `Select`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -19,6 +19,8 @@ import "@om/ui/css";
 - `@om/ui`
 - `@om/ui/button`
 - `@om/ui/checkbox`
+- `@om/ui/dialog`
+- `@om/ui/alert-dialog`
 - `@om/ui/field-error`
 - `@om/ui/link`
 - `@om/ui/icon-button`
@@ -65,6 +67,16 @@ Values are `string | null`; `null` represents no selection. Option values and la
 `Select` supports controlled and uncontrolled values through `value`, `defaultValue`, and `onValueChange`, where callbacks receive only `string | null`. The public ref targets the visible trigger `HTMLButtonElement`. Hidden form integration submits selected string values and does not submit the placeholder as a value.
 
 Read-only Selects remain focusable, display the current value, and do not open or change. Disabled Selects are unavailable for interaction. Error messages render only when `isInvalid` is active. Standalone ListBox, Popover, grouped options, custom option rendering, searchable Select, multi-select, async loading, and ComboBox are deferred.
+
+## Dialogs
+
+`Dialog` and `AlertDialog` are experimental. Both use React Aria Components internally for modal behavior, focus management, dismissal, and accessibility while exposing only OM-owned props.
+
+`Dialog` requires `title`, supports optional `description`, controlled and uncontrolled open state, optional triggers, dismissable and keyboard-dismiss policies, a visible close button by default, long-content scrolling, and a public ref to the dialog surface `HTMLDivElement`.
+
+`AlertDialog` requires `title`, `description`, `confirmLabel`, and `onConfirm`. It defaults focus to Cancel, always renders a cancel action, does not dismiss through outside interaction, blocks cancel, confirm, and Escape dismissal while pending, and supports `confirmBehavior="close"` or `"manual"`. Destructive confirmations use the OM destructive Button variant but never receive focus by default.
+
+Public generic Modal, Overlay, Portal, DialogTrigger, Popover, Menu, Tooltip, Drawer, command dialog, toast, snackbar, and application-specific confirmation workflows remain deferred.
 
 ## API Status
 
