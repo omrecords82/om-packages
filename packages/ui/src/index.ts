@@ -14,6 +14,8 @@ export { Radio } from "./radio/index.js";
 export type { RadioProps } from "./radio/index.js";
 export { RadioGroup } from "./radio-group/index.js";
 export type { RadioGroupProps } from "./radio-group/index.js";
+export { Select } from "./select/index.js";
+export type { SelectOption, SelectProps } from "./select/index.js";
 export { Switch } from "./switch/index.js";
 export type { SwitchProps } from "./switch/index.js";
 export { TextArea } from "./text-area/index.js";

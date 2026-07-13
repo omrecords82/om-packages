@@ -28,6 +28,7 @@ describe("@om/ui package boundaries", () => {
       "./link",
       "./radio",
       "./radio-group",
+      "./select",
       "./switch",
       "./text-area",
       "./text-field"
@@ -44,10 +45,12 @@ describe("@om/ui package boundaries", () => {
       "src/label/Label.tsx",
       "src/radio/Radio.tsx",
       "src/radio-group/RadioGroup.tsx",
+      "src/select/Select.tsx",
       "src/switch/Switch.tsx",
       "src/text-area/TextArea.tsx",
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
+      "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
       "src/index.ts"
     ];
@@ -60,5 +63,15 @@ describe("@om/ui package boundaries", () => {
       expect(content).not.toMatch(/onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
       expect(content).not.toMatch(/onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
     }
+  });
+
+  it("keeps Select contracts free of vendor collection and key types", async () => {
+    const content = await readFile("src/shared/select-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /react-aria-components|react-aria|react-stately|@react-types|Key|Selection|Collection|ListBox/u
+    );
+    expect(content).toMatch(/readonly value: string/u);
+    expect(content).toMatch(/onValueChange\?: \(value: string \| null\) => void/u);
   });
 });

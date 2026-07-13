@@ -57,6 +57,16 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - `Radio` selection is owned by `RadioGroup`.
 - `CheckboxGroup` remains deferred.
 - Form orchestration belongs in a later `@om/forms` package or reviewed integration layer.
+- Standard Select behavior must be consumed through `@om/ui`.
+- Applications must not import React Aria Select, ListBox, Popover, or collection primitives when implementing a standard OM Select.
+- OM Select values are strings or null; vendor `Key` and `Selection` types are prohibited in the public API.
+- Select options require stable unique non-empty string values and non-empty labels.
+- Select placeholder text is not an option and is never a label.
+- Select selected state must not rely only on color.
+- Public Select callbacks expose values, not native or vendor events.
+- Read-only and disabled Select behavior must remain distinct.
+- Validation and focus tokens cannot be replaced by liturgical overlays.
+- Standalone ListBox and ComboBox require separately reviewed phases.
 
 ## Completion Reports
 

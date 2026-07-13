@@ -30,4 +30,6 @@ Text-entry components must require accessible labels. Placeholder text is not a 
 
 Selection controls must be consumed through `@om/ui`. Public selection callbacks expose primitive booleans or strings, not native or vendor events. Selected state must not rely on color alone. `Radio` selection belongs to `RadioGroup`; `CheckboxGroup` and broader form orchestration remain deferred.
 
+Standard Select behavior must be consumed through `@om/ui/select`. Public Select values are `string | null`; options require stable unique non-empty string values and non-empty labels. Placeholder text is not an option or a label. Do not expose React Aria `Key`, `Selection`, collection, ListBox, Popover, or Select prop types in public declarations.
+
 New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.

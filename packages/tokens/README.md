@@ -12,6 +12,8 @@ Phase 1D adds minimal experimental field and input tokens for `Label`, `FieldErr
 
 Phase 1E adds minimal experimental selection-control tokens for `Checkbox`, `RadioGroup`, `Radio`, and `Switch`. These tokens prove selected-state marks, validation treatment, disabled/read-only styling, and focus behavior only; they are not final Orthodox Metrics design values.
 
+Phase 1F adds minimal experimental Select tokens for trigger, placeholder, option, popover, disabled/read-only, and selected-state styling. These tokens prove accessible single-selection styling and overlay behavior only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`
