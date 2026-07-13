@@ -88,6 +88,16 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Destructive Menu actions must not rely only on color.
 - Vendor `Key`, `Selection`, collection, node, state, and event types are prohibited in the public Menu API.
 - Generic Popover, ContextMenu, Menubar, submenu, router-adapter behavior, Tooltip, and Drawer require separately reviewed phases.
+- Standard application tabs must be consumed through `@om/ui`.
+- Applications must not import React Aria Tabs, TabList, Tab, or TabPanel primitives when an OM equivalent exists.
+- Tab IDs must be stable unique non-empty strings.
+- Public Tabs callbacks expose IDs, not selection objects or events.
+- Public Tabs props must not extend vendor interfaces.
+- Tab labels are strings in Phase 1I, and interactive content is prohibited inside tab labels.
+- Tabs selected state must not rely only on color.
+- Tabs focus and selected states must remain distinguishable.
+- Router synchronization requires an application adapter or separately reviewed package contract.
+- Closable, reorderable, nested, wizard, stepper, and overflow-menu tabs require separately reviewed phases.
 
 ## Completion Reports
 

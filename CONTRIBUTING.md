@@ -36,4 +36,6 @@ Standard dialogs must be consumed through `@om/ui/dialog` and `@om/ui/alert-dial
 
 Standard action menus must be consumed through `@om/ui/menu`. Public Menu entries are OM-owned serializable action, link, and separator definitions with stable unique string IDs. Public callbacks expose IDs and booleans, never vendor keys, collection objects, state, or events. Destructive action styling must not rely only on color. Generic Popover, ContextMenu, Menubar, submenu support, and router adapters remain deferred.
 
+Standard application tabs must be consumed through `@om/ui/tabs`. Public `TabItem` entries use stable unique non-empty string IDs and string labels. Public callbacks expose selected IDs only, never vendor keys, selection objects, focus events, or keyboard events. Selected and focused states must remain distinguishable and must not rely only on color. Router synchronization, nested tabs, closable or reorderable tabs, wizard or stepper behavior, and overflow menus remain deferred.
+
 New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.
