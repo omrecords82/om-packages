@@ -9,8 +9,6 @@ export default tseslint.config(
       "**/storybook-static/**",
       "**/node_modules/**",
       "**/*.tsbuildinfo",
-      "**/*.test.ts",
-      "**/*.test.tsx",
       "playwright-report/**",
       "test-results/**"
     ]
@@ -21,7 +19,7 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: "./tsconfig.eslint.json",
         tsconfigRootDir: import.meta.dirname
       }
     },

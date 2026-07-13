@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook build",
-    "clean": "node -e \"process.exit(0)\"",
+    "clean": "node -e \"import('node:fs/promises').then(fs => Promise.all([fs.rm('storybook-static', { recursive: true, force: true }), fs.rm('.turbo', { recursive: true, force: true })]))\"",
     "lint": "eslint .",
     "storybook": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p 6006",
     "storybook:build": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook build",
