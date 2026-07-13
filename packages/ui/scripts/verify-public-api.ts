@@ -19,6 +19,8 @@ const prohibitedPatterns = [
   /\bSelectRenderProps\b/u,
   /\bSelectValueRenderProps\b/u,
   /\bSwitchRenderProps\b/u,
+  /\bMenuRenderProps\b/u,
+  /\bMenuItemRenderProps\b/u,
   /\bValidationResult\b/u,
   /\bToggleState\b/u,
   /\bRadioGroupState\b/u,
@@ -26,9 +28,15 @@ const prohibitedPatterns = [
   /\bKey\b/u,
   /\bSelection\b/u,
   /\bCollection\b/u,
+  /\bNode\b/u,
   /\bListBoxProps\b/u,
   /\bListBoxItemProps\b/u,
+  /\bMenuItemProps\b/u,
+  /\bMenuTriggerProps\b/u,
+  /\bMenuProps\b.*from ["']react-aria-components["']/u,
   /\bPopoverProps\b/u,
+  /\bFocusEvent\b/u,
+  /\bKeyboardEvent\b/u,
   /\bDialogTriggerProps\b/u,
   /\bModalOverlayProps\b/u,
   /\bModalProps\b/u,
@@ -40,6 +48,7 @@ const prohibitedPatterns = [
   /onOpenChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
   /onConfirm\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
   /onCancel\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
+  /onAction\??:\s*\([^)]*(Event|event|PressEvent|Key|Selection|Collection)/u,
   /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
   /onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
 ] as const;
@@ -68,6 +77,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "AlertDialog",
     "Label",
     "Link",
+    "Menu",
     "Radio",
     "RadioGroup",
     "Select",
@@ -89,6 +99,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["alert-dialog", "AlertDialog"],
     ["label", "Label"],
     ["link", "Link"],
+    ["menu", "Menu"],
     ["radio", "Radio"],
     ["radio-group", "RadioGroup"],
     ["select", "Select"],
@@ -147,6 +158,13 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "export type AlertDialogIntent",
     "export type AlertDialogInitialFocus",
     "export type AlertDialogConfirmBehavior"
+  ]);
+  await verifyDeclarationContains(distRoot, "menu/Menu.d.ts", ["RefAttributes<HTMLButtonElement>"]);
+  await verifyDeclarationContains(distRoot, "shared/menu-types.d.ts", [
+    "export type MenuEntry",
+    "readonly id: string",
+    "onAction?: (id: string) => void",
+    "onOpenChange?: (isOpen: boolean) => void"
   ]);
   await verifyDeclarationContains(distRoot, "shared/select-types.d.ts", [
     "readonly value: string",

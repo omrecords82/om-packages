@@ -28,6 +28,7 @@ describe("@om/ui package boundaries", () => {
       "./icon-button",
       "./label",
       "./link",
+      "./menu",
       "./radio",
       "./radio-group",
       "./select",
@@ -45,6 +46,7 @@ describe("@om/ui package boundaries", () => {
       "src/dialog/Dialog.tsx",
       "src/field-error/FieldError.tsx",
       "src/link/Link.tsx",
+      "src/menu/Menu.tsx",
       "src/icon-button/IconButton.tsx",
       "src/label/Label.tsx",
       "src/radio/Radio.tsx",
@@ -55,6 +57,7 @@ describe("@om/ui package boundaries", () => {
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
       "src/shared/dialog-types.ts",
+      "src/shared/menu-types.ts",
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
       "src/index.ts"
@@ -67,6 +70,20 @@ describe("@om/ui package boundaries", () => {
       );
       expect(content).not.toMatch(/onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
       expect(content).not.toMatch(/onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
+    }
+  });
+
+  it("keeps Menu contracts free of vendor collection, key, and event types", async () => {
+    const contents = await Promise.all(
+      ["src/shared/menu-types.ts"].map((file) => readFile(file, "utf8"))
+    );
+
+    for (const content of contents) {
+      expect(content).not.toMatch(
+        /react-aria-components|react-aria|react-stately|@react-types|Key|Selection|Collection|PressEvent|MenuTriggerProps|MenuItemProps|PopoverProps/u
+      );
+      expect(content).not.toMatch(/onAction\??:\s*\([^)]*(Event|event|PressEvent|Key)/u);
+      expect(content).toMatch(/readonly id: string/u);
     }
   });
 

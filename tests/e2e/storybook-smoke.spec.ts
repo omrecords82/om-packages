@@ -536,6 +536,87 @@ test("UI AlertDialog story supports confirmation, focus policy, and pending beha
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Menu story supports keyboard, typeahead, links, and themes", async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-menu--examples");
+
+  const trigger = page.getByRole("button", { name: "Basic action menu" });
+  await tabUntilFocused(page, trigger);
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("menu")).toBeVisible();
+  await page.keyboard.press("d");
+  await page.keyboard.press("Enter");
+  await expect(page.getByText("Last action: duplicate")).toBeVisible();
+  await expect(trigger).toBeFocused();
+
+  await trigger.focus();
+  await page.keyboard.press("Space");
+  await expect(page.getByRole("menu")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("menu")).toBeHidden();
+
+  await trigger.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(page.getByRole("menu")).toBeVisible();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowUp");
+  await page.keyboard.press("Home");
+  await page.keyboard.press("End");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Disabled item menu" }).click();
+  await expect(page.getByRole("menuitem", { name: "Disabled item" })).toHaveAttribute(
+    "aria-disabled",
+    "true"
+  );
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Separator menu" }).click();
+  await expect(page.getByRole("separator")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Link menu" }).click();
+  const link = page.getByRole("menuitem", { name: "Documentation link" });
+  await expect(link).toHaveAttribute("href", "https://example.test/docs");
+  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Destructive action menu" }).click();
+  const destructive = page.getByRole("menuitem", { name: "Delete" });
+  await expect(destructive).toHaveAttribute("data-om-intent", "destructive");
+  const destructiveDecoration = await destructive.evaluate(
+    (element) => getComputedStyle(element).textDecorationLine
+  );
+  expect(destructiveDecoration).toContain("underline");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("menu", { name: "Destructive action menu" })).toBeHidden();
+
+  await page.getByRole("button", { name: "Long scrolling menu" }).click();
+  const menu = page.getByRole("menu", { name: "Long scrolling menu" });
+  const canScroll = await page
+    .locator(".om-menu__popover")
+    .evaluate((element) => element.scrollHeight > element.clientHeight);
+  expect(canScroll).toBe(true);
+  await page.mouse.click(4, 4);
+  await expect(menu).toBeHidden();
+
+  await page.goto("/iframe.html?id=ui-menu--themes");
+  const dark = page.getByRole("button", { name: "Dark menu" });
+  const darkColor = await dark.evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const enhanced = page.getByRole("button", { name: "Enhanced focus menu" });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+
+  const highContrast = page.getByRole("button", { name: "High contrast menu" });
+  await expect(highContrast).toBeVisible();
+  const largeText = page.getByRole("button", { name: "Large text menu" });
+  await expect(largeText).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
 test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
@@ -559,6 +640,8 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Open basic dialog" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-alertdialog--examples");
   await expect(page.getByRole("button", { name: "Open confirmation alert" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-menu--examples");
+  await expect(page.getByRole("button", { name: "Basic action menu" })).toBeVisible();
 });
 
 async function tabUntilFocused(
