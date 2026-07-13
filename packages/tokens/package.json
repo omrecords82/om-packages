@@ -1,0 +1,27 @@
+{
+  "name": "@om/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Bootstrap-only token exports for Orthodox Metrics packages.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": "./dist/tokens.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b && cp src/tokens.css dist/tokens.css",
+    "clean": "tsc -b --clean",
+    "lint": "eslint .",
+    "pack:check": "pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  }
+}

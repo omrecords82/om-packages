@@ -1,0 +1,27 @@
+{
+  "name": "@om/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Local Storybook preview for Orthodox Metrics packages.",
+  "type": "module",
+  "scripts": {
+    "build": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook build",
+    "clean": "node -e \"process.exit(0)\"",
+    "lint": "eslint .",
+    "storybook": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p 6006",
+    "storybook:build": "HOME=/tmp STORYBOOK_DISABLE_TELEMETRY=1 storybook build",
+    "storybook:preview": "vite preview --outDir storybook-static --host 127.0.0.1 --port 6007",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json --pretty false"
+  },
+  "dependencies": {
+    "@om/tokens": "workspace:*",
+    "@om/ui": "workspace:*",
+    "@storybook/addon-docs": "^10.0.0",
+    "@storybook/react-vite": "^10.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "storybook": "^10.0.0"
+  },
+  "devDependencies": {}
+}
