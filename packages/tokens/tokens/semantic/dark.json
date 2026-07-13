@@ -13,6 +13,30 @@
       "value": "{primitive.color.neutral.0}",
       "description": "Bootstrap dark primary text.",
       "stability": "bootstrap"
+    },
+    "semantic.action.accent": {
+      "type": "color",
+      "value": "{primitive.color.accent.red}",
+      "description": "Bootstrap dark action accent reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.border.decorative": {
+      "type": "color",
+      "value": "{primitive.color.accent.red}",
+      "description": "Bootstrap dark decorative border reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.focus.ring": {
+      "type": "color",
+      "value": "{primitive.color.neutral.0}",
+      "description": "Bootstrap dark focus ring reference.",
+      "stability": "bootstrap"
+    },
+    "semantic.status.error": {
+      "type": "color",
+      "value": "{primitive.color.neutral.0}",
+      "description": "Bootstrap dark error status reference.",
+      "stability": "bootstrap"
     }
   }
 }

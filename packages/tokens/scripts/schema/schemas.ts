@@ -136,6 +136,35 @@ export const brandPackSchema = z
     }
   });
 
+export const themePreferencesSchema = z
+  .object({
+    themeMode: z.enum(["light", "dark", "system"]),
+    liturgicalMode: z.enum(["automatic", "manual", "disabled"]),
+    manualLiturgicalColor: z
+      .enum(["white", "gold", "green", "purple", "red", "blue", "black"])
+      .optional(),
+    accessibility: z.object({
+      contrast: z.enum(["standard", "high", "forced"]),
+      motion: z.enum(["standard", "reduced"]),
+      textScale: z.enum(["standard", "large", "larger"]),
+      focusVisibility: z.enum(["standard", "enhanced"]),
+      colorIndependentStatus: z.boolean()
+    }),
+    extensions: z.record(z.string(), jsonValueSchema).optional()
+  })
+  .superRefine((preferences, context) => {
+    if (
+      preferences.manualLiturgicalColor !== undefined &&
+      preferences.liturgicalMode !== "manual"
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "manualLiturgicalColor is allowed only when liturgicalMode is manual.",
+        path: ["manualLiturgicalColor"]
+      });
+    }
+  });
+
 export function isSafeAssetSource(source: string): boolean {
   if (/^[a-z][a-z0-9+.-]*:/iu.test(source)) {
     try {

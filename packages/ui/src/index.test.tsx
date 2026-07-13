@@ -8,7 +8,8 @@ describe("@om/ui bootstrap component", () => {
     const html = renderToStaticMarkup(<BootstrapNotice label="Bootstrap proof" />);
 
     expect(html).toContain("Bootstrap proof");
-    expect(html).toContain('data-om-phase="phase-0"');
-    expect(html).toContain("@om/contracts");
+    expect(html).toContain('data-om-schema-version="1"');
+    expect(html).toContain('data-om-token-source="json"');
+    expect(html).toContain("@om/contracts + @om/tokens");
   });
 });

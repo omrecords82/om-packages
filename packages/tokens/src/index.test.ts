@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { bootstrapTokens } from "./index.js";
+import { phase1aTokenSourceStatus } from "./index.js";
 
-describe("@om/tokens bootstrap export", () => {
-  it("provides CSS custom property references", () => {
-    expect(bootstrapTokens.colorSurface).toBe("var(--om-bootstrap-surface)");
-    expect(bootstrapTokens.colorText).toBe("var(--om-bootstrap-text)");
+describe("@om/tokens phase 1a marker", () => {
+  it("identifies JSON as the canonical token source", () => {
+    expect(phase1aTokenSourceStatus).toEqual({
+      canonicalSource: "json",
+      cssGeneration: "deferred-to-phase-1b",
+      stability: "bootstrap"
+    });
   });
 });
