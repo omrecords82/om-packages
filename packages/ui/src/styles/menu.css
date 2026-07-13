@@ -1,0 +1,134 @@
+@layer om.components {
+  .om-menu {
+    display: inline-flex;
+  }
+
+  .om-menu__trigger {
+    cursor: pointer;
+  }
+
+  .om-menu__trigger[data-om-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  .om-menu__popover {
+    z-index: var(--om-component-menu-popover-z-index, var(--om-primitive-z-index-overlay, 1000));
+    min-inline-size: var(--om-component-menu-popover-min-width, 12rem);
+    max-block-size: var(--om-component-menu-popover-max-height, 18rem);
+    overflow: auto;
+    color: var(--om-component-menu-popover-foreground, var(--om-primitive-color-neutral-900));
+    background: var(--om-component-menu-popover-background, var(--om-primitive-color-neutral-0));
+    border: var(--om-primitive-border-width-1) solid
+      var(--om-component-menu-popover-border, var(--om-primitive-color-neutral-900));
+    border-radius: var(--om-component-menu-popover-radius, var(--om-primitive-radius-2));
+    box-shadow: var(--om-component-menu-popover-shadow, var(--om-primitive-shadow-none));
+  }
+
+  .om-menu__list {
+    display: grid;
+    gap: 0;
+    box-sizing: border-box;
+    min-inline-size: 100%;
+    padding-block: calc(var(--om-component-menu-item-padding-block, 1rem) / 2);
+    outline: none;
+  }
+
+  .om-menu__item {
+    display: grid;
+    gap: calc(var(--om-component-menu-item-gap, 1rem) / 2);
+    box-sizing: border-box;
+    padding: var(--om-component-menu-item-padding-block, 1rem)
+      var(--om-component-menu-item-padding-inline, 1rem);
+    color: var(--om-component-menu-item-foreground, var(--om-primitive-color-neutral-900));
+    background: var(--om-component-menu-item-background, transparent);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .om-menu__item[data-focused],
+  .om-menu__item[data-focus-visible] {
+    background: var(
+      --om-component-menu-item-focused-background,
+      var(--om-primitive-color-neutral-0)
+    );
+    outline: var(--om-accessibility-focus-enhanced-width, var(--om-primitive-border-width-1)) solid
+      var(--om-semantic-focus-ring, currentColor);
+    outline-offset: calc(var(--om-primitive-border-width-1) * -1);
+  }
+
+  .om-menu__item[data-pressed] {
+    background: var(
+      --om-component-menu-item-pressed-background,
+      var(--om-primitive-color-neutral-0)
+    );
+  }
+
+  .om-menu__item[data-disabled] {
+    color: var(--om-component-menu-item-disabled-foreground, currentColor);
+    cursor: not-allowed;
+    opacity: 0.62;
+  }
+
+  .om-menu__item[data-om-intent="destructive"] {
+    color: var(--om-component-menu-destructive-foreground, var(--om-semantic-status-error));
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.18em;
+  }
+
+  .om-menu__item[data-om-intent="destructive"][data-focused],
+  .om-menu__item[data-om-intent="destructive"][data-focus-visible] {
+    background: var(
+      --om-component-menu-destructive-focused-background,
+      var(--om-semantic-status-error)
+    );
+  }
+
+  .om-menu__item-label,
+  .om-menu__item-description {
+    min-inline-size: 0;
+  }
+
+  .om-menu__item-description {
+    color: var(--om-component-menu-item-description-foreground, currentColor);
+    font-size: 0.875em;
+  }
+
+  .om-menu__separator {
+    block-size: var(--om-primitive-border-width-1);
+    margin-block: calc(var(--om-component-menu-item-padding-block, 1rem) / 2);
+    background: var(--om-component-menu-separator, var(--om-primitive-color-neutral-900));
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .om-menu__popover[data-entering],
+    .om-menu__popover[data-exiting] {
+      transition: opacity var(--om-primitive-motion-duration-fast)
+        var(--om-primitive-motion-easing-standard);
+    }
+
+    .om-menu__popover[data-entering],
+    .om-menu__popover[data-exiting] {
+      opacity: 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .om-menu__popover {
+      color: CanvasText;
+      background: Canvas;
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .om-menu__item[data-focused],
+    .om-menu__item[data-focus-visible] {
+      outline-color: Highlight;
+    }
+
+    .om-menu__separator {
+      background: CanvasText;
+    }
+  }
+}
