@@ -7,6 +7,78 @@
       "value": "{semantic.action.accent}",
       "description": "Bootstrap button background reference.",
       "stability": "bootstrap"
+    },
+    "component.button.primary.foreground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental button foreground reference.",
+      "stability": "experimental"
+    },
+    "component.button.primary.hover.background": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental button hover background reference.",
+      "stability": "experimental"
+    },
+    "component.button.primary.pressed.background": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental button pressed background reference.",
+      "stability": "experimental"
+    },
+    "component.button.secondary.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental secondary button background reference.",
+      "stability": "experimental"
+    },
+    "component.button.secondary.foreground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental secondary button foreground reference.",
+      "stability": "experimental"
+    },
+    "component.button.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental button border reference.",
+      "stability": "experimental"
+    },
+    "component.button.destructive.background": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental destructive button background reference.",
+      "stability": "experimental"
+    },
+    "component.button.destructive.foreground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental destructive button foreground reference.",
+      "stability": "experimental"
+    },
+    "component.button.disabled.opacity": {
+      "type": "number",
+      "value": 0.55,
+      "description": "Experimental disabled button opacity reference.",
+      "stability": "experimental"
+    },
+    "component.button.focus.ring": {
+      "type": "color",
+      "value": "{semantic.focus.ring}",
+      "description": "Experimental button focus ring reference.",
+      "stability": "experimental"
+    },
+    "component.button.padding.inline.md": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental medium button inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.button.radius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental button radius reference.",
+      "stability": "experimental"
     }
   }
 }

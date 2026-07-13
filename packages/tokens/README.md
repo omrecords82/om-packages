@@ -6,6 +6,8 @@ JSON under `tokens/` is the canonical authoring format. Generated artifacts are 
 
 Phase 1B generates experimental ESM token exports, TypeScript declarations, normalized manifest JSON, deterministic metadata, and CSS custom-property bundles.
 
+Phase 1C adds minimal experimental component-state tokens for the initial `@om/ui` Button and Link styling. These values prove the token pipeline and are not final design decisions.
+
 Package exports:
 
 - `@om/tokens`

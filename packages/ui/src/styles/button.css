@@ -1,0 +1,118 @@
+@layer om.components {
+  .om-button {
+    align-items: center;
+    appearance: none;
+    background: var(--om-component-button-primary-background);
+    border: var(--om-primitive-border-width-1) solid var(--om-component-button-border);
+    border-radius: var(--om-component-button-radius);
+    color: var(--om-component-button-primary-foreground);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-weight: var(--om-primitive-font-weight-regular);
+    gap: calc(var(--om-primitive-space-4) / 2);
+    justify-content: center;
+    line-height: var(--om-primitive-line-height-body);
+    min-height: var(--om-primitive-size-control-md);
+    padding-block: calc(var(--om-primitive-space-4) / 2);
+    padding-inline: var(--om-component-button-padding-inline-md);
+    position: relative;
+    text-decoration: none;
+    transition-duration: var(--om-primitive-motion-duration-fast);
+    transition-property: background-color, border-color, color, opacity;
+    transition-timing-function: var(--om-primitive-motion-easing-standard);
+    user-select: none;
+  }
+
+  .om-button[data-om-size="sm"] {
+    min-height: calc(var(--om-primitive-size-control-md) - (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-primitive-space-4) / 4);
+  }
+
+  .om-button[data-om-size="lg"] {
+    min-height: calc(var(--om-primitive-size-control-md) + (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-primitive-space-4) * 0.75);
+  }
+
+  .om-button[data-om-full-width] {
+    inline-size: 100%;
+  }
+
+  .om-button[data-om-variant="secondary"] {
+    background: var(--om-component-button-secondary-background);
+    color: var(--om-component-button-secondary-foreground);
+  }
+
+  .om-button[data-om-variant="quiet"] {
+    background: transparent;
+    border-color: transparent;
+    color: var(--om-component-button-secondary-foreground);
+  }
+
+  .om-button[data-om-variant="destructive"] {
+    background: var(--om-component-button-destructive-background);
+    color: var(--om-component-button-destructive-foreground);
+  }
+
+  .om-button[data-hovered]:not([data-disabled], [data-om-pending]) {
+    background: var(--om-component-button-primary-hover-background);
+  }
+
+  .om-button[data-pressed]:not([data-disabled], [data-om-pending]) {
+    background: var(--om-component-button-primary-pressed-background);
+  }
+
+  .om-button[data-disabled],
+  .om-button[data-om-pending] {
+    cursor: not-allowed;
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-button[data-focus-visible] {
+    outline: var(--om-accessibility-focus-enhanced-width, 2px) solid
+      var(--om-component-button-focus-ring);
+    outline-offset: var(--om-primitive-border-width-1);
+  }
+
+  .om-button__content[data-om-pending-content] {
+    visibility: hidden;
+  }
+
+  .om-button__pending {
+    inset: 0;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    position: absolute;
+  }
+
+  .om-icon-button {
+    inline-size: var(--om-primitive-size-control-md);
+    padding-inline: 0;
+  }
+
+  .om-icon-button[data-om-size="sm"] {
+    inline-size: calc(var(--om-primitive-size-control-md) - (var(--om-primitive-space-4) / 2));
+  }
+
+  .om-icon-button[data-om-size="lg"] {
+    inline-size: calc(var(--om-primitive-size-control-md) + (var(--om-primitive-space-4) / 2));
+  }
+
+  .om-icon-button__icon {
+    display: inline-flex;
+  }
+
+  .om-sr-only {
+    block-size: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    inline-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+  }
+}
