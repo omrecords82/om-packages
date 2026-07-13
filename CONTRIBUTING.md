@@ -28,4 +28,6 @@ Component CSS must consume `@om/tokens` variables and live in `@layer om.compone
 
 Text-entry components must require accessible labels. Placeholder text is not a label. Public field callbacks should expose string values rather than native or vendor event objects. Disabled and read-only states must remain semantically distinct, and validation styling must use protected validation/error tokens.
 
+Selection controls must be consumed through `@om/ui`. Public selection callbacks expose primitive booleans or strings, not native or vendor events. Selected state must not rely on color alone. `Radio` selection belongs to `RadioGroup`; `CheckboxGroup` and broader form orchestration remain deferred.
+
 New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.
