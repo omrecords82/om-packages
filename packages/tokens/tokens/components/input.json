@@ -26,6 +26,120 @@
       "description": "Experimental field content gap reference.",
       "stability": "experimental"
     },
+    "component.selectionControl.gap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental selection-control content gap reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.labelForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental selection-control label foreground reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.descriptionForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental selection-control description foreground reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.errorForeground": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental selection-control error foreground reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.size": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental selection-control indicator size reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.radius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental selection-control radius reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental selection-control border reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.background": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental selection-control background reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.selectedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental selection-control selected background reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.selectedForeground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental selection-control selected foreground reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.hoverBorder": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental selection-control hover border reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.disabledBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental selection-control disabled background reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.disabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental selection-control disabled foreground reference.",
+      "stability": "experimental"
+    },
+    "component.selectionControl.focus.ring": {
+      "type": "color",
+      "value": "{semantic.focus.ring}",
+      "description": "Experimental selection-control focus ring reference.",
+      "stability": "experimental"
+    },
+    "component.switch.width": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental switch width reference.",
+      "stability": "experimental"
+    },
+    "component.switch.height": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental switch height reference.",
+      "stability": "experimental"
+    },
+    "component.switch.trackBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental switch track background reference.",
+      "stability": "experimental"
+    },
+    "component.switch.selectedTrackBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental switch selected track background reference.",
+      "stability": "experimental"
+    },
+    "component.switch.thumbBackground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental switch thumb background reference.",
+      "stability": "experimental"
+    },
     "component.input.background": {
       "type": "color",
       "value": "{semantic.background.canvas}",
