@@ -14,6 +14,8 @@ Phase 1E adds minimal experimental selection-control tokens for `Checkbox`, `Rad
 
 Phase 1F adds minimal experimental Select tokens for trigger, placeholder, option, popover, disabled/read-only, and selected-state styling. These tokens prove accessible single-selection styling and overlay behavior only; they are not final Orthodox Metrics design values.
 
+Phase 1G adds minimal experimental Dialog and AlertDialog tokens for overlay backdrop, modal surface, responsive width, scrolling, z-index, action spacing, and intent accents. These tokens prove accessible overlay styling only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`

@@ -1,7 +1,11 @@
 export { Button } from "./button/index.js";
 export type { ButtonProps } from "./button/index.js";
+export { AlertDialog } from "./alert-dialog/index.js";
+export type { AlertDialogProps } from "./alert-dialog/index.js";
 export { Checkbox } from "./checkbox/index.js";
 export type { CheckboxProps } from "./checkbox/index.js";
+export { Dialog } from "./dialog/index.js";
+export type { DialogProps } from "./dialog/index.js";
 export { FieldError } from "./field-error/index.js";
 export type { FieldErrorProps } from "./field-error/index.js";
 export { IconButton } from "./icon-button/index.js";
@@ -22,6 +26,12 @@ export { TextArea } from "./text-area/index.js";
 export type { TextAreaProps } from "./text-area/index.js";
 export { TextField } from "./text-field/index.js";
 export type { TextFieldProps } from "./text-field/index.js";
+export type {
+  AlertDialogConfirmBehavior,
+  AlertDialogInitialFocus,
+  AlertDialogIntent,
+  DialogSize
+} from "./shared/dialog-types.js";
 export type {
   CommonTextFieldProps,
   FieldValidationBehavior,

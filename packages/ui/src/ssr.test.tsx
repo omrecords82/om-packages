@@ -2,6 +2,8 @@ import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
 import { Checkbox } from "./checkbox/index.js";
+import { Dialog } from "./dialog/index.js";
+import { AlertDialog } from "./alert-dialog/index.js";
 import { FieldError } from "./field-error/index.js";
 import { Label } from "./label/index.js";
 import { Radio } from "./radio/index.js";
@@ -33,6 +35,16 @@ describe("@om/ui SSR", () => {
           ]}
         />
         <Switch>Server switch</Switch>
+        <Dialog title="Server dialog" trigger={<button type="button">Open server dialog</button>}>
+          Server dialog body
+        </Dialog>
+        <AlertDialog
+          title="Server alert"
+          description="Server alert description."
+          confirmLabel="Confirm"
+          onConfirm={() => undefined}
+          trigger={<button type="button">Open server alert</button>}
+        />
       </>
     );
 
@@ -45,5 +57,7 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server radio");
     expect(markup).toContain("Server select");
     expect(markup).toContain("Server switch");
+    expect(markup).toContain("Open server dialog");
+    expect(markup).toContain("Open server alert");
   });
 });

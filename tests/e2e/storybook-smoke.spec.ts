@@ -427,6 +427,115 @@ test("UI Select story supports keyboard selection, blocked states, validation, a
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Dialog story supports modal focus, dismissal, and themes", async ({ page }) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-dialog--examples");
+
+  const trigger = page.getByRole("button", { name: "Open basic dialog" });
+  await tabUntilFocused(page, trigger);
+  await page.keyboard.press("Enter");
+  const dialog = page.getByRole("dialog", { name: "Basic dialog" });
+  await expect(dialog).toBeVisible();
+  const initialFocusInside = await dialog.evaluate((element) =>
+    element.contains(document.activeElement)
+  );
+  expect(initialFocusInside).toBe(true);
+
+  await page.keyboard.press("Tab");
+  const focusInside = await dialog.evaluate((element) => element.contains(document.activeElement));
+  expect(focusInside).toBe(true);
+
+  await page.getByRole("button", { exact: true, name: "Close dialog" }).click();
+  await expect(dialog).toBeHidden();
+  await expect(trigger).toBeFocused();
+
+  await page.getByRole("button", { name: "Open keyboard locked dialog" }).click();
+  const locked = page.getByRole("dialog", { name: "Keyboard dismissal disabled" });
+  await expect(locked).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(locked).toBeVisible();
+  await page.getByRole("button", { exact: true, name: "Close dialog" }).click();
+
+  await page.getByRole("button", { name: "Open nondismissable dialog" }).click();
+  const nondismissable = page.getByRole("dialog", { name: "Nondismissable dialog" });
+  await expect(nondismissable).toBeVisible();
+  await page.mouse.click(4, 4);
+  await expect(nondismissable).toBeVisible();
+  await page.getByRole("button", { exact: true, name: "Close dialog" }).click();
+
+  await page.setViewportSize({ height: 420, width: 375 });
+  await page.getByRole("button", { name: "Open long content dialog" }).click();
+  const bodyCanScroll = await page
+    .getByRole("dialog", { name: "Long content dialog" })
+    .locator(".om-dialog__body")
+    .evaluate((element) => element.scrollHeight > element.clientHeight);
+  expect(bodyCanScroll).toBe(true);
+  await page.keyboard.press("Escape");
+
+  await page.goto("/iframe.html?id=ui-dialog--themes");
+  await page.getByRole("button", { name: "Open dark dialog" }).click();
+  const darkColor = await page
+    .getByRole("dialog", { name: "Dark mode dialog" })
+    .evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open enhanced focus dialog" }).focus();
+  const outlineWidth = await page
+    .getByRole("button", { name: "Open enhanced focus dialog" })
+    .evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+
+  await page.getByRole("button", { name: "Open large text dialog" }).click();
+  await expect(page.getByRole("dialog", { name: "Large text dialog" })).toBeVisible();
+  await expect(page.getByText("Large text should not clip")).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
+test("UI AlertDialog story supports confirmation, focus policy, and pending behavior", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-alertdialog--examples");
+
+  await page.getByRole("button", { name: "Open confirmation alert" }).click();
+  const confirmation = page.getByRole("alertdialog", { name: "Confirm this action?" });
+  await expect(confirmation).toBeVisible();
+  await expect(page.getByRole("button", { name: "Cancel" })).toBeFocused();
+  await page.mouse.click(4, 4);
+  await expect(confirmation).toBeVisible();
+  await page.getByRole("button", { exact: true, name: "Confirm" }).click();
+  await expect(page.getByText("Confirmation action invoked.")).toBeVisible();
+  await expect(confirmation).toBeHidden();
+
+  await page.getByRole("button", { name: "Open destructive alert" }).click();
+  await expect(page.getByRole("button", { name: "Cancel" })).toBeFocused();
+  const destructive = page.getByRole("button", { name: "Delete" });
+  await expect(destructive).toHaveAttribute("data-om-variant", "destructive");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("alertdialog", { name: "Delete this item?" })).toBeHidden();
+
+  await page.getByRole("button", { name: "Open manual alert" }).click();
+  await page.getByRole("button", { exact: true, name: "Confirm" }).click();
+  await expect(page.getByRole("alertdialog", { name: "Manual close alert" })).toBeVisible();
+  await page.getByRole("button", { name: "Cancel" }).click();
+
+  await page.getByRole("button", { name: "Open pending alert" }).click();
+  const pending = page.getByRole("alertdialog", { name: "Pending confirmation" });
+  await expect(pending).toBeVisible();
+  await expect(page.locator(".om-alert-dialog__confirm")).toHaveAttribute("data-pending", "true");
+  await page.keyboard.press("Escape");
+  await expect(pending).toBeVisible();
+
+  await page.goto("/iframe.html?id=ui-alertdialog--themes");
+  await page.getByRole("button", { name: "Open enhanced focus alert dialog" }).focus();
+  const outlineWidth = await page
+    .getByRole("button", { name: "Open enhanced focus alert dialog" })
+    .evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+  expect(consoleErrors).toEqual([]);
+});
+
 test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
@@ -446,6 +555,10 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("switch", { name: "Off" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-select--examples");
   await expect(page.getByRole("button", { name: /Placeholder/ })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-dialog--examples");
+  await expect(page.getByRole("button", { name: "Open basic dialog" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-alertdialog--examples");
+  await expect(page.getByRole("button", { name: "Open confirmation alert" })).toBeVisible();
 });
 
 async function tabUntilFocused(

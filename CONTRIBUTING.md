@@ -32,4 +32,6 @@ Selection controls must be consumed through `@om/ui`. Public selection callbacks
 
 Standard Select behavior must be consumed through `@om/ui/select`. Public Select values are `string | null`; options require stable unique non-empty string values and non-empty labels. Placeholder text is not an option or a label. Do not expose React Aria `Key`, `Selection`, collection, ListBox, Popover, or Select prop types in public declarations.
 
+Standard dialogs must be consumed through `@om/ui/dialog` and `@om/ui/alert-dialog`. Public dialog callbacks expose booleans or no-argument callbacks, never press, keyboard, pointer, or overlay events. Dialogs require titles. AlertDialogs require titles and consequence descriptions, default focus to Cancel, do not dismiss through outside interaction, and block dismissal while confirmation is pending. Do not expose React Aria Dialog, Modal, ModalOverlay, DialogTrigger, overlay state, or press-event types in public declarations.
+
 New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.
