@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.tabs.listBorder": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental tabs list border reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.listGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tabs list gap reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental tab foreground reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabSelectedForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental selected tab foreground reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabDisabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental disabled tab foreground reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabHoverBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental tab hover background reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabFocusedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental tab focused background reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabPaddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tab inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabPaddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tab block padding reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabMinHeight": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental tab minimum height reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.tabRadius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental tab radius reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.indicator": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental selected tab indicator reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.indicatorThickness": {
+      "type": "dimension",
+      "value": "{primitive.border.width.1}",
+      "description": "Experimental selected tab indicator thickness reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.panelForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental tabs panel foreground reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.panelPaddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tabs panel block padding reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.panelPaddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tabs panel inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.tabs.panelGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tabs panel gap reference.",
+      "stability": "experimental"
+    }
+  }
+}
