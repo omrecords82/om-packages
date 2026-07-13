@@ -32,6 +32,14 @@ export { Select } from "./select/index.js";
 export type { SelectOption, SelectProps } from "./select/index.js";
 export { Switch } from "./switch/index.js";
 export type { SwitchProps } from "./switch/index.js";
+export { Tabs } from "./tabs/index.js";
+export type {
+  TabItem,
+  TabsActivationMode,
+  TabsOrientation,
+  TabsPanelMounting,
+  TabsProps
+} from "./tabs/index.js";
 export { TextArea } from "./text-area/index.js";
 export type { TextAreaProps } from "./text-area/index.js";
 export { TextField } from "./text-field/index.js";

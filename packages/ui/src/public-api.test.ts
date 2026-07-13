@@ -33,6 +33,7 @@ describe("@om/ui package boundaries", () => {
       "./radio-group",
       "./select",
       "./switch",
+      "./tabs",
       "./text-area",
       "./text-field"
     ]);
@@ -53,6 +54,7 @@ describe("@om/ui package boundaries", () => {
       "src/radio-group/RadioGroup.tsx",
       "src/select/Select.tsx",
       "src/switch/Switch.tsx",
+      "src/tabs/Tabs.tsx",
       "src/text-area/TextArea.tsx",
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
@@ -60,6 +62,7 @@ describe("@om/ui package boundaries", () => {
       "src/shared/menu-types.ts",
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
+      "src/shared/tabs-types.ts",
       "src/index.ts"
     ];
     const contents = await Promise.all(files.map((file) => readFile(file, "utf8")));
@@ -95,6 +98,16 @@ describe("@om/ui package boundaries", () => {
     );
     expect(content).toMatch(/readonly value: string/u);
     expect(content).toMatch(/onValueChange\?: \(value: string \| null\) => void/u);
+  });
+
+  it("keeps Tabs contracts free of vendor selection, collection, and event types", async () => {
+    const content = await readFile("src/shared/tabs-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /react-aria-components|react-aria|react-stately|@react-types|\bKey\b|\bSelection\b|\bCollection\b|\bNode\b|TabListProps|TabPanelProps/u
+    );
+    expect(content).toMatch(/readonly id: string/u);
+    expect(content).toMatch(/onSelectionChange\?: \(id: string\) => void/u);
   });
 
   it("keeps dialog contracts free of vendor overlay types and events", async () => {

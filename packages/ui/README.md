@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1H establishes the first action-menu family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, and `AlertDialog`.
+Phase 1I establishes the first tab family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, and `Menu`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -30,6 +30,7 @@ import "@om/ui/css";
 - `@om/ui/radio-group`
 - `@om/ui/select`
 - `@om/ui/switch`
+- `@om/ui/tabs`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
 - `@om/ui/css`
@@ -92,6 +93,27 @@ Action and link items require stable unique non-empty string IDs and non-empty l
 `Menu` supports controlled and uncontrolled open state through `isOpen`, `defaultOpen`, and `onOpenChange`, where callbacks receive only booleans. Action activation calls `onAction(id)` with the item ID only. Disabled items do not activate, separators are noninteractive, and empty or separator-only menus do not open an empty collection.
 
 The public ref targets the trigger `HTMLButtonElement`. Existing OM `Button` and `IconButton` triggers are supported. Standalone `MenuItem`, `MenuTrigger`, `Popover`, `ContextMenu`, `Menubar`, nested menus, checkbox or radio menu items, icons, custom item rendering, virtualized menus, and router adapters are deferred.
+
+## Tabs
+
+`Tabs` is experimental. It exposes an OM-owned `TabItem` contract:
+
+```ts
+interface TabItem {
+  readonly id: string;
+  readonly label: string;
+  readonly content: React.ReactNode;
+  readonly isDisabled?: boolean;
+}
+```
+
+Tab IDs must be stable unique non-empty strings. Labels are strings in Phase 1I and should be non-empty; duplicate labels warn because they can make keyboard navigation ambiguous.
+
+`Tabs` supports controlled and uncontrolled selection through `selectedId`, `defaultSelectedId`, and `onSelectionChange`, where callbacks receive only the selected string ID. When selection is omitted, the first enabled tab is selected. Unknown controlled IDs warn and render no active panel; unknown defaults are rejected.
+
+Horizontal orientation uses Left and Right Arrow navigation; vertical orientation uses Up and Down Arrow navigation. Home and End move to the first and last enabled tabs. Automatic activation selects on focus, while manual activation changes focus first and selects on Enter or Space. `panelMounting="active"` renders only the active panel; `panelMounting="all"` preserves inactive panel content in an inert hidden state. The public ref targets the root `HTMLDivElement`.
+
+Router synchronization, URL state, nested tabs, closable tabs, reorderable tabs, icons, badges, counters, overflow menus, wizard behavior, stepper behavior, and application migration remain deferred.
 
 ## API Status
 
