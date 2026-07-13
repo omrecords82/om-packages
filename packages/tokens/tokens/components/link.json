@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.link.foreground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental link foreground reference.",
+      "stability": "experimental"
+    },
+    "component.link.hover.foreground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental link hover foreground reference.",
+      "stability": "experimental"
+    },
+    "component.link.disabled.opacity": {
+      "type": "number",
+      "value": 0.55,
+      "description": "Experimental disabled link opacity reference.",
+      "stability": "experimental"
+    },
+    "component.link.decoration.thickness": {
+      "type": "dimension",
+      "value": "1px",
+      "description": "Experimental link decoration thickness reference.",
+      "stability": "experimental"
+    },
+    "component.link.focus.ring": {
+      "type": "color",
+      "value": "{semantic.focus.ring}",
+      "description": "Experimental link focus ring reference.",
+      "stability": "experimental"
+    }
+  }
+}
