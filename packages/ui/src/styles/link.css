@@ -1,0 +1,35 @@
+@layer om.components {
+  .om-link {
+    color: var(--om-component-link-foreground);
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--om-component-link-decoration-thickness);
+    text-underline-offset: calc(var(--om-primitive-space-4) / 8);
+  }
+
+  .om-link[data-om-variant="standalone"] {
+    display: inline-flex;
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-link[data-om-variant="quiet"] {
+    color: var(--om-semantic-text-primary);
+    text-decoration-line: none;
+  }
+
+  .om-link[data-hovered]:not([data-disabled]) {
+    color: var(--om-component-link-hover-foreground);
+  }
+
+  .om-link[data-disabled] {
+    cursor: not-allowed;
+    opacity: var(--om-component-link-disabled-opacity);
+    pointer-events: none;
+  }
+
+  .om-link[data-focus-visible] {
+    outline: var(--om-accessibility-focus-enhanced-width, 2px) solid
+      var(--om-component-link-focus-ring);
+    outline-offset: var(--om-primitive-border-width-1);
+  }
+}
