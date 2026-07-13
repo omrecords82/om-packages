@@ -1,0 +1,158 @@
+@layer om.components {
+  .om-dialog__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--om-component-dialog-z-index, var(--om-primitive-z-index-overlay, 1000));
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    padding: var(--om-component-dialog-padding, var(--om-primitive-space-4, 1rem));
+    overflow: auto;
+    background: color-mix(
+      in srgb,
+      var(--om-component-dialog-overlay-background, var(--om-primitive-color-neutral-900)) 32%,
+      transparent
+    );
+  }
+
+  .om-dialog__surface {
+    box-sizing: border-box;
+    width: min(100%, var(--om-component-dialog-width-md, 32rem));
+    max-block-size: var(--om-component-dialog-max-height, min(42rem, calc(100vh - 2rem)));
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    overflow: hidden;
+    color: var(--om-component-dialog-surface-foreground, var(--om-primitive-color-neutral-900));
+    background: var(--om-component-dialog-surface-background, var(--om-primitive-color-neutral-0));
+    border: var(--om-primitive-border-width-1) solid
+      var(--om-component-dialog-surface-border, var(--om-primitive-color-neutral-900));
+    border-radius: var(--om-component-dialog-surface-radius, var(--om-primitive-radius-2));
+    box-shadow: var(--om-component-dialog-surface-shadow, var(--om-primitive-shadow-none));
+  }
+
+  .om-dialog__surface[data-om-size="sm"] {
+    width: min(100%, var(--om-component-dialog-width-sm, 24rem));
+  }
+
+  .om-dialog__surface[data-om-size="lg"] {
+    width: min(100%, var(--om-component-dialog-width-lg, 44rem));
+  }
+
+  .om-dialog__surface[data-om-size="xl"] {
+    width: min(100%, var(--om-component-dialog-width-xl, 56rem));
+  }
+
+  .om-dialog {
+    display: contents;
+  }
+
+  .om-dialog__header,
+  .om-dialog__footer {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--om-component-dialog-header-gap, var(--om-primitive-space-4, 1rem));
+    padding: var(--om-component-dialog-padding, var(--om-primitive-space-4, 1rem));
+  }
+
+  .om-dialog__header {
+    justify-content: space-between;
+  }
+
+  .om-dialog__heading {
+    display: grid;
+    gap: calc(var(--om-component-dialog-header-gap, var(--om-primitive-space-4, 1rem)) / 2);
+    min-inline-size: 0;
+  }
+
+  .om-dialog__title {
+    margin: 0;
+    color: var(--om-component-dialog-surface-foreground, var(--om-primitive-color-neutral-900));
+    font: inherit;
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-dialog__description {
+    color: var(--om-semantic-text-primary, var(--om-primitive-color-neutral-900));
+  }
+
+  .om-dialog__close {
+    flex: 0 0 auto;
+    min-inline-size: var(--om-component-dialog-close-size, var(--om-primitive-size-control-md));
+  }
+
+  .om-dialog__body {
+    display: grid;
+    gap: var(--om-component-dialog-body-gap, var(--om-primitive-space-4, 1rem));
+    min-block-size: 0;
+    max-block-size: var(--om-component-dialog-max-height, min(42rem, calc(100vh - 2rem)));
+    overflow: auto;
+    padding: 0 var(--om-component-dialog-padding, var(--om-primitive-space-4, 1rem))
+      var(--om-component-dialog-padding, var(--om-primitive-space-4, 1rem));
+  }
+
+  .om-dialog__footer {
+    justify-content: flex-end;
+    border-block-start: var(--om-primitive-border-width-1) solid
+      var(--om-component-dialog-footer-border, var(--om-primitive-color-neutral-900));
+  }
+
+  .om-alert-dialog__surface {
+    width: min(100%, var(--om-component-dialog-width-sm, 24rem));
+  }
+
+  .om-alert-dialog__intent {
+    inline-size: var(--om-primitive-space-4);
+    block-size: var(--om-primitive-space-4);
+    border: var(--om-primitive-border-width-1) solid
+      var(--om-semantic-border-decorative, var(--om-primitive-color-neutral-900));
+    border-radius: var(--om-primitive-radius-2);
+  }
+
+  .om-alert-dialog__surface[data-om-intent="warning"] .om-alert-dialog__intent {
+    border-color: var(
+      --om-component-alert-dialog-warning-accent,
+      var(--om-primitive-color-neutral-900)
+    );
+  }
+
+  .om-alert-dialog__surface[data-om-intent="destructive"] .om-alert-dialog__intent {
+    border-color: var(
+      --om-component-alert-dialog-destructive-accent,
+      var(--om-primitive-color-neutral-900)
+    );
+  }
+
+  .om-alert-dialog__actions {
+    gap: var(--om-component-alert-dialog-action-gap, var(--om-primitive-space-4, 1rem));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .om-dialog__overlay[data-entering],
+    .om-dialog__overlay[data-exiting] {
+      transition: opacity var(--om-primitive-motion-duration-fast)
+        var(--om-primitive-motion-easing-standard);
+    }
+
+    .om-dialog__overlay[data-entering],
+    .om-dialog__overlay[data-exiting] {
+      opacity: 0;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .om-dialog__overlay {
+      background: Canvas;
+    }
+
+    .om-dialog__surface {
+      color: CanvasText;
+      background: Canvas;
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .om-alert-dialog__intent {
+      border-color: CanvasText;
+    }
+  }
+}

@@ -13,6 +13,7 @@ const prohibitedPatterns = [
   /\bTextFieldRenderProps\b/u,
   /\bFieldErrorRenderProps\b/u,
   /\bCheckboxRenderProps\b/u,
+  /\bDialogRenderProps\b/u,
   /\bRadioGroupRenderProps\b/u,
   /\bRadioRenderProps\b/u,
   /\bSelectRenderProps\b/u,
@@ -28,8 +29,17 @@ const prohibitedPatterns = [
   /\bListBoxProps\b/u,
   /\bListBoxItemProps\b/u,
   /\bPopoverProps\b/u,
+  /\bDialogTriggerProps\b/u,
+  /\bModalOverlayProps\b/u,
+  /\bModalProps\b/u,
+  /\bOverlayTriggerState\b/u,
+  /\bOverlayTriggerProps\b/u,
+  /\bPressResponderProps\b/u,
   /\bAria[A-Z][A-Za-z]+Props\b/u,
   /extends\s+[A-Za-z]*Props/u,
+  /onOpenChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
+  /onConfirm\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
+  /onCancel\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
   /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
   /onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
 ] as const;
@@ -51,9 +61,11 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   >;
   for (const exportName of [
     "Button",
+    "Dialog",
     "Checkbox",
     "FieldError",
     "IconButton",
+    "AlertDialog",
     "Label",
     "Link",
     "Radio",
@@ -70,9 +82,11 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
 
   const expectedSubpaths = [
     ["button", "Button"],
+    ["dialog", "Dialog"],
     ["checkbox", "Checkbox"],
     ["field-error", "FieldError"],
     ["icon-button", "IconButton"],
+    ["alert-dialog", "AlertDialog"],
     ["label", "Label"],
     ["link", "Link"],
     ["radio", "Radio"],
@@ -117,6 +131,22 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   ]);
   await verifyDeclarationContains(distRoot, "select/Select.d.ts", [
     "RefAttributes<HTMLButtonElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "dialog/Dialog.d.ts", [
+    "RefAttributes<HTMLDivElement>",
+    "onOpenChange?: (isOpen: boolean) => void",
+    "trigger?: ReactElement"
+  ]);
+  await verifyDeclarationContains(distRoot, "alert-dialog/AlertDialog.d.ts", [
+    "RefAttributes<HTMLDivElement>",
+    "onConfirm: () => void",
+    "onCancel?: () => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/dialog-types.d.ts", [
+    "export type DialogSize",
+    "export type AlertDialogIntent",
+    "export type AlertDialogInitialFocus",
+    "export type AlertDialogConfirmBehavior"
   ]);
   await verifyDeclarationContains(distRoot, "shared/select-types.d.ts", [
     "readonly value: string",
