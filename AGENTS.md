@@ -26,9 +26,11 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Serialized public contracts must use explicit JSON-compatible fields and `extensions?: JsonObject` as the only general extensibility point.
 - Do not use unrestricted `Record<string, unknown>` in serialized public contracts.
 - Token source data is canonical JSON in `packages/tokens/tokens`.
-- CSS generation, generated manifests, and final token export paths are deferred to Phase 1B.
+- CSS generation, generated manifests, and final token export paths are Phase 1B build artifacts under `packages/tokens/dist/`.
+- Generated token artifacts must not be edited as source or committed.
 - Liturgical styling must not override error, warning, success, destructive, validation, focus, disabled-readability, or accessibility-critical tokens.
 - Accessibility preferences must remain the highest-precedence theme layer.
+- Generated CSS must preserve the cascade layer order `om.defaults, om.app, om.brand, om.liturgical, om.accessibility`.
 
 ## Completion Reports
 
