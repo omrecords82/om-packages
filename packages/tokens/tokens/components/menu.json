@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.menu.popoverBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental menu popover background reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental menu popover foreground reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverBorder": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental menu popover border reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverRadius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental menu popover radius reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverShadow": {
+      "type": "shadow",
+      "value": "{primitive.shadow.none}",
+      "description": "Experimental menu popover shadow reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverMinWidth": {
+      "type": "dimension",
+      "value": "12rem",
+      "description": "Experimental menu popover minimum width reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverMaxHeight": {
+      "type": "dimension",
+      "value": "18rem",
+      "description": "Experimental menu popover maximum height reference.",
+      "stability": "experimental"
+    },
+    "component.menu.popoverZIndex": {
+      "type": "number",
+      "value": "{primitive.zIndex.overlay}",
+      "description": "Experimental menu popover z-index reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental menu item foreground reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental menu item background reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemFocusedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental menu focused item background reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemPressedBackground": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental menu pressed item background reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemDisabledForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental menu disabled item foreground reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemDescriptionForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental menu item description foreground reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemPaddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental menu item inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemPaddingBlock": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental menu item block padding reference.",
+      "stability": "experimental"
+    },
+    "component.menu.itemGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental menu item content gap reference.",
+      "stability": "experimental"
+    },
+    "component.menu.separator": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental menu separator reference.",
+      "stability": "experimental"
+    },
+    "component.menu.destructiveForeground": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental menu destructive item foreground reference.",
+      "stability": "experimental"
+    },
+    "component.menu.destructiveFocusedBackground": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental menu destructive focused background reference.",
+      "stability": "experimental"
+    }
+  }
+}
