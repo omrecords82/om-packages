@@ -43,6 +43,10 @@
       "types": "./dist/radio-group/index.d.ts",
       "import": "./dist/radio-group/index.js"
     },
+    "./select": {
+      "types": "./dist/select/index.d.ts",
+      "import": "./dist/select/index.js"
+    },
     "./switch": {
       "types": "./dist/switch/index.d.ts",
       "import": "./dist/switch/index.js"
@@ -66,7 +70,7 @@
   "scripts": {
     "build": "rm -rf dist .tsbuildinfo && tsc -b && pnpm copy:css && pnpm verify:public-api",
     "clean": "rm -rf dist .tsbuildinfo",
-    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css > dist/styles/index.css",
+    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css > dist/styles/index.css",
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",

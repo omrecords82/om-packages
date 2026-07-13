@@ -15,10 +15,19 @@ const prohibitedPatterns = [
   /\bCheckboxRenderProps\b/u,
   /\bRadioGroupRenderProps\b/u,
   /\bRadioRenderProps\b/u,
+  /\bSelectRenderProps\b/u,
+  /\bSelectValueRenderProps\b/u,
   /\bSwitchRenderProps\b/u,
   /\bValidationResult\b/u,
   /\bToggleState\b/u,
   /\bRadioGroupState\b/u,
+  /\bSelectState\b/u,
+  /\bKey\b/u,
+  /\bSelection\b/u,
+  /\bCollection\b/u,
+  /\bListBoxProps\b/u,
+  /\bListBoxItemProps\b/u,
+  /\bPopoverProps\b/u,
   /\bAria[A-Z][A-Za-z]+Props\b/u,
   /extends\s+[A-Za-z]*Props/u,
   /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
@@ -49,6 +58,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "Link",
     "Radio",
     "RadioGroup",
+    "Select",
     "Switch",
     "TextArea",
     "TextField"
@@ -67,6 +77,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["link", "Link"],
     ["radio", "Radio"],
     ["radio-group", "RadioGroup"],
+    ["select", "Select"],
     ["switch", "Switch"],
     ["text-area", "TextArea"],
     ["text-field", "TextField"]
@@ -103,6 +114,13 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   await verifyDeclarationContains(distRoot, "radio-group/RadioGroup.d.ts", [
     "RefAttributes<HTMLDivElement>",
     "onValueChange?: (value: string) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "select/Select.d.ts", [
+    "RefAttributes<HTMLButtonElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/select-types.d.ts", [
+    "readonly value: string",
+    "onValueChange?: (value: string | null) => void"
   ]);
   await verifyDeclarationContains(distRoot, "switch/Switch.d.ts", [
     "RefAttributes<HTMLInputElement>",
