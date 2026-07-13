@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1D Status
+## Phase 1E Status
 
-Phase 1D extends the permanent `@om/ui` pattern with the first text-entry component family. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, and `TextArea`.
+Phase 1E extends the permanent `@om/ui` pattern with the first selection-control component family. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, and `Switch`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -81,10 +81,14 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 
 - `@om/ui`
 - `@om/ui/button`
+- `@om/ui/checkbox`
 - `@om/ui/field-error`
 - `@om/ui/icon-button`
 - `@om/ui/label`
 - `@om/ui/link`
+- `@om/ui/radio`
+- `@om/ui/radio-group`
+- `@om/ui/switch`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
 - `@om/ui/css`
@@ -99,6 +103,8 @@ import "@om/ui/css";
 React Aria Components provides internal accessibility and interaction behavior. Application repositories should consume `@om/ui` rather than importing React Aria Components directly when an OM equivalent exists.
 
 Text-entry components require labels. Placeholder text is not a label. `TextField` and `TextArea` support controlled and uncontrolled string values, native constraints, application-controlled invalid state, descriptions, errors, disabled and read-only states, and refs to the underlying native input or textarea.
+
+Selection controls require accessible labels through visible child content or a group label. `Checkbox` and `Switch` support controlled and uncontrolled boolean state. `RadioGroup` owns `Radio` selection and exposes string values through `onValueChange`. Error messages render only when invalid state is active. Selected, disabled, read-only, invalid, and focused states are represented without exposing React Aria contracts.
 
 ## Theme Precedence
 

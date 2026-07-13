@@ -20,11 +20,15 @@ describe("@om/ui package boundaries", () => {
     expect(Object.keys(packageJson.exports).sort()).toEqual([
       ".",
       "./button",
+      "./checkbox",
       "./css",
       "./field-error",
       "./icon-button",
       "./label",
       "./link",
+      "./radio",
+      "./radio-group",
+      "./switch",
       "./text-area",
       "./text-field"
     ]);
@@ -33,20 +37,28 @@ describe("@om/ui package boundaries", () => {
   it("does not expose React Aria types in source public contracts", async () => {
     const files = [
       "src/button/Button.tsx",
+      "src/checkbox/Checkbox.tsx",
       "src/field-error/FieldError.tsx",
       "src/link/Link.tsx",
       "src/icon-button/IconButton.tsx",
       "src/label/Label.tsx",
+      "src/radio/Radio.tsx",
+      "src/radio-group/RadioGroup.tsx",
+      "src/switch/Switch.tsx",
       "src/text-area/TextArea.tsx",
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
+      "src/shared/selection-types.ts",
       "src/index.ts"
     ];
     const contents = await Promise.all(files.map((file) => readFile(file, "utf8")));
     for (const content of contents) {
       expect(content).not.toMatch(/extends .*react-aria-components/u);
-      expect(content).not.toMatch(/PressEvent|RenderProps|ValidationResult|@react-types/u);
+      expect(content).not.toMatch(
+        /PressEvent|RenderProps|ValidationResult|ToggleState|RadioGroupState|@react-types/u
+      );
       expect(content).not.toMatch(/onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
+      expect(content).not.toMatch(/onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent)/u);
     }
   });
 });

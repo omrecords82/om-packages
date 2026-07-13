@@ -47,6 +47,16 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Public field props must not extend vendor interfaces.
 - New field families require reviewed scope and tests.
 - Form orchestration belongs in a later `@om/forms` package or reviewed layer, not inside these primitives.
+- Selection controls must be consumed through `@om/ui`.
+- Applications must not import React Aria checkbox, radio, or switch primitives when an OM equivalent exists.
+- Public selection callbacks expose primitive booleans or strings, not native or vendor event objects.
+- Selected state must not rely on color alone.
+- Public selection component props must not extend vendor interfaces.
+- Error and focus tokens cannot be replaced by liturgical overlays.
+- Disabled and read-only selection behavior must remain distinct.
+- `Radio` selection is owned by `RadioGroup`.
+- `CheckboxGroup` remains deferred.
+- Form orchestration belongs in a later `@om/forms` package or reviewed integration layer.
 
 ## Completion Reports
 
