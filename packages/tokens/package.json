@@ -16,8 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b",
-    "clean": "tsc -b --clean",
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",
