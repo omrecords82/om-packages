@@ -15,6 +15,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:e2e": "playwright test",
+    "validate:tokens": "pnpm --filter @om/contracts build && pnpm --filter @om/tokens validate:phase1a",
     "storybook": "pnpm --filter @om/storybook storybook",
     "storybook:build": "pnpm --filter @om/storybook storybook:build",
     "format": "prettier . --write",

@@ -1,6 +1,5 @@
-import type { BootstrapContract } from "@om/contracts";
-import { bootstrapContract } from "@om/contracts";
-import { bootstrapTokens } from "@om/tokens";
+import { CURRENT_THEME_SCHEMA_VERSION } from "@om/contracts";
+import { phase1aTokenSourceStatus } from "@om/tokens";
 import type { CSSProperties, ReactElement } from "react";
 
 export type BootstrapNoticeProps = {
@@ -14,17 +13,20 @@ export type BootstrapNoticeProps = {
 export function BootstrapNotice({
   label = "Orthodox Metrics packages bootstrap"
 }: BootstrapNoticeProps): ReactElement {
-  const contract: BootstrapContract = bootstrapContract;
   const style = {
-    background: bootstrapTokens.colorSurface,
-    color: bootstrapTokens.colorText,
-    paddingInline: bootstrapTokens.spaceInline
+    border: "1px solid currentColor",
+    paddingInline: "0.75rem"
   } satisfies CSSProperties;
 
   return (
-    <section aria-label="Bootstrap package notice" data-om-phase={contract.phase} style={style}>
+    <section
+      aria-label="Bootstrap package notice"
+      data-om-schema-version={CURRENT_THEME_SCHEMA_VERSION}
+      data-om-token-source={phase1aTokenSourceStatus.canonicalSource}
+      style={style}
+    >
       <strong>{label}</strong>
-      <span> {contract.packageName}</span>
+      <span> @om/contracts + @om/tokens</span>
     </section>
   );
 }

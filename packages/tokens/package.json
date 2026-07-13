@@ -21,6 +21,18 @@
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc -b --pretty false"
+    "typecheck": "tsc -b --pretty false",
+    "validate:tokens": "tsx scripts/validate-token-files.ts",
+    "validate:brand": "tsx scripts/validate-brand-pack.ts",
+    "validate:references": "tsx scripts/validate-references.ts",
+    "validate:policy": "tsx scripts/validate-policy.ts",
+    "validate:phase1a": "pnpm --filter @om/contracts build && pnpm validate:tokens && pnpm validate:brand && pnpm validate:references && pnpm validate:policy"
+  },
+  "dependencies": {
+    "@om/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "zod": "^4.1.13"
   }
 }

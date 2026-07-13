@@ -1,11 +1,9 @@
 /**
- * Bootstrap-only tokens used to prove TypeScript and CSS output.
- * Not a stable public API or final design direction.
+ * Phase 1A marker for the canonical JSON token-source architecture.
+ * This is bootstrap-only metadata, not a generated token API.
  */
-export const bootstrapTokens = {
-  colorSurface: "var(--om-bootstrap-surface)",
-  colorText: "var(--om-bootstrap-text)",
-  spaceInline: "var(--om-bootstrap-space-inline)"
+export const phase1aTokenSourceStatus = {
+  canonicalSource: "json",
+  cssGeneration: "deferred-to-phase-1b",
+  stability: "bootstrap"
 } as const;
-
-export type BootstrapTokenName = keyof typeof bootstrapTokens;
