@@ -79,7 +79,15 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Pending confirmation blocks dismissal.
 - Dialog focus must be trapped and restored correctly.
 - Destructive, warning, validation, and focus behavior cannot be replaced by liturgical overlays.
-- Generic Popover, Menu, Tooltip, and Drawer require separately reviewed phases.
+- Standard action menus must be consumed through `@om/ui`.
+- Applications must not import React Aria Menu, MenuItem, MenuTrigger, Popover, or collection primitives for standard OM action menus.
+- Public Menu items use stable unique string IDs.
+- Public Menu callbacks expose IDs, not events.
+- Menu labels are strings in Phase 1H.
+- Menu separators are noninteractive.
+- Destructive Menu actions must not rely only on color.
+- Vendor `Key`, `Selection`, collection, node, state, and event types are prohibited in the public Menu API.
+- Generic Popover, ContextMenu, Menubar, submenu, router-adapter behavior, Tooltip, and Drawer require separately reviewed phases.
 
 ## Completion Reports
 

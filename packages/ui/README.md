@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1G establishes the first overlay family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, and `Select`.
+Phase 1H establishes the first action-menu family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, and `AlertDialog`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -25,6 +25,7 @@ import "@om/ui/css";
 - `@om/ui/link`
 - `@om/ui/icon-button`
 - `@om/ui/label`
+- `@om/ui/menu`
 - `@om/ui/radio`
 - `@om/ui/radio-group`
 - `@om/ui/select`
@@ -76,7 +77,21 @@ Read-only Selects remain focusable, display the current value, and do not open o
 
 `AlertDialog` requires `title`, `description`, `confirmLabel`, and `onConfirm`. It defaults focus to Cancel, always renders a cancel action, does not dismiss through outside interaction, blocks cancel, confirm, and Escape dismissal while pending, and supports `confirmBehavior="close"` or `"manual"`. Destructive confirmations use the OM destructive Button variant but never receive focus by default.
 
-Public generic Modal, Overlay, Portal, DialogTrigger, Popover, Menu, Tooltip, Drawer, command dialog, toast, snackbar, and application-specific confirmation workflows remain deferred.
+Public generic Modal, Overlay, Portal, DialogTrigger, Popover, Tooltip, Drawer, command dialog, toast, snackbar, and application-specific confirmation workflows remain deferred.
+
+## Menu
+
+`Menu` is experimental. It exposes OM-owned serializable item contracts:
+
+```ts
+type MenuEntry = MenuActionItem | MenuLinkItem | MenuSeparator;
+```
+
+Action and link items require stable unique non-empty string IDs and non-empty labels. Link items require non-empty safe `href` values, and `_blank` links receive `noopener noreferrer` unless the caller supplied an equally safe `rel`.
+
+`Menu` supports controlled and uncontrolled open state through `isOpen`, `defaultOpen`, and `onOpenChange`, where callbacks receive only booleans. Action activation calls `onAction(id)` with the item ID only. Disabled items do not activate, separators are noninteractive, and empty or separator-only menus do not open an empty collection.
+
+The public ref targets the trigger `HTMLButtonElement`. Existing OM `Button` and `IconButton` triggers are supported. Standalone `MenuItem`, `MenuTrigger`, `Popover`, `ContextMenu`, `Menubar`, nested menus, checkbox or radio menu items, icons, custom item rendering, virtualized menus, and router adapters are deferred.
 
 ## API Status
 

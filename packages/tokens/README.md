@@ -16,6 +16,8 @@ Phase 1F adds minimal experimental Select tokens for trigger, placeholder, optio
 
 Phase 1G adds minimal experimental Dialog and AlertDialog tokens for overlay backdrop, modal surface, responsive width, scrolling, z-index, action spacing, and intent accents. These tokens prove accessible overlay styling only; they are not final Orthodox Metrics design values.
 
+Phase 1H adds minimal experimental Menu tokens for popover surface, item states, descriptions, separators, destructive action treatment, scrolling, and overlay z-index. These tokens prove action-menu styling only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`

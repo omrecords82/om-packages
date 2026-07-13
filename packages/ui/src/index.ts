@@ -14,6 +14,16 @@ export { Label } from "./label/index.js";
 export type { LabelProps } from "./label/index.js";
 export { Link } from "./link/index.js";
 export type { LinkProps } from "./link/index.js";
+export { Menu } from "./menu/index.js";
+export type {
+  MenuActionItem,
+  MenuEntry,
+  MenuItemIntent,
+  MenuLinkItem,
+  MenuPlacement,
+  MenuProps,
+  MenuSeparator
+} from "./menu/index.js";
 export { Radio } from "./radio/index.js";
 export type { RadioProps } from "./radio/index.js";
 export { RadioGroup } from "./radio-group/index.js";
