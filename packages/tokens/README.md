@@ -1,13 +1,30 @@
 # @om/tokens
 
-Canonical Orthodox Metrics token source data and validation tooling.
+Canonical Orthodox Metrics token source data, validation tooling, and deterministic generated token artifacts.
 
-Phase 1A uses JSON as the canonical authoring format. CSS generation and generated token exports are deferred to Phase 1B.
+JSON under `tokens/` is the canonical authoring format. Generated artifacts are written to `dist/` and must not be edited as source or committed.
 
-Validation scripts cover token source documents, brand-pack fixtures, references, circular references, layer policy, liturgical override restrictions, and accessibility precedence.
+Phase 1B generates experimental ESM token exports, TypeScript declarations, normalized manifest JSON, deterministic metadata, and CSS custom-property bundles.
+
+Package exports:
+
+- `@om/tokens`
+- `@om/tokens/tokens`
+- `@om/tokens/manifest`
+- `@om/tokens/metadata`
+- `@om/tokens/css`
+- `@om/tokens/css/primitives`
+- `@om/tokens/css/light`
+- `@om/tokens/css/dark`
+- `@om/tokens/css/liturgical`
+- `@om/tokens/css/accessibility`
+
+Validation scripts cover token source documents, brand-pack fixtures, references, circular references, layer policy, liturgical override restrictions, accessibility precedence, generated artifact shape, CSS variable references, and deterministic output.
 
 Run:
 
 ```sh
 pnpm validate:phase1a
+pnpm generate:artifacts
+pnpm check:artifacts
 ```

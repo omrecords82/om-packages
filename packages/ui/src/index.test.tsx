@@ -9,7 +9,7 @@ describe("@om/ui bootstrap component", () => {
 
     expect(html).toContain("Bootstrap proof");
     expect(html).toContain('data-om-schema-version="1"');
-    expect(html).toContain('data-om-token-source="json"');
+    expect(html).toContain('data-om-token-artifact-format="1"');
     expect(html).toContain("@om/contracts + @om/tokens");
   });
 });

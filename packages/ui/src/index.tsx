@@ -1,5 +1,5 @@
 import { CURRENT_THEME_SCHEMA_VERSION } from "@om/contracts";
-import { phase1aTokenSourceStatus } from "@om/tokens";
+import { manifestFormatVersion } from "@om/tokens/tokens";
 import type { CSSProperties, ReactElement } from "react";
 
 export type BootstrapNoticeProps = {
@@ -22,7 +22,7 @@ export function BootstrapNotice({
     <section
       aria-label="Bootstrap package notice"
       data-om-schema-version={CURRENT_THEME_SCHEMA_VERSION}
-      data-om-token-source={phase1aTokenSourceStatus.canonicalSource}
+      data-om-token-artifact-format={manifestFormatVersion}
       style={style}
     >
       <strong>{label}</strong>
