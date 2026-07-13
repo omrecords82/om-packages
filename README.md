@@ -2,9 +2,11 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1B Status
+## Phase 1C Status
 
-Phase 1B establishes deterministic generated artifacts for `@om/tokens`. The exported contracts, token source files, generated token APIs, manifest, metadata, and CSS are experimental bootstrap architecture, not final production APIs or final Orthodox Metrics visual design values.
+Phase 1C establishes the initial permanent pattern for `@om/ui`. Orthodox Metrics owns the public component API, React Aria Components is an internal behavior dependency, and `@om/tokens` owns styling values. The first experimental production component families are `Button`, `Link`, and `IconButton`.
+
+The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
 Canonical JSON token sources remain the only authored source of truth. Generated artifacts are written to `packages/tokens/dist/` during build and are not committed.
 
@@ -12,7 +14,7 @@ Canonical JSON token sources remain the only authored source of truth. Generated
 
 - `@om/contracts`: shared framework-independent TypeScript contracts with no internal package dependencies.
 - `@om/tokens`: canonical JSON token-source data plus validation, experimental resolution tooling, and deterministic generated artifacts.
-- `@om/ui`: React UI package that may consume `@om/contracts` and `@om/tokens`.
+- `@om/ui`: React UI package that consumes `@om/tokens` and owns OM public component contracts.
 
 Dependency direction:
 
@@ -72,6 +74,25 @@ dist/css/om-accessibility.css
 ```
 
 Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`, `@om/tokens/metadata`, and CSS subpaths under `@om/tokens/css`.
+
+## UI Components
+
+`@om/ui` currently exposes:
+
+- `@om/ui`
+- `@om/ui/button`
+- `@om/ui/link`
+- `@om/ui/icon-button`
+- `@om/ui/css`
+
+Consumers must import token CSS before component CSS:
+
+```ts
+import "@om/tokens/css";
+import "@om/ui/css";
+```
+
+React Aria Components provides internal accessibility and interaction behavior. Application repositories should consume `@om/ui` rather than importing React Aria Components directly when an OM equivalent exists.
 
 ## Theme Precedence
 
@@ -138,7 +159,7 @@ pnpm storybook:build
 
 Storybook lives in `apps/storybook` and is for local package preview only.
 
-Storybook includes a controlled generated-token preview that imports `@om/tokens/css`. It demonstrates bootstrap token behavior only and must not be treated as production component design.
+Storybook includes controlled generated-token and UI component previews. They demonstrate bootstrap behavior only and must not be treated as production portal designs.
 
 ## Publication Status
 

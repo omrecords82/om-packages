@@ -22,4 +22,8 @@ Packages are private during bootstrap phases. Do not publish packages or deploy 
 
 Token work must keep JSON under `packages/tokens/tokens/` as the canonical source. Generated artifacts belong under `packages/tokens/dist/`, are build output, and must not be edited as source or committed.
 
-Phase 1B artifact work must not introduce final design values, production UI primitives, tenant-specific brand packs, publishing configuration, or deployment behavior.
+UI work must keep React Aria Components behind `@om/ui` and must not expose React Aria, React Stately, or `@react-types/*` contracts through normal public declarations.
+
+Component CSS must consume `@om/tokens` variables and live in `@layer om.components`. Import `@om/tokens/css` before `@om/ui/css`.
+
+New production components require unit tests, Storybook coverage, keyboard/browser coverage, package-boundary verification, and a Changeset. New component families require a scoped phase or reviewed work item.

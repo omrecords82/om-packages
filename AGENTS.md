@@ -31,6 +31,13 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Liturgical styling must not override error, warning, success, destructive, validation, focus, disabled-readability, or accessibility-critical tokens.
 - Accessibility preferences must remain the highest-precedence theme layer.
 - Generated CSS must preserve the cascade layer order `om.defaults, om.app, om.brand, om.liturgical, om.accessibility`.
+- `@om/ui` owns public UI contracts.
+- React Aria Components is an internal `@om/ui` implementation dependency.
+- Consuming applications must not import React Aria Components directly when an `@om/ui` equivalent exists.
+- Vendor prop types must not be extended or aliased as public OM props.
+- OM components must use semantic or component tokens from `@om/tokens`.
+- Production components require unit, Storybook, keyboard, and package-boundary tests.
+- New component families require a scoped phase or reviewed work item.
 
 ## Completion Reports
 
