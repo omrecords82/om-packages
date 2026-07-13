@@ -7,6 +7,132 @@
       "value": "{semantic.background.canvas}",
       "description": "Bootstrap dialog background reference.",
       "stability": "bootstrap"
+    },
+    "component.dialog.overlayBackground": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental modal overlay backdrop reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.surfaceBackground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental dialog surface background reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.surfaceForeground": {
+      "type": "color",
+      "value": "{semantic.text.primary}",
+      "description": "Experimental dialog surface foreground reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.surfaceBorder": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental dialog surface border reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.surfaceShadow": {
+      "type": "shadow",
+      "value": "{primitive.shadow.none}",
+      "description": "Experimental dialog surface shadow reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.surfaceRadius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental dialog surface radius reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.padding": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental dialog padding reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.headerGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental dialog header gap reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.bodyGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental dialog body gap reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.footerGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental dialog footer gap reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.footerBorder": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental dialog footer border reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.maxHeight": {
+      "type": "dimension",
+      "value": "min(42rem, calc(100vh - 2rem))",
+      "description": "Experimental dialog viewport maximum height.",
+      "stability": "experimental"
+    },
+    "component.dialog.widthSm": {
+      "type": "dimension",
+      "value": "24rem",
+      "description": "Experimental small dialog maximum width.",
+      "stability": "experimental"
+    },
+    "component.dialog.widthMd": {
+      "type": "dimension",
+      "value": "32rem",
+      "description": "Experimental medium dialog maximum width.",
+      "stability": "experimental"
+    },
+    "component.dialog.widthLg": {
+      "type": "dimension",
+      "value": "44rem",
+      "description": "Experimental large dialog maximum width.",
+      "stability": "experimental"
+    },
+    "component.dialog.widthXl": {
+      "type": "dimension",
+      "value": "56rem",
+      "description": "Experimental extra-large dialog maximum width.",
+      "stability": "experimental"
+    },
+    "component.dialog.zIndex": {
+      "type": "number",
+      "value": "{primitive.zIndex.overlay}",
+      "description": "Experimental dialog overlay z-index reference.",
+      "stability": "experimental"
+    },
+    "component.dialog.closeSize": {
+      "type": "dimension",
+      "value": "{primitive.size.control.md}",
+      "description": "Experimental dialog close control size reference.",
+      "stability": "experimental"
+    },
+    "component.alertDialog.actionGap": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental alert dialog action gap reference.",
+      "stability": "experimental"
+    },
+    "component.alertDialog.warningAccent": {
+      "type": "color",
+      "value": "{semantic.action.accent}",
+      "description": "Experimental alert dialog warning accent reference.",
+      "stability": "experimental"
+    },
+    "component.alertDialog.destructiveAccent": {
+      "type": "color",
+      "value": "{semantic.status.error}",
+      "description": "Experimental alert dialog destructive accent reference.",
+      "stability": "experimental"
     }
   }
 }
