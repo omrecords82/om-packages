@@ -25,6 +25,14 @@ const prohibitedPatterns = [
   /\bTabListRenderProps\b/u,
   /\bTabRenderProps\b/u,
   /\bTabPanelRenderProps\b/u,
+  /\bTooltipTriggerProps\b/u,
+  /\bTooltipProps\b.*from ["']react-aria-components["']/u,
+  /\bOverlayArrowProps\b/u,
+  /\bPlacement\b/u,
+  /\bHoverEvent\b/u,
+  /\bTooltipTriggerState\b/u,
+  /\bTooltipRenderProps\b/u,
+  /\bOverlayArrowRenderProps\b/u,
   /\bValidationResult\b/u,
   /\bToggleState\b/u,
   /\bRadioGroupState\b/u,
@@ -92,6 +100,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "Select",
     "Switch",
     "Tabs",
+    "Tooltip",
     "TextArea",
     "TextField"
   ]) {
@@ -115,6 +124,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["select", "Select"],
     ["switch", "Switch"],
     ["tabs", "Tabs"],
+    ["tooltip", "Tooltip"],
     ["text-area", "TextArea"],
     ["text-field", "TextField"]
   ] as const;
@@ -190,6 +200,13 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "export type TabItem",
     "readonly id: string",
     "onSelectionChange?: (id: string) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "tooltip/Tooltip.d.ts", ["RefAttributes<HTMLElement>"]);
+  await verifyDeclarationContains(distRoot, "shared/tooltip-types.d.ts", [
+    "export type TooltipPlacement",
+    "export type TooltipDelay",
+    "onOpenChange?: (isOpen: boolean) => void",
+    "trigger: TooltipElement"
   ]);
 }
 

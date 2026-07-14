@@ -728,6 +728,121 @@ test("UI Tabs story supports keyboard selection, mounting, and themes", async ({
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Tooltip story supports supplemental descriptions, dismissal, and themes", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-tooltip--examples");
+
+  const trigger = page.getByRole("button", { name: "Visible text trigger" });
+  await tabUntilFocused(page, trigger);
+  const focusedTooltip = page.getByRole("tooltip", {
+    name: /Supplemental visible text trigger description/u
+  });
+  await expect(focusedTooltip).toContainText("Supplemental visible text trigger description.");
+  const describedBy = await trigger.getAttribute("aria-describedby");
+  expect(describedBy).toBeTruthy();
+  await expect(focusedTooltip).toHaveAttribute("id", describedBy ?? "");
+  await expect(trigger).not.toHaveAttribute(
+    "aria-label",
+    "Supplemental visible text trigger description."
+  );
+
+  await page.keyboard.press("Enter");
+  await expect(page.getByText("Activated count: 1")).toBeVisible();
+  await page.keyboard.press("Tab");
+  await expect(focusedTooltip).toBeHidden();
+  await expect(page.getByRole("button", { name: "Open help" })).toBeFocused();
+
+  const immediate = page.getByRole("button", { name: "Immediate delay trigger" });
+  await immediate.hover();
+  const immediateTooltip = page.getByRole("tooltip", { name: /Immediate delay opens/u });
+  await expect(immediateTooltip).toBeVisible();
+  await expect(immediateTooltip).toHaveAttribute("data-om-delay", "immediate");
+  await page.mouse.move(0, 0);
+  await expect(immediateTooltip).toBeHidden();
+
+  const standard = page.getByRole("button", { name: "Standard delay trigger" });
+  await standard.hover();
+  const standardTooltip = page.getByRole("tooltip", { name: /package-owned 700ms/u });
+  await expect(standardTooltip).toBeVisible();
+  await expect(standardTooltip).toHaveAttribute("data-om-delay", "standard");
+  await page.keyboard.press("Escape");
+  await expect(standardTooltip).toBeHidden();
+
+  const arrowShown = page.getByRole("button", { name: "Arrow shown trigger" });
+  await arrowShown.hover();
+  const arrowShownTooltip = page.getByRole("tooltip", {
+    name: /Arrow is decorative and shown by default/u
+  });
+  await expect(arrowShownTooltip.locator(".om-tooltip__arrow")).toBeVisible();
+  await page.mouse.move(0, 0);
+  await expect(arrowShownTooltip).toBeHidden();
+
+  const arrowHidden = page.getByRole("button", { name: "Arrow hidden trigger" });
+  await arrowHidden.hover();
+  const arrowHiddenTooltip = page.getByRole("tooltip", {
+    name: /hides the decorative arrow/u
+  });
+  await expect(arrowHiddenTooltip).toBeVisible();
+  await expect(arrowHiddenTooltip.locator(".om-tooltip__arrow")).toHaveCount(0);
+  await page.mouse.move(0, 0);
+
+  const edge = page.getByRole("button", { name: "Viewport edge trigger" });
+  await edge.hover();
+  const edgeTooltip = page.getByRole("tooltip", { name: /Placement may adjust/u });
+  const tooltipBox = await edgeTooltip.boundingBox();
+  const viewport = page.viewportSize();
+  expect(tooltipBox).not.toBeNull();
+  expect(viewport).not.toBeNull();
+  if (tooltipBox !== null && viewport !== null) {
+    expect(tooltipBox.x).toBeGreaterThanOrEqual(0);
+    expect(tooltipBox.x + tooltipBox.width).toBeLessThanOrEqual(viewport.width);
+  }
+  await page.mouse.move(0, 0);
+
+  const longContent = page.getByRole("button", { name: "Long content trigger" });
+  await longContent.hover();
+  const longTooltip = page.getByRole("tooltip", {
+    name: /intentionally long supplemental Tooltip content/u
+  });
+  await expect(longTooltip).toBeVisible();
+  const longTooltipWidth = await page
+    .locator(".om-tooltip__bubble")
+    .filter({ hasText: "This is intentionally long supplemental Tooltip content" })
+    .evaluate((element) => element.getBoundingClientRect().width);
+  expect(longTooltipWidth).toBeLessThanOrEqual(360);
+
+  await page.goto("/iframe.html?id=ui-tooltip--themes");
+  const dark = page.getByRole("button", { name: "Dark tooltip trigger" });
+  await dark.hover();
+  const darkTooltip = page.getByRole("tooltip", { name: /Dark mode tooltip/u });
+  await expect(darkTooltip).toBeVisible();
+  const darkColor = await page
+    .locator(".om-tooltip__bubble")
+    .filter({ hasText: "Dark mode tooltip." })
+    .evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+  await page.mouse.move(0, 0);
+
+  const enhanced = page.getByRole("button", { name: "Enhanced focus tooltip trigger" });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+
+  const highContrast = page.getByRole("button", { name: "High contrast tooltip trigger" });
+  await expect(highContrast).toBeVisible();
+  const largeText = page.getByRole("button", { name: "Large text tooltip trigger" });
+  await expect(largeText).toBeVisible();
+  const liturgical = page.getByRole("button", { name: "Liturgical tooltip trigger" });
+  await liturgical.focus();
+  const liturgicalOutline = await liturgical.evaluate(
+    (element) => getComputedStyle(element).outlineWidth
+  );
+  expect(liturgicalOutline).not.toBe("0px");
+  expect(consoleErrors).toEqual([]);
+});
+
 test("existing UI stories continue loading", async ({ page }) => {
   await page.goto("/iframe.html?id=ui-button--variants");
   await expect(page.getByRole("button", { name: "Primary" })).toBeVisible();
@@ -755,6 +870,8 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Basic action menu" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-tabs--examples");
   await expect(page.getByRole("tablist", { name: "Default horizontal" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-tooltip--examples");
+  await expect(page.getByRole("button", { name: "Visible text trigger" })).toBeVisible();
 });
 
 async function tabUntilFocused(
