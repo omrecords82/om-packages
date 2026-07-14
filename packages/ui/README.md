@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1I establishes the first tab family alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, and `Menu`.
+Phase 1J establishes the first supplemental tooltip component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, and `Tabs`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -33,6 +33,7 @@ import "@om/ui/css";
 - `@om/ui/tabs`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
+- `@om/ui/tooltip`
 - `@om/ui/css`
 
 ## Text Fields
@@ -114,6 +115,23 @@ Tab IDs must be stable unique non-empty strings. Labels are strings in Phase 1I 
 Horizontal orientation uses Left and Right Arrow navigation; vertical orientation uses Up and Down Arrow navigation. Home and End move to the first and last enabled tabs. Automatic activation selects on focus, while manual activation changes focus first and selects on Enter or Space. `panelMounting="active"` renders only the active panel; `panelMounting="all"` preserves inactive panel content in an inert hidden state. The public ref targets the root `HTMLDivElement`.
 
 Router synchronization, URL state, nested tabs, closable tabs, reorderable tabs, icons, badges, counters, overflow menus, wizard behavior, stepper behavior, and application migration remain deferred.
+
+## Tooltip
+
+`Tooltip` is experimental. It exposes OM-owned placement and delay contracts:
+
+```ts
+type TooltipDelay = "immediate" | "standard";
+type TooltipPlacement = "top" | "bottom" | "left" | "right" | "...-start" | "...-end";
+```
+
+Tooltip content is a non-empty string and is supplemental descriptive content. It is not copied into `aria-label` and is not a substitute for the trigger accessible name. Icon-only triggers must provide an independent accessible name, such as the OM `IconButton` `accessibleLabel`.
+
+`Tooltip` supports controlled and uncontrolled open state through `isOpen`, `defaultOpen`, and `onOpenChange`, where callbacks receive only booleans. `delay="standard"` uses a package-owned 700ms opening delay and a 120ms close delay; `delay="immediate"` opens without an intentional wait. Preferred placement may adjust to stay within the viewport. The decorative arrow is shown by default and may be hidden with `showArrow={false}`.
+
+The public ref targets the trigger `HTMLElement`. Tooltip does not receive or trap focus. Native disabled controls are not wrapped in a new focusable element, so Tooltip interaction for natively disabled controls is not guaranteed. Put critical disabled-state explanations in visible or normally described content.
+
+Public `TooltipTrigger`, `TooltipContent`, `TooltipProvider`, Popover, HoverCard, interactive content, arbitrary JSX content, HTML rendering, and application migration remain deferred.
 
 ## API Status
 

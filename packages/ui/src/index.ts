@@ -40,6 +40,8 @@ export type {
   TabsPanelMounting,
   TabsProps
 } from "./tabs/index.js";
+export { Tooltip } from "./tooltip/index.js";
+export type { TooltipDelay, TooltipPlacement, TooltipProps } from "./tooltip/index.js";
 export { TextArea } from "./text-area/index.js";
 export type { TextAreaProps } from "./text-area/index.js";
 export { TextField } from "./text-field/index.js";

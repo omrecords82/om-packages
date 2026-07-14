@@ -1,0 +1,77 @@
+@layer om.components {
+  .om-tooltip {
+    display: inline-flex;
+  }
+
+  .om-tooltip__trigger {
+    cursor: inherit;
+  }
+
+  .om-tooltip__bubble {
+    z-index: var(--om-component-tooltip-z-index, var(--om-primitive-z-index-overlay, 1000));
+    box-sizing: border-box;
+    max-inline-size: min(var(--om-component-tooltip-max-width, 20rem), calc(100vw - 2rem));
+    padding: var(--om-component-tooltip-padding-block, calc(var(--om-primitive-space-4) / 2))
+      var(--om-component-tooltip-padding-inline, var(--om-primitive-space-4));
+    color: var(--om-component-tooltip-foreground, var(--om-primitive-color-neutral-0));
+    overflow-wrap: anywhere;
+    background: var(--om-component-tooltip-background, var(--om-primitive-color-neutral-900));
+    border: var(--om-primitive-border-width-1) solid
+      var(--om-component-tooltip-border, var(--om-primitive-color-neutral-900));
+    border-radius: var(--om-component-tooltip-radius, var(--om-primitive-radius-2));
+    box-shadow: var(--om-component-tooltip-shadow, var(--om-primitive-shadow-none));
+    pointer-events: none;
+  }
+
+  .om-tooltip__content {
+    display: block;
+  }
+
+  .om-tooltip__arrow {
+    inline-size: var(--om-component-tooltip-arrow-size, var(--om-primitive-space-4));
+    block-size: var(--om-component-tooltip-arrow-size, var(--om-primitive-space-4));
+    color: var(--om-component-tooltip-background, var(--om-primitive-color-neutral-900));
+  }
+
+  .om-tooltip__arrow svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    fill: currentColor;
+    stroke: var(--om-component-tooltip-border, currentColor);
+    stroke-width: var(--om-primitive-border-width-1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .om-tooltip__bubble[data-entering],
+    .om-tooltip__bubble[data-exiting] {
+      transition:
+        opacity var(--om-primitive-motion-duration-fast) var(--om-primitive-motion-easing-standard),
+        transform var(--om-primitive-motion-duration-fast)
+          var(--om-primitive-motion-easing-standard);
+    }
+
+    .om-tooltip__bubble[data-entering],
+    .om-tooltip__bubble[data-exiting] {
+      opacity: 0;
+      transform: translateY(0.125rem);
+    }
+  }
+
+  @media (forced-colors: active) {
+    .om-tooltip__bubble {
+      color: CanvasText;
+      background: Canvas;
+      border-color: CanvasText;
+      box-shadow: none;
+    }
+
+    .om-tooltip__arrow {
+      color: Canvas;
+    }
+
+    .om-tooltip__arrow svg {
+      stroke: CanvasText;
+    }
+  }
+}

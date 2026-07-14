@@ -13,6 +13,7 @@ import { Switch } from "./switch/index.js";
 import { Tabs } from "./tabs/index.js";
 import { TextArea } from "./text-area/index.js";
 import { TextField } from "./text-field/index.js";
+import { Tooltip } from "./tooltip/index.js";
 
 describe("@om/ui SSR", () => {
   it("imports and renders field components without browser globals", () => {
@@ -56,6 +57,10 @@ describe("@om/ui SSR", () => {
             }
           ]}
         />
+        <Tooltip
+          trigger={<button type="button">Server tooltip trigger</button>}
+          content="Server tooltip"
+        />
       </>
     );
 
@@ -71,6 +76,8 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server tabs");
     expect(markup).toContain("Server tab");
     expect(markup).toContain("Server panel");
+    expect(markup).toContain("Server tooltip trigger");
+    expect(markup).not.toContain("Server tooltip</");
     expect(markup).toContain("Open server dialog");
     expect(markup).toContain("Open server alert");
   });

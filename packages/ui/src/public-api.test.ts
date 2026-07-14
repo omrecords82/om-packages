@@ -35,7 +35,8 @@ describe("@om/ui package boundaries", () => {
       "./switch",
       "./tabs",
       "./text-area",
-      "./text-field"
+      "./text-field",
+      "./tooltip"
     ]);
   });
 
@@ -55,6 +56,7 @@ describe("@om/ui package boundaries", () => {
       "src/select/Select.tsx",
       "src/switch/Switch.tsx",
       "src/tabs/Tabs.tsx",
+      "src/tooltip/Tooltip.tsx",
       "src/text-area/TextArea.tsx",
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
@@ -63,6 +65,7 @@ describe("@om/ui package boundaries", () => {
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
       "src/shared/tabs-types.ts",
+      "src/shared/tooltip-types.ts",
       "src/index.ts"
     ];
     const contents = await Promise.all(files.map((file) => readFile(file, "utf8")));
@@ -108,6 +111,17 @@ describe("@om/ui package boundaries", () => {
     );
     expect(content).toMatch(/readonly id: string/u);
     expect(content).toMatch(/onSelectionChange\?: \(id: string\) => void/u);
+  });
+
+  it("keeps Tooltip contracts free of vendor placement, overlay, state, and event types", async () => {
+    const content = await readFile("src/shared/tooltip-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /react-aria-components|react-aria|react-stately|@react-types|TooltipTriggerProps|OverlayArrowProps|\bPlacement\b|PressEvent|HoverEvent|OverlayTriggerState/u
+    );
+    expect(content).toMatch(/export type TooltipPlacement/u);
+    expect(content).toMatch(/export type TooltipDelay/u);
+    expect(content).toMatch(/onOpenChange\?: \(isOpen: boolean\) => void/u);
   });
 
   it("keeps dialog contracts free of vendor overlay types and events", async () => {

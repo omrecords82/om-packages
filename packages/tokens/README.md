@@ -20,6 +20,8 @@ Phase 1H adds minimal experimental Menu tokens for popover surface, item states,
 
 Phase 1I adds minimal experimental Tabs tokens for tab-list boundaries, tab states, selected indicators, panel spacing, horizontal and vertical orientation, and large-label behavior. These tokens prove tab styling only; they are not final Orthodox Metrics design values.
 
+Phase 1J adds minimal experimental Tooltip tokens for supplemental-description surface, foreground, border, radius, shadow, spacing, maximum width, overlay z-index, decorative arrow, offset, and package-owned delay behavior. These tokens prove tooltip styling only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`
