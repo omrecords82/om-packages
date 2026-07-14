@@ -79,6 +79,19 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Pending confirmation blocks dismissal.
 - Dialog focus must be trapped and restored correctly.
 - Destructive, warning, validation, and focus behavior cannot be replaced by liturgical overlays.
+- Standard modal Drawers must be consumed through `@om/ui`.
+- Applications must not import React Aria Modal, ModalOverlay, Dialog, or DialogTrigger primitives when an OM equivalent exists.
+- Drawer is a modal overlay, not a permanent navigation or layout primitive.
+- Permanent sidebars remain application-layout concerns.
+- Bottom placement does not imply swipe or bottom-sheet behavior.
+- Every Drawer requires a title.
+- Public Drawer callbacks expose boolean state, not events.
+- Drawer focus must be trapped and restored.
+- Background interaction must be blocked.
+- Start and end placements are logical and direction-aware.
+- Vendor modal, overlay, trigger, placement, state, event, and render-prop types are prohibited publicly.
+- Liturgical overlays cannot replace focus, validation, warning, or destructive treatment.
+- Persistent, nested, resizable, route-driven, and gesture Drawers require separate review.
 - Standard action menus must be consumed through `@om/ui`.
 - Applications must not import React Aria Menu, MenuItem, MenuTrigger, Popover, or collection primitives for standard OM action menus.
 - Public Menu items use stable unique string IDs.

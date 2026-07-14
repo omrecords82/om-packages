@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1K establishes the first semantic table component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, and `Tooltip`.
+Phase 1L establishes the first modal drawer component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, and `Table`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -21,6 +21,7 @@ import "@om/ui/css";
 - `@om/ui/checkbox`
 - `@om/ui/dialog`
 - `@om/ui/alert-dialog`
+- `@om/ui/drawer`
 - `@om/ui/field-error`
 - `@om/ui/link`
 - `@om/ui/icon-button`
@@ -80,7 +81,20 @@ Read-only Selects remain focusable, display the current value, and do not open o
 
 `AlertDialog` requires `title`, `description`, `confirmLabel`, and `onConfirm`. It defaults focus to Cancel, always renders a cancel action, does not dismiss through outside interaction, blocks cancel, confirm, and Escape dismissal while pending, and supports `confirmBehavior="close"` or `"manual"`. Destructive confirmations use the OM destructive Button variant but never receive focus by default.
 
-Public generic Modal, Overlay, Portal, DialogTrigger, Popover, Tooltip, Drawer, command dialog, toast, snackbar, and application-specific confirmation workflows remain deferred.
+Public generic Modal, Overlay, Portal, DialogTrigger, Popover, Tooltip, command dialog, toast, snackbar, and application-specific confirmation workflows remain deferred.
+
+## Drawer
+
+`Drawer` is experimental. It exposes OM-owned placement and size contracts:
+
+```ts
+type DrawerPlacement = "start" | "end" | "top" | "bottom";
+type DrawerSize = "sm" | "md" | "lg" | "xl";
+```
+
+`Drawer` is modal only and uses React Aria Components internally for focus containment, dismissal, overlay, and accessibility behavior. It requires a `title`, supports optional `description`, controlled and uncontrolled open state, optional triggers, dismissable and keyboard-dismiss policies, long-content scrolling, and a public ref to the drawer surface `HTMLDivElement`.
+
+`start` and `end` are logical edge placements. `top` and `bottom` are physical block placements. Permanent sidebars, application shells, swipe gestures, nested drawers, route-driven state, and other persistent layout behavior remain deferred.
 
 ## Menu
 
