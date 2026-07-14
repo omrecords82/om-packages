@@ -109,6 +109,17 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Vendor trigger, placement, overlay, state, render-prop, and event types are prohibited in the public Tooltip API.
 - Generic Popover, HoverCard, Coachmark, and interactive overlay behavior require separately reviewed phases.
 - Liturgical overlays cannot replace Tooltip trigger focus or accessibility treatment.
+- Standard semantic display tables must be consumed through `@om/ui`.
+- Standard tables must use native semantic table markup.
+- Applications must not use clickable rows for primary actions.
+- Row actions must use explicit Button, Link, IconButton, or Menu controls.
+- Table rows and columns require stable unique string IDs.
+- Tables require an accessible caption or label.
+- Body tables require one designated row-header column when rows are present.
+- Table display must not expose MUI, AG Grid, TanStack, or React Aria Table contracts.
+- Advanced data operations belong in a separately reviewed `@om/tables` phase.
+- AG Grid workflows remain domain or admin-grid concerns.
+- Liturgical overlays cannot replace Table accessibility, focus, status, or boundary treatment.
 
 ## Completion Reports
 

@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1J establishes the first supplemental tooltip component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, and `Tabs`.
+Phase 1K establishes the first semantic table component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, and `Tooltip`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -29,6 +29,7 @@ import "@om/ui/css";
 - `@om/ui/radio`
 - `@om/ui/radio-group`
 - `@om/ui/select`
+- `@om/ui/table`
 - `@om/ui/switch`
 - `@om/ui/tabs`
 - `@om/ui/text-area`
@@ -132,6 +133,28 @@ Tooltip content is a non-empty string and is supplemental descriptive content. I
 The public ref targets the trigger `HTMLElement`. Tooltip does not receive or trap focus. Native disabled controls are not wrapped in a new focusable element, so Tooltip interaction for natively disabled controls is not guaranteed. Put critical disabled-state explanations in visible or normally described content.
 
 Public `TooltipTrigger`, `TooltipContent`, `TooltipProvider`, Popover, HoverCard, interactive content, arbitrary JSX content, HTML rendering, and application migration remain deferred.
+
+## Table
+
+`Table` is experimental. It uses native semantic table markup with an OM-owned `TableRowData` and `TableColumn` contract:
+
+```ts
+type TableRowData = {
+  readonly id: string;
+};
+
+type TableColumn<TRow extends TableRowData = TableRowData> = {
+  readonly id: string;
+  readonly header: string;
+  readonly renderCell: (row: TRow) => React.ReactNode;
+  readonly isRowHeader?: boolean;
+  readonly alignment?: "start" | "center" | "end";
+};
+```
+
+Every table requires an accessible caption or label and one row-header column when rows are present. `Table` supports controlled data only through the caller-supplied row and column arrays, empty and loading states, density variants, optional striped rows, responsive horizontal containment, and a public ref to the semantic `HTMLTableElement`.
+
+Row actions belong inside cells and must use explicit Button, Link, IconButton, or Menu controls. Sorting, filtering, pagination, spreadsheet behavior, row-click navigation, responsive card conversion, AG Grid replacement, and future data-table orchestration remain deferred.
 
 ## API Status
 
