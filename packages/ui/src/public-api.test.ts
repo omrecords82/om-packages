@@ -24,6 +24,7 @@ describe("@om/ui package boundaries", () => {
       "./checkbox",
       "./css",
       "./dialog",
+      "./drawer",
       "./field-error",
       "./icon-button",
       "./label",
@@ -47,6 +48,7 @@ describe("@om/ui package boundaries", () => {
       "src/alert-dialog/AlertDialog.tsx",
       "src/checkbox/Checkbox.tsx",
       "src/dialog/Dialog.tsx",
+      "src/drawer/Drawer.tsx",
       "src/field-error/FieldError.tsx",
       "src/link/Link.tsx",
       "src/menu/Menu.tsx",
@@ -63,6 +65,7 @@ describe("@om/ui package boundaries", () => {
       "src/text-field/TextField.tsx",
       "src/shared/field-types.ts",
       "src/shared/dialog-types.ts",
+      "src/shared/drawer-types.ts",
       "src/shared/menu-types.ts",
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
@@ -156,5 +159,16 @@ describe("@om/ui package boundaries", () => {
       expect(content).not.toMatch(/onConfirm\??:\s*\([^)]*(Event|event|PressEvent)/u);
       expect(content).not.toMatch(/onCancel\??:\s*\([^)]*(Event|event|PressEvent)/u);
     }
+  });
+
+  it("keeps Drawer contracts free of vendor modal, trigger, placement, state, and event types", async () => {
+    const content = await readFile("src/shared/drawer-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /react-aria-components|react-aria|react-stately|@react-types|DialogTriggerProps|ModalOverlayProps|ModalProps|DialogProps|OverlayTriggerState|OverlayTriggerProps|PressEvent|\bPlacement\b/u
+    );
+    expect(content).toMatch(/export type DrawerPlacement/u);
+    expect(content).toMatch(/export type DrawerSize/u);
+    expect(content).toMatch(/onOpenChange\?: \(isOpen: boolean\) => void/u);
   });
 });

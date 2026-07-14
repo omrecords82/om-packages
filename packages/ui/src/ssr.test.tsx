@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { Checkbox } from "./checkbox/index.js";
 import { Dialog } from "./dialog/index.js";
+import { Drawer } from "./drawer/index.js";
 import { AlertDialog } from "./alert-dialog/index.js";
 import { FieldError } from "./field-error/index.js";
 import { Label } from "./label/index.js";
@@ -41,6 +42,7 @@ describe("@om/ui SSR", () => {
         <Dialog title="Server dialog" trigger={<button type="button">Open server dialog</button>}>
           Server dialog body
         </Dialog>
+        <Drawer title="Server drawer" trigger={<button type="button">Open server drawer</button>} />
         <AlertDialog
           title="Server alert"
           description="Server alert description."
@@ -93,6 +95,8 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server table");
     expect(markup).toContain("Server table description");
     expect(markup).toContain("Server row");
+    expect(markup).toContain("Open server drawer");
+    expect(markup).not.toContain("Server drawer body");
     expect(markup).toContain("Server tooltip trigger");
     expect(markup).not.toContain("Server tooltip</");
     expect(markup).toContain("Open server dialog");
