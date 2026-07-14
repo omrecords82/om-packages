@@ -22,6 +22,7 @@ describe("@om/ui package boundaries", () => {
       "./alert-dialog",
       "./button",
       "./checkbox",
+      "./combo-box",
       "./css",
       "./dialog",
       "./drawer",
@@ -47,6 +48,10 @@ describe("@om/ui package boundaries", () => {
       "src/button/Button.tsx",
       "src/alert-dialog/AlertDialog.tsx",
       "src/checkbox/Checkbox.tsx",
+      "src/combo-box/ComboBox.tsx",
+      "src/combo-box/combo-box-filter.ts",
+      "src/combo-box/combo-box-validation.ts",
+      "src/combo-box/index.ts",
       "src/dialog/Dialog.tsx",
       "src/drawer/Drawer.tsx",
       "src/field-error/FieldError.tsx",
@@ -68,6 +73,7 @@ describe("@om/ui package boundaries", () => {
       "src/shared/drawer-types.ts",
       "src/shared/menu-types.ts",
       "src/shared/select-types.ts",
+      "src/shared/combo-box-types.ts",
       "src/shared/selection-types.ts",
       "src/shared/table-types.ts",
       "src/shared/tabs-types.ts",
@@ -107,6 +113,18 @@ describe("@om/ui package boundaries", () => {
     );
     expect(content).toMatch(/readonly value: string/u);
     expect(content).toMatch(/onValueChange\?: \(value: string \| null\) => void/u);
+  });
+
+  it("keeps ComboBox contracts free of vendor collection, filter, and event types", async () => {
+    const content = await readFile("src/shared/combo-box-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /react-aria-components|react-aria|react-stately|@react-types|\bKey\b|\bSelection\b|\bCollection\b|\bNode\b|\bListBox\b|\bPopover\b|\bFilter\b|PressEvent|FocusEvent|KeyboardEvent|InputEvent/u
+    );
+    expect(content).toMatch(/export type ComboBoxOption/u);
+    expect(content).toMatch(/export type ComboBoxFilterMode/u);
+    expect(content).toMatch(/onSelectedValueChange\?: \(value: string \| null\) => void/u);
+    expect(content).toMatch(/onInputValueChange\?: \(value: string\) => void/u);
   });
 
   it("keeps Tabs contracts free of vendor selection, collection, and event types", async () => {
