@@ -40,6 +40,14 @@ export type {
   TabsPanelMounting,
   TabsProps
 } from "./tabs/index.js";
+export { Table } from "./table/index.js";
+export type {
+  TableCellAlignment,
+  TableColumn,
+  TableDensity,
+  TableProps,
+  TableRowData
+} from "./table/index.js";
 export { Tooltip } from "./tooltip/index.js";
 export type { TooltipDelay, TooltipPlacement, TooltipProps } from "./tooltip/index.js";
 export { TextArea } from "./text-area/index.js";

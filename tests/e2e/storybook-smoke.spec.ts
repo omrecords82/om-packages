@@ -617,6 +617,86 @@ test("UI Menu story supports keyboard, typeahead, links, and themes", async ({ p
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Table story supports semantic structure, overflow containment, and interactive cells", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-table--examples");
+
+  const recordsTable = page.getByRole("table", { name: "Records table" });
+  await expect(recordsTable).toBeVisible();
+  await expect(page.getByText("Visible caption and supporting description.")).toBeVisible();
+  await expect(recordsTable.getByRole("columnheader", { name: "Record" })).toBeVisible();
+  await expect(recordsTable.getByRole("rowheader", { name: "Alpha record" })).toBeVisible();
+  const interactiveTable = page.getByRole("table", { name: "Interactive cells table" });
+
+  const emptyTable = page.getByRole("table", { name: "Empty table" });
+  await expect(emptyTable.getByText("No records available")).toBeVisible();
+  const loadingTable = page.getByRole("table", { name: "Loading table" });
+  await expect(loadingTable.getByText("Loading records")).toBeVisible();
+  await expect(loadingTable).toHaveAttribute("aria-busy", "true");
+
+  await tabUntilFocused(page, interactiveTable.getByRole("button", { name: "Open alpha" }));
+  await page.keyboard.press("Tab");
+  await expect(interactiveTable.getByRole("button", { name: "Alpha record info" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(interactiveTable.getByRole("link", { name: "Alpha record docs" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(
+    interactiveTable.getByRole("button", { name: "More Alpha record actions" })
+  ).toBeFocused();
+
+  await page.setViewportSize({ width: 375, height: 700 });
+  const narrowContainer = page.locator(".om-table__container").first();
+  const scrollable = await narrowContainer.evaluate(
+    (element) => element.scrollWidth > element.clientWidth
+  );
+  expect(scrollable).toBe(true);
+  const pageOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
+  );
+  expect(pageOverflow).toBe(true);
+
+  await page.goto("/iframe.html?id=ui-table--themes");
+  const darkTable = page.getByRole("table", { name: "Dark mode table" });
+  await expect(darkTable).toBeVisible();
+  const darkCaption = await darkTable.evaluate((element) => getComputedStyle(element).color);
+  expect(darkCaption).not.toBe("rgba(0, 0, 0, 0)");
+
+  const liturgicalButton = page
+    .getByRole("table", { name: "Liturgical interactive table" })
+    .getByRole("button", { name: "Open alpha" });
+  await liturgicalButton.focus();
+  const liturgicalOutline = await liturgicalButton.evaluate(
+    (element) => getComputedStyle(element).outlineWidth
+  );
+  expect(liturgicalOutline).not.toBe("0px");
+
+  const highContrast = page.getByRole("table", { name: "High contrast table" });
+  await expect(highContrast).toBeVisible();
+  const highContrastBorder = await highContrast.evaluate(
+    (element) => getComputedStyle(element.parentElement as HTMLElement).borderTopColor
+  );
+  expect(highContrastBorder).not.toBe("rgba(0, 0, 0, 0)");
+
+  const forcedColors = page.getByRole("table", { name: "Forced colors table" });
+  await expect(forcedColors).toBeVisible();
+  const forcedContainerBorder = await forcedColors.evaluate(
+    (element) => getComputedStyle(element.parentElement as HTMLElement).borderTopColor
+  );
+  const forcedHeaderBorder = await forcedColors
+    .locator(".om-table__header-cell")
+    .first()
+    .evaluate((element) => getComputedStyle(element).borderBottomColor);
+  expect(forcedContainerBorder).not.toBe("rgba(0, 0, 0, 0)");
+  expect(forcedHeaderBorder).not.toBe("rgba(0, 0, 0, 0)");
+
+  const largeText = page.getByRole("table", { name: "Large text table" });
+  await expect(largeText).toBeVisible();
+  await expect(page.getByText("Long value header that should not clip by default")).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
 test("UI Tabs story supports keyboard selection, mounting, and themes", async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
   await page.goto("/iframe.html?id=ui-tabs--examples");
@@ -872,13 +952,17 @@ test("existing UI stories continue loading", async ({ page }) => {
   await expect(page.getByRole("tablist", { name: "Default horizontal" })).toBeVisible();
   await page.goto("/iframe.html?id=ui-tooltip--examples");
   await expect(page.getByRole("button", { name: "Visible text trigger" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-table--examples");
+  await expect(page.getByRole("table", { name: "Records table" })).toBeVisible();
+  await page.goto("/iframe.html?id=ui-table--themes");
+  await expect(page.getByRole("table", { name: "Dark mode table" })).toBeVisible();
 });
 
 async function tabUntilFocused(
   page: import("@playwright/test").Page,
   locator: import("@playwright/test").Locator
 ): Promise<void> {
-  for (let index = 0; index < 12; index += 1) {
+  for (let index = 0; index < 24; index += 1) {
     await page.keyboard.press("Tab");
     if (await locator.evaluate((element) => element === document.activeElement)) {
       return;

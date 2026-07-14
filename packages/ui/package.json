@@ -67,6 +67,10 @@
       "types": "./dist/tabs/index.d.ts",
       "import": "./dist/tabs/index.js"
     },
+    "./table": {
+      "types": "./dist/table/index.d.ts",
+      "import": "./dist/table/index.js"
+    },
     "./tooltip": {
       "types": "./dist/tooltip/index.d.ts",
       "import": "./dist/tooltip/index.js"
@@ -90,7 +94,7 @@
   "scripts": {
     "build": "rm -rf dist .tsbuildinfo && tsc -b && pnpm copy:css && pnpm verify:public-api",
     "clean": "rm -rf dist .tsbuildinfo",
-    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css > dist/styles/index.css",
+    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css > dist/styles/index.css",
     "lint": "eslint .",
     "pack:check": "pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",

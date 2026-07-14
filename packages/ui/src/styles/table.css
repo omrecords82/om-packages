@@ -1,0 +1,153 @@
+@layer om.components {
+  .om-table {
+    display: grid;
+    gap: calc(var(--om-primitive-space-4) / 2);
+    max-inline-size: 100%;
+    color: var(--om-semantic-text-primary);
+  }
+
+  .om-table__description {
+    color: var(--om-semantic-text-primary);
+    font: inherit;
+    margin: 0;
+  }
+
+  .om-table__container {
+    max-inline-size: 100%;
+    overflow: auto hidden;
+    border: var(--om-primitive-border-width-1) solid
+      var(--om-component-table-border, var(--om-semantic-border-decorative));
+    border-radius: var(--om-primitive-radius-2);
+    background: var(--om-semantic-background-canvas);
+  }
+
+  .om-table__table {
+    border-collapse: separate;
+    border-spacing: 0;
+    inline-size: max-content;
+    min-inline-size: 100%;
+    color: inherit;
+  }
+
+  .om-table__caption {
+    caption-side: top;
+    color: var(--om-semantic-text-primary);
+    font-weight: var(--om-primitive-font-weight-semibold, 600);
+    padding: var(--om-primitive-space-4);
+    text-align: start;
+  }
+
+  .om-table__head {
+    background: color-mix(
+      in srgb,
+      var(--om-semantic-background-canvas) 96%,
+      var(--om-semantic-text-primary)
+    );
+  }
+
+  .om-table__header-cell,
+  .om-table__row-header,
+  .om-table__cell,
+  .om-table__status-cell {
+    border-block-end: var(--om-primitive-border-width-1) solid
+      var(--om-component-table-border, var(--om-semantic-border-decorative));
+    box-sizing: border-box;
+    color: inherit;
+    overflow-wrap: anywhere;
+    text-align: start;
+    vertical-align: top;
+    white-space: normal;
+  }
+
+  .om-table__header-cell,
+  .om-table__row-header,
+  .om-table__cell {
+    padding-block: var(--om-primitive-space-4);
+    padding-inline: var(--om-primitive-space-4);
+  }
+
+  .om-table[data-om-density="compact"] .om-table__header-cell,
+  .om-table[data-om-density="compact"] .om-table__row-header,
+  .om-table[data-om-density="compact"] .om-table__cell {
+    padding-block: calc(var(--om-primitive-space-4) / 2);
+    padding-inline: calc(var(--om-primitive-space-4) * 0.75);
+  }
+
+  .om-table[data-om-density="spacious"] .om-table__header-cell,
+  .om-table[data-om-density="spacious"] .om-table__row-header,
+  .om-table[data-om-density="spacious"] .om-table__cell {
+    padding-block: calc(var(--om-primitive-space-4) * 1.5);
+    padding-inline: calc(var(--om-primitive-space-4) * 1.25);
+  }
+
+  .om-table__header-cell {
+    background: color-mix(
+      in srgb,
+      var(--om-semantic-background-canvas) 94%,
+      var(--om-semantic-text-primary)
+    );
+    font-weight: var(--om-primitive-font-weight-semibold, 600);
+  }
+
+  .om-table__row-header {
+    font-weight: var(--om-primitive-font-weight-semibold, 600);
+  }
+
+  .om-table__cell[data-om-alignment="center"],
+  .om-table__header-cell[data-om-alignment="center"],
+  .om-table__row-header[data-om-alignment="center"],
+  .om-table__status-cell[data-om-alignment="center"] {
+    text-align: center;
+  }
+
+  .om-table__cell[data-om-alignment="end"],
+  .om-table__header-cell[data-om-alignment="end"],
+  .om-table__row-header[data-om-alignment="end"],
+  .om-table__status-cell[data-om-alignment="end"] {
+    text-align: end;
+  }
+
+  .om-table[data-om-striped] .om-table__row[data-om-striped-row="true"] > * {
+    background: color-mix(
+      in srgb,
+      var(--om-semantic-background-canvas) 97%,
+      var(--om-semantic-text-primary)
+    );
+  }
+
+  .om-table__status-row > * {
+    background: color-mix(
+      in srgb,
+      var(--om-semantic-background-canvas) 95%,
+      var(--om-semantic-text-primary)
+    );
+  }
+
+  .om-table__status-cell {
+    padding: var(--om-primitive-space-4);
+    text-align: center;
+  }
+
+  @media (forced-colors: active) {
+    .om-table__container,
+    .om-table__header-cell,
+    .om-table__row-header,
+    .om-table__cell,
+    .om-table__status-cell {
+      border-color: CanvasText;
+    }
+
+    .om-table__head,
+    .om-table__header-cell,
+    .om-table__status-row > * {
+      background: Canvas;
+    }
+
+    .om-table__header-cell,
+    .om-table__row-header,
+    .om-table__cell,
+    .om-table__status-cell {
+      color: CanvasText;
+    }
+  }
+}

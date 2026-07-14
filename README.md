@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1J Status
+## Phase 1K Status
 
-Phase 1J extends the permanent `@om/ui` pattern with the first supplemental tooltip component: `Tooltip`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, and `Tooltip`.
+Phase 1K extends the permanent `@om/ui` pattern with the first semantic table component: `Table`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency where appropriate, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, and `Table`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -92,6 +92,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui/radio`
 - `@om/ui/radio-group`
 - `@om/ui/select`
+- `@om/ui/table`
 - `@om/ui/switch`
 - `@om/ui/tabs`
 - `@om/ui/text-area`
@@ -121,6 +122,8 @@ Selection controls require accessible labels through visible child content or a 
 `Tabs` is an experimental tab component using OM-owned `TabItem` data with stable unique string IDs and string labels. `onSelectionChange` receives only the selected tab ID. Tabs support controlled and uncontrolled selection, horizontal and vertical orientation, automatic and manual activation, active-only or all-panel mounting, empty and all-disabled behavior, and a public ref to the root `HTMLDivElement`. Public `Tab`, `TabList`, `TabPanel`, router synchronization, closable/reorderable tabs, nested tabs, wizards, steppers, overflow menus, icons, and badges remain deferred.
 
 `Tooltip` is an experimental supplemental-description component using string-only content. Tooltip text does not replace the trigger's accessible name; icon-only triggers must provide an independent accessible name. `Tooltip` supports controlled and uncontrolled open state, package-owned immediate and standard delays, preferred placements, optional decorative arrow rendering, hover and focus opening, Escape dismissal, and a public ref to the trigger `HTMLElement`. Public `TooltipTrigger`, `TooltipContent`, `TooltipProvider`, Popover, HoverCard, interactive tooltip content, arbitrary JSX content, and application migration remain deferred.
+
+`Table` is an experimental semantic display table using native `<table>` markup. It exposes OM-owned `TableRowData` and `TableColumn` contracts with stable string IDs, requires an accessible caption or label, and requires exactly one row-header column when rows are present. `Table` supports empty and loading states, density variants, optional striped rows, responsive horizontal containment, interactive controls inside cells, and a public ref to the semantic `HTMLTableElement`. Sorting, filtering, pagination, row-click navigation, spreadsheet behavior, responsive card conversion, AG Grid replacement, and future data-table orchestration remain deferred.
 
 ## Theme Precedence
 

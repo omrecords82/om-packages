@@ -9,6 +9,7 @@ import { Label } from "./label/index.js";
 import { Radio } from "./radio/index.js";
 import { RadioGroup } from "./radio-group/index.js";
 import { Select } from "./select/index.js";
+import { Table } from "./table/index.js";
 import { Switch } from "./switch/index.js";
 import { Tabs } from "./tabs/index.js";
 import { TextArea } from "./text-area/index.js";
@@ -57,6 +58,19 @@ describe("@om/ui SSR", () => {
             }
           ]}
         />
+        <Table
+          caption="Server table"
+          description="Server table description."
+          columns={[
+            {
+              id: "server-name",
+              header: "Server name",
+              isRowHeader: true,
+              renderCell: (row: { readonly id: string; readonly name: string }) => row.name
+            }
+          ]}
+          rows={[{ id: "server-row", name: "Server row" }]}
+        />
         <Tooltip
           trigger={<button type="button">Server tooltip trigger</button>}
           content="Server tooltip"
@@ -76,6 +90,9 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server tabs");
     expect(markup).toContain("Server tab");
     expect(markup).toContain("Server panel");
+    expect(markup).toContain("Server table");
+    expect(markup).toContain("Server table description");
+    expect(markup).toContain("Server row");
     expect(markup).toContain("Server tooltip trigger");
     expect(markup).not.toContain("Server tooltip</");
     expect(markup).toContain("Open server dialog");

@@ -33,6 +33,7 @@ describe("@om/ui package boundaries", () => {
       "./radio-group",
       "./select",
       "./switch",
+      "./table",
       "./tabs",
       "./text-area",
       "./text-field",
@@ -53,6 +54,7 @@ describe("@om/ui package boundaries", () => {
       "src/label/Label.tsx",
       "src/radio/Radio.tsx",
       "src/radio-group/RadioGroup.tsx",
+      "src/table/Table.tsx",
       "src/select/Select.tsx",
       "src/switch/Switch.tsx",
       "src/tabs/Tabs.tsx",
@@ -64,6 +66,7 @@ describe("@om/ui package boundaries", () => {
       "src/shared/menu-types.ts",
       "src/shared/select-types.ts",
       "src/shared/selection-types.ts",
+      "src/shared/table-types.ts",
       "src/shared/tabs-types.ts",
       "src/shared/tooltip-types.ts",
       "src/index.ts"
@@ -111,6 +114,18 @@ describe("@om/ui package boundaries", () => {
     );
     expect(content).toMatch(/readonly id: string/u);
     expect(content).toMatch(/onSelectionChange\?: \(id: string\) => void/u);
+  });
+
+  it("keeps Table contracts free of vendor table and data-grid types", async () => {
+    const content = await readFile("src/shared/table-types.ts", "utf8");
+
+    expect(content).not.toMatch(
+      /@mui|@tanstack\/react-table|ag-grid-community|ag-grid-react|react-aria-components|react-aria|react-stately|@react-types|GridNode|RowNode|ColumnDef|TableInstance|SortingState|PaginationState|Selection|Key|Collection/u
+    );
+    expect(content).toMatch(/export type TableRowData/u);
+    expect(content).toMatch(/export type TableColumn/u);
+    expect(content).toMatch(/export type TableProps/u);
+    expect(content).toMatch(/renderCell: \(row: TRow\) => ReactNode/u);
   });
 
   it("keeps Tooltip contracts free of vendor placement, overlay, state, and event types", async () => {
