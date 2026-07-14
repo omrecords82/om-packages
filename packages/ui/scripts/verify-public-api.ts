@@ -18,6 +18,7 @@ const prohibitedPatterns = [
   /\bFieldErrorRenderProps\b/u,
   /\bCheckboxRenderProps\b/u,
   /\bDialogRenderProps\b/u,
+  /\bDrawerProps\b.*from ["']react-aria-components["']/u,
   /\bRadioGroupRenderProps\b/u,
   /\bRadioRenderProps\b/u,
   /\bSelectRenderProps\b/u,
@@ -101,6 +102,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "Dialog",
     "Checkbox",
     "FieldError",
+    "Drawer",
     "IconButton",
     "AlertDialog",
     "Label",
@@ -124,6 +126,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   const expectedSubpaths = [
     ["button", "Button"],
     ["dialog", "Dialog"],
+    ["drawer", "Drawer"],
     ["checkbox", "Checkbox"],
     ["field-error", "FieldError"],
     ["icon-button", "IconButton"],
@@ -182,6 +185,14 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "onOpenChange?: (isOpen: boolean) => void",
     "trigger?: ReactElement"
   ]);
+  await verifyDeclarationContains(distRoot, "drawer/Drawer.d.ts", [
+    "ForwardRefExoticComponent<DrawerProps",
+    "RefAttributes<HTMLDivElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/drawer-types.d.ts", [
+    "readonly trigger?: ReactElement",
+    "onOpenChange?: (isOpen: boolean) => void"
+  ]);
   await verifyDeclarationContains(distRoot, "alert-dialog/AlertDialog.d.ts", [
     "RefAttributes<HTMLDivElement>",
     "onConfirm: () => void",
@@ -192,6 +203,11 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "export type AlertDialogIntent",
     "export type AlertDialogInitialFocus",
     "export type AlertDialogConfirmBehavior"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/drawer-types.d.ts", [
+    "export type DrawerPlacement",
+    "export type DrawerSize",
+    "onOpenChange?: (isOpen: boolean) => void"
   ]);
   await verifyDeclarationContains(distRoot, "menu/Menu.d.ts", ["RefAttributes<HTMLButtonElement>"]);
   await verifyDeclarationContains(distRoot, "shared/menu-types.d.ts", [
