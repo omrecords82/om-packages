@@ -2,7 +2,7 @@
 
 Experimental Orthodox Metrics React UI package.
 
-Phase 1L establishes the first modal drawer component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, and `Table`.
+Phase 1M establishes the first editable lookup component alongside `Button`, `Link`, `IconButton`, text-entry components, selection controls, `Select`, `ComboBox`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, `Table`, and `Drawer`.
 Orthodox Metrics owns the public component contracts. React Aria Components provides internal accessibility and interaction behavior and is not re-exported.
 
 ## Imports
@@ -19,6 +19,7 @@ import "@om/ui/css";
 - `@om/ui`
 - `@om/ui/button`
 - `@om/ui/checkbox`
+- `@om/ui/combo-box`
 - `@om/ui/dialog`
 - `@om/ui/alert-dialog`
 - `@om/ui/drawer`
@@ -71,7 +72,9 @@ Values are `string | null`; `null` represents no selection. Option values and la
 
 `Select` supports controlled and uncontrolled values through `value`, `defaultValue`, and `onValueChange`, where callbacks receive only `string | null`. The public ref targets the visible trigger `HTMLButtonElement`. Hidden form integration submits selected string values and does not submit the placeholder as a value.
 
-Read-only Selects remain focusable, display the current value, and do not open or change. Disabled Selects are unavailable for interaction. Error messages render only when `isInvalid` is active. Standalone ListBox, Popover, grouped options, custom option rendering, searchable Select, multi-select, async loading, and ComboBox are deferred.
+Read-only Selects remain focusable, display the current value, and do not open or change. Disabled Selects are unavailable for interaction. Error messages render only when `isInvalid` is active. Standalone ListBox, Popover, grouped options, custom option rendering, searchable Select, multi-select, async loading, and richer lookup patterns remain deferred.
+
+`ComboBox` is an experimental editable lookup control. It reuses the reviewed `SelectOption` shape as `ComboBoxOption`, exposes selected values as `string | null`, exposes input text as `string`, and filters static local options with deterministic contains or starts-with matching on labels. Typed text is not a committed value, arbitrary custom values remain deferred, and remote fetching stays application-owned. The public ref targets the text input `HTMLInputElement`. Read-only and disabled behavior remain distinct, and form submission includes only the committed selected value.
 
 ## Dialogs
 
