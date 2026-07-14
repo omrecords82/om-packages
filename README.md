@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1I Status
+## Phase 1J Status
 
-Phase 1I extends the permanent `@om/ui` pattern with the first tab family: `Tabs`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, and `Tabs`.
+Phase 1J extends the permanent `@om/ui` pattern with the first supplemental tooltip component: `Tooltip`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, and `Tooltip`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -96,6 +96,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui/tabs`
 - `@om/ui/text-area`
 - `@om/ui/text-field`
+- `@om/ui/tooltip`
 - `@om/ui/css`
 
 Consumers must import token CSS before component CSS:
@@ -118,6 +119,8 @@ Selection controls require accessible labels through visible child content or a 
 `Menu` is an experimental action-menu component using OM-owned serializable item contracts. `MenuEntry` supports action items, link items, and separators with stable unique string IDs. `onAction` receives only the selected action ID. Link items render semantic anchors and `_blank` links receive safe `rel` behavior. The public ref targets the trigger `HTMLButtonElement`. Empty menus and separator-only menus do not open an empty interactive collection. Public generic Popover, MenuItem, MenuTrigger, ContextMenu, Menubar, nested menus, router adapters, and application migration remain deferred.
 
 `Tabs` is an experimental tab component using OM-owned `TabItem` data with stable unique string IDs and string labels. `onSelectionChange` receives only the selected tab ID. Tabs support controlled and uncontrolled selection, horizontal and vertical orientation, automatic and manual activation, active-only or all-panel mounting, empty and all-disabled behavior, and a public ref to the root `HTMLDivElement`. Public `Tab`, `TabList`, `TabPanel`, router synchronization, closable/reorderable tabs, nested tabs, wizards, steppers, overflow menus, icons, and badges remain deferred.
+
+`Tooltip` is an experimental supplemental-description component using string-only content. Tooltip text does not replace the trigger's accessible name; icon-only triggers must provide an independent accessible name. `Tooltip` supports controlled and uncontrolled open state, package-owned immediate and standard delays, preferred placements, optional decorative arrow rendering, hover and focus opening, Escape dismissal, and a public ref to the trigger `HTMLElement`. Public `TooltipTrigger`, `TooltipContent`, `TooltipProvider`, Popover, HoverCard, interactive tooltip content, arbitrary JSX content, and application migration remain deferred.
 
 ## Theme Precedence
 

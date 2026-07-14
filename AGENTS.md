@@ -87,7 +87,7 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Menu separators are noninteractive.
 - Destructive Menu actions must not rely only on color.
 - Vendor `Key`, `Selection`, collection, node, state, and event types are prohibited in the public Menu API.
-- Generic Popover, ContextMenu, Menubar, submenu, router-adapter behavior, Tooltip, and Drawer require separately reviewed phases.
+- Generic Popover, ContextMenu, Menubar, submenu, router-adapter behavior, and Drawer require separately reviewed phases.
 - Standard application tabs must be consumed through `@om/ui`.
 - Applications must not import React Aria Tabs, TabList, Tab, or TabPanel primitives when an OM equivalent exists.
 - Tab IDs must be stable unique non-empty strings.
@@ -98,6 +98,17 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Tabs focus and selected states must remain distinguishable.
 - Router synchronization requires an application adapter or separately reviewed package contract.
 - Closable, reorderable, nested, wizard, stepper, and overflow-menu tabs require separately reviewed phases.
+- Standard supplemental Tooltips must be consumed through `@om/ui`.
+- Applications must not import React Aria Tooltip or TooltipTrigger directly when an OM equivalent exists.
+- Tooltip content supplements the trigger accessible name; it does not replace it.
+- Icon-only Tooltip triggers require an independent accessible name.
+- Tooltip content is string-only in Phase 1J.
+- Tooltip must not contain interactive controls.
+- Tooltip must not trap or receive focus.
+- Public Tooltip callbacks expose boolean state, not events.
+- Vendor trigger, placement, overlay, state, render-prop, and event types are prohibited in the public Tooltip API.
+- Generic Popover, HoverCard, Coachmark, and interactive overlay behavior require separately reviewed phases.
+- Liturgical overlays cannot replace Tooltip trigger focus or accessibility treatment.
 
 ## Completion Reports
 
