@@ -7,6 +7,10 @@ const prohibitedPatterns = [
   /from ["']react-aria["']/u,
   /from ["']react-stately["']/u,
   /from ["']@react-types\//u,
+  /from ["']@mui\//u,
+  /from ["']@tanstack\/react-table["']/u,
+  /from ["']ag-grid-community["']/u,
+  /from ["']ag-grid-react["']/u,
   /\bPressEvent\b/u,
   /\bButtonRenderProps\b/u,
   /\bLinkRenderProps\b/u,
@@ -25,6 +29,13 @@ const prohibitedPatterns = [
   /\bTabListRenderProps\b/u,
   /\bTabRenderProps\b/u,
   /\bTabPanelRenderProps\b/u,
+  /\bTableProps\b.*from ["']react-aria-components["']/u,
+  /\bTableInstance\b/u,
+  /\bSortingState\b/u,
+  /\bPaginationState\b/u,
+  /\bGridNode\b/u,
+  /\bRowNode\b/u,
+  /\bColumnDef\b/u,
   /\bTooltipTriggerProps\b/u,
   /\bTooltipProps\b.*from ["']react-aria-components["']/u,
   /\bOverlayArrowProps\b/u,
@@ -97,6 +108,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "Menu",
     "Radio",
     "RadioGroup",
+    "Table",
     "Select",
     "Switch",
     "Tabs",
@@ -121,6 +133,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["menu", "Menu"],
     ["radio", "Radio"],
     ["radio-group", "RadioGroup"],
+    ["table", "Table"],
     ["select", "Select"],
     ["switch", "Switch"],
     ["tabs", "Tabs"],
@@ -200,6 +213,15 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "export type TabItem",
     "readonly id: string",
     "onSelectionChange?: (id: string) => void"
+  ]);
+  await verifyDeclarationContains(distRoot, "table/Table.d.ts", [
+    "RefAttributes<HTMLTableElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/table-types.d.ts", [
+    "export type TableRowData",
+    "export type TableColumn",
+    "export type TableProps",
+    "renderCell: (row: TRow) => ReactNode"
   ]);
   await verifyDeclarationContains(distRoot, "tooltip/Tooltip.d.ts", ["RefAttributes<HTMLElement>"]);
   await verifyDeclarationContains(distRoot, "shared/tooltip-types.d.ts", [
