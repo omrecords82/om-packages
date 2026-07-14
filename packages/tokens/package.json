@@ -28,20 +28,20 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist .tsbuildinfo && tsc -b && pnpm generate:artifacts && pnpm validate:artifacts",
+    "build": "rm -rf dist .tsbuildinfo && tsc -b && corepack pnpm generate:artifacts && corepack pnpm validate:artifacts",
     "clean": "rm -rf dist .tsbuildinfo",
     "generate:artifacts": "tsx scripts/generate-artifacts.ts",
     "validate:artifacts": "tsx scripts/validate-artifacts.ts",
     "check:artifacts": "tsx scripts/check-artifacts.ts",
     "lint": "eslint .",
-    "pack:check": "pnpm pack --dry-run",
+    "pack:check": "corepack pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc -b --pretty false",
     "validate:tokens": "tsx scripts/validate-token-files.ts",
     "validate:brand": "tsx scripts/validate-brand-pack.ts",
     "validate:references": "tsx scripts/validate-references.ts",
     "validate:policy": "tsx scripts/validate-policy.ts",
-    "validate:phase1a": "pnpm --filter @om/contracts build && pnpm validate:tokens && pnpm validate:brand && pnpm validate:references && pnpm validate:policy"
+    "validate:phase1a": "corepack pnpm --filter @om/contracts build && corepack pnpm validate:tokens && corepack pnpm validate:brand && corepack pnpm validate:references && corepack pnpm validate:policy"
   },
   "dependencies": {
     "@om/contracts": "workspace:*"

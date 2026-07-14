@@ -19,6 +19,10 @@
       "types": "./dist/checkbox/index.d.ts",
       "import": "./dist/checkbox/index.js"
     },
+    "./combo-box": {
+      "types": "./dist/combo-box/index.d.ts",
+      "import": "./dist/combo-box/index.js"
+    },
     "./dialog": {
       "types": "./dist/dialog/index.d.ts",
       "import": "./dist/dialog/index.js"
@@ -96,11 +100,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist .tsbuildinfo && tsc -b && pnpm copy:css && pnpm verify:public-api",
+    "build": "rm -rf dist .tsbuildinfo && tsc -b && corepack pnpm copy:css && corepack pnpm verify:public-api",
     "clean": "rm -rf dist .tsbuildinfo",
-    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css src/styles/drawer.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css src/styles/drawer.css > dist/styles/index.css",
+    "copy:css": "mkdir -p dist/styles && cp src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/combo-box.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css src/styles/drawer.css dist/styles/ && cat src/styles/button.css src/styles/link.css src/styles/fields.css src/styles/selection-controls.css src/styles/select.css src/styles/combo-box.css src/styles/dialogs.css src/styles/menu.css src/styles/tabs.css src/styles/tooltip.css src/styles/table.css src/styles/drawer.css > dist/styles/index.css",
     "lint": "eslint .",
-    "pack:check": "pnpm pack --dry-run",
+    "pack:check": "corepack pnpm pack --dry-run",
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc -b --pretty false",
     "verify:public-api": "tsx scripts/verify-public-api.ts"
