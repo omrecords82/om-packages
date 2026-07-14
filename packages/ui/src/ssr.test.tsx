@@ -2,6 +2,7 @@ import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
 import { Checkbox } from "./checkbox/index.js";
+import { ComboBox } from "./combo-box/index.js";
 import { Dialog } from "./dialog/index.js";
 import { Drawer } from "./drawer/index.js";
 import { AlertDialog } from "./alert-dialog/index.js";
@@ -35,6 +36,15 @@ describe("@om/ui SSR", () => {
             {
               value: "server-option",
               label: "Server option"
+            }
+          ]}
+        />
+        <ComboBox
+          label="Server combo box"
+          options={[
+            {
+              value: "server-combo-option",
+              label: "Server combo option"
             }
           ]}
         />
@@ -88,6 +98,7 @@ describe("@om/ui SSR", () => {
     expect(markup).toContain("Server radio group");
     expect(markup).toContain("Server radio");
     expect(markup).toContain("Server select");
+    expect(markup).toContain("Server combo box");
     expect(markup).toContain("Server switch");
     expect(markup).toContain("Server tabs");
     expect(markup).toContain("Server tab");

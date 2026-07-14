@@ -41,7 +41,11 @@ const prohibitedPatterns = [
   /\bTooltipProps\b.*from ["']react-aria-components["']/u,
   /\bOverlayArrowProps\b/u,
   /\bPlacement\b/u,
+  /\bComboBoxProps\b.*from ["']react-aria-components["']/u,
   /\bHoverEvent\b/u,
+  /\bFilter\b/u,
+  /\bFilterFn\b/u,
+  /\bInputEvent\b/u,
   /\bTooltipTriggerState\b/u,
   /\bTooltipRenderProps\b/u,
   /\bOverlayArrowRenderProps\b/u,
@@ -55,6 +59,7 @@ const prohibitedPatterns = [
   /\bNode\b/u,
   /\bListBoxProps\b/u,
   /\bListBoxItemProps\b/u,
+  /\bComboBoxValueProps\b/u,
   /\bMenuItemProps\b/u,
   /\bMenuTriggerProps\b/u,
   /\bMenuProps\b.*from ["']react-aria-components["']/u,
@@ -79,7 +84,9 @@ const prohibitedPatterns = [
   /onCancel\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent)/u,
   /onAction\??:\s*\([^)]*(Event|event|PressEvent|Key|Selection|Collection)/u,
   /onValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
-  /onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u
+  /onSelectionChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent)/u,
+  /onSelectedValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|PressEvent|Key|Selection|Collection)/u,
+  /onInputValueChange\??:\s*\([^)]*(Event|event|ChangeEvent|FormEvent|InputEvent)/u
 ] as const;
 
 export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): Promise<void> {
@@ -101,6 +108,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     "Button",
     "Dialog",
     "Checkbox",
+    "ComboBox",
     "FieldError",
     "Drawer",
     "IconButton",
@@ -128,6 +136,7 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
     ["dialog", "Dialog"],
     ["drawer", "Drawer"],
     ["checkbox", "Checkbox"],
+    ["combo-box", "ComboBox"],
     ["field-error", "FieldError"],
     ["icon-button", "IconButton"],
     ["alert-dialog", "AlertDialog"],
@@ -179,6 +188,17 @@ export async function verifyPublicApi(distRoot = join(process.cwd(), "dist")): P
   ]);
   await verifyDeclarationContains(distRoot, "select/Select.d.ts", [
     "RefAttributes<HTMLButtonElement>"
+  ]);
+  await verifyDeclarationContains(distRoot, "combo-box/ComboBox.d.ts", [
+    "ForwardRefExoticComponent<ComboBoxProps",
+    "RefAttributes<HTMLInputElement>",
+    "ComboBoxProps"
+  ]);
+  await verifyDeclarationContains(distRoot, "shared/combo-box-types.d.ts", [
+    "export type ComboBoxOption",
+    "export type ComboBoxFilterMode",
+    "onSelectedValueChange?: (value: string | null) => void",
+    "onInputValueChange?: (value: string) => void"
   ]);
   await verifyDeclarationContains(distRoot, "dialog/Dialog.d.ts", [
     "RefAttributes<HTMLDivElement>",

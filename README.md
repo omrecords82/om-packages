@@ -4,7 +4,7 @@ This repository is the canonical monorepo for reusable Orthodox Metrics packages
 
 ## Phase 1L Status
 
-Phase 1L extends the permanent `@om/ui` pattern with the first modal drawer component: `Drawer`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency where appropriate, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, `Table`, and `Drawer`.
+Phase 1M extends the permanent `@om/ui` pattern with the first editable lookup component: `ComboBox`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency where appropriate, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `ComboBox`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, `Table`, and `Drawer`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -82,6 +82,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui`
 - `@om/ui/button`
 - `@om/ui/checkbox`
+- `@om/ui/combo-box`
 - `@om/ui/dialog`
 - `@om/ui/alert-dialog`
 - `@om/ui/drawer`
@@ -114,7 +115,9 @@ Text-entry components require labels. Placeholder text is not a label. `TextFiel
 
 Selection controls require accessible labels through visible child content or a group label. `Checkbox` and `Switch` support controlled and uncontrolled boolean state. `RadioGroup` owns `Radio` selection and exposes string values through `onValueChange`. Error messages render only when invalid state is active. Selected, disabled, read-only, invalid, and focused states are represented without exposing React Aria contracts.
 
-`Select` exposes an OM-owned `SelectOption` data contract and `string | null` value model. Option values and labels must be non-empty strings, values must be unique, and `null` represents no selection. Placeholder text is not an option or a label. `Select` supports controlled and uncontrolled values, hidden form integration for selected string values, read-only behavior that remains focusable but does not open or change, disabled options, empty-options behavior, descriptions, errors, and a ref to the visible trigger `HTMLButtonElement`. Standalone `ListBox`, `Popover`, grouped options, multi-select, searchable Select, async loading, custom option rendering, and `ComboBox` remain deferred.
+`Select` exposes an OM-owned `SelectOption` data contract and `string | null` value model. Option values and labels must be non-empty strings, values must be unique, and `null` represents no selection. Placeholder text is not an option or a label. `Select` supports controlled and uncontrolled values, hidden form integration for selected string values, read-only behavior that remains focusable but does not open or change, disabled options, empty-options behavior, descriptions, errors, and a ref to the visible trigger `HTMLButtonElement`. Standalone `ListBox`, `Popover`, grouped options, multi-select, searchable Select, async loading, custom option rendering, and other richer lookup patterns remain deferred.
+
+`ComboBox` is an experimental editable lookup control. It reuses the reviewed `SelectOption` shape as `ComboBoxOption`, exposes selected values as `string | null`, exposes input text as `string`, and filters static local options with deterministic contains or starts-with matching on labels. Typed text is not a committed value, arbitrary custom values remain deferred, and remote fetching stays application-owned. The public ref targets the text input `HTMLInputElement`. Read-only and disabled behavior remain distinct, and form submission includes only the committed selected value.
 
 `Dialog` and `AlertDialog` are experimental modal overlays. `Dialog` requires a title, supports optional descriptions, controlled and uncontrolled open state, optional triggers, dismissable and keyboard-dismiss policies, a visible close button by default, internal focus trapping, focus restoration, long-content scrolling, and a public ref to the dialog surface `HTMLDivElement`. `AlertDialog` requires a title and consequence description, defaults focus to Cancel, does not dismiss on outside interaction, blocks dismissal while confirmation is pending, exposes no event objects from confirm or cancel callbacks, and is intended to support future replacement of ad-hoc confirmation patterns.
 

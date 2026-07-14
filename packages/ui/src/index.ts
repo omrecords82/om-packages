@@ -6,6 +6,8 @@ export { Drawer } from "./drawer/index.js";
 export type { DrawerPlacement, DrawerProps, DrawerSize } from "./drawer/index.js";
 export { Checkbox } from "./checkbox/index.js";
 export type { CheckboxProps } from "./checkbox/index.js";
+export { ComboBox } from "./combo-box/index.js";
+export type { ComboBoxFilterMode, ComboBoxOption, ComboBoxProps } from "./combo-box/index.js";
 export { Dialog } from "./dialog/index.js";
 export type { DialogProps } from "./dialog/index.js";
 export { FieldError } from "./field-error/index.js";

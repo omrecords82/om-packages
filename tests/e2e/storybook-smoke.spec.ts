@@ -427,6 +427,126 @@ test("UI Select story supports keyboard selection, blocked states, validation, a
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI ComboBox story supports filtering, selection, form submission, and themes", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-combobox--examples");
+
+  const basic = page.getByRole("combobox", { name: "Basic static options" });
+  await tabUntilFocused(page, basic);
+  await page.keyboard.type("Mar");
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await expect(page.getByRole("option", { name: "Marriage" })).toBeVisible();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await expect(basic).toHaveValue("Marriage");
+
+  const selected = page.getByRole("combobox", { name: "Selected value" });
+  await expect(selected).toHaveValue("Baptism");
+
+  const controlledSelection = page.getByRole("combobox", { name: "Controlled selection" });
+  await controlledSelection.fill("Bap");
+  await page.getByRole("option", { name: "Baptism" }).click();
+  await expect(controlledSelection).toHaveValue("Baptism");
+
+  const controlledInput = page.getByRole("combobox", { name: "Controlled input" });
+  await controlledInput.fill("Chr");
+  await expect(controlledInput).toHaveValue("Chr");
+
+  const disabled = page.locator('input[disabled][role="combobox"]').first();
+  await expect(disabled).toBeDisabled();
+  await disabled.click({ force: true }).catch(() => undefined);
+  await expect(page.getByRole("listbox")).toBeHidden();
+
+  const readOnly = page.getByRole("combobox", { name: "Read only" });
+  await readOnly.focus();
+  await expect(readOnly).toBeFocused();
+  await page.keyboard.type("Mar");
+  await expect(readOnly).toHaveValue("Baptism");
+
+  const invalid = page.getByRole("combobox", { name: "Invalid" });
+  await expect(invalid).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByText("Example combo box error.")).toBeVisible();
+
+  const description = page.getByRole("combobox", { name: "Description" });
+  const describedBy = await description.getAttribute("aria-describedby");
+  expect(describedBy).not.toBeNull();
+
+  const hidden = page.getByRole("combobox", { name: "Hidden label" });
+  await expect(hidden).toBeVisible();
+
+  const contains = page.getByRole("combobox", { name: "Contains filtering" });
+  await contains.click();
+  await contains.fill("ri");
+
+  const empty = page.getByRole("combobox", { name: "Empty options" });
+  await empty.click();
+  await expect(page.getByText("No options found")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  const noResults = page.getByRole("combobox", { name: "No matching results" });
+  await noResults.click();
+  await expect(page.getByText("No matching options.")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  const longList = page.getByRole("combobox", { name: "Long option list" });
+  await longList.click();
+  const popover = page.locator(".om-combo-box__popover").last();
+  const canScroll = await popover.evaluate(
+    (element) => element.scrollHeight > element.clientHeight
+  );
+  expect(canScroll).toBe(true);
+  await page.keyboard.press("Escape");
+
+  await page.setViewportSize({ width: 375, height: 700 });
+  await page.getByRole("combobox", { name: "Narrow viewport" }).click();
+  const narrowPopover = page.locator(".om-combo-box__popover").last();
+  const narrowBox = await narrowPopover.boundingBox();
+  const viewport = page.viewportSize();
+  expect(narrowBox).not.toBeNull();
+  expect(viewport).not.toBeNull();
+  if (narrowBox !== null && viewport !== null) {
+    expect(narrowBox.x).toBeGreaterThanOrEqual(0);
+    expect(narrowBox.x + narrowBox.width).toBeLessThanOrEqual(viewport.width);
+  }
+  await page.keyboard.press("Escape");
+
+  await page.goto("/iframe.html?id=ui-combobox--themes");
+  await page.getByRole("combobox", { name: "Dark mode" }).focus();
+  const darkColor = await page
+    .getByRole("combobox", { name: "Dark mode" })
+    .evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+
+  const enhanced = page.getByRole("combobox", { name: "Enhanced focus" });
+  await enhanced.focus();
+  const outlineWidth = await enhanced.evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(outlineWidth).not.toBe("0px");
+
+  await page.emulateMedia({ forcedColors: "active" });
+  await page.goto("/iframe.html?id=ui-combobox--themes");
+  const forced = page.getByRole("combobox", { name: "High contrast" });
+  await expect(forced).toBeVisible();
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/iframe.html?id=ui-combobox--themes");
+  await page.getByRole("combobox", { name: "Reduced motion" }).click();
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  const large = page.getByRole("combobox", { name: "Large text" });
+  await expect(large).toBeVisible();
+  await expect(page.getByText("Large-text error remains visible.")).toBeVisible();
+
+  await page.goto("/iframe.html?id=ui-combobox--examples");
+  const form = page.getByRole("form", { name: "Combo form" });
+  await form.getByRole("button", { name: "Submit form" }).click();
+  await expect(page.getByText("Form result: option-b")).toBeVisible();
+
+  expect(consoleErrors).toEqual([]);
+});
+
 test("UI Dialog story supports modal focus, dismissal, and themes", async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
   await page.goto("/iframe.html?id=ui-dialog--examples");

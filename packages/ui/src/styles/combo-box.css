@@ -1,0 +1,258 @@
+@layer om.components {
+  .om-combo-box {
+    color: var(--om-component-field-label-foreground);
+    display: grid;
+    gap: calc(var(--om-component-field-gap) / 4);
+    max-inline-size: 100%;
+  }
+
+  .om-combo-box__label {
+    align-items: center;
+    color: var(--om-component-field-label-foreground);
+    display: inline-flex;
+    gap: calc(var(--om-primitive-space-4) / 4);
+    font: inherit;
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-combo-box__label[data-om-label-visibility="visually-hidden"] {
+    block-size: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    inline-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .om-combo-box__required-marker {
+    font-weight: var(--om-primitive-font-weight-regular);
+  }
+
+  .om-combo-box__control {
+    align-items: stretch;
+    appearance: none;
+    background: var(--om-component-select-trigger-background);
+    border: var(--om-primitive-border-width-1) solid var(--om-component-select-border);
+    border-radius: var(--om-component-select-radius);
+    color: var(--om-component-select-trigger-foreground);
+    cursor: text;
+    display: inline-flex;
+    font: inherit;
+    gap: calc(var(--om-primitive-space-4) / 2);
+    inline-size: 100%;
+    line-height: var(--om-primitive-line-height-body);
+    min-block-size: var(--om-component-select-min-height);
+    padding-block: calc(var(--om-component-select-padding-block) / 2);
+    padding-inline: var(--om-component-select-padding-inline);
+    transition-duration: var(--om-primitive-motion-duration-fast);
+    transition-property: background-color, border-color, color, opacity;
+    transition-timing-function: var(--om-primitive-motion-easing-standard);
+  }
+
+  .om-combo-box[data-om-size="sm"] .om-combo-box__control {
+    min-block-size: calc(var(--om-component-select-min-height) - (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-component-select-padding-block) / 4);
+  }
+
+  .om-combo-box[data-om-size="lg"] .om-combo-box__control {
+    min-block-size: calc(var(--om-component-select-min-height) + (var(--om-primitive-space-4) / 2));
+    padding-block: calc(var(--om-component-select-padding-block) * 0.75);
+  }
+
+  .om-combo-box__control[data-hovered]:not([data-disabled], [data-readonly]) {
+    border-color: var(--om-component-select-hover-border);
+  }
+
+  .om-combo-box[data-open] .om-combo-box__control,
+  .om-combo-box[data-om-open="true"] .om-combo-box__control {
+    border-color: var(--om-component-select-open-border);
+  }
+
+  .om-combo-box[data-invalid] .om-combo-box__control {
+    border-color: var(--om-component-field-error-foreground);
+  }
+
+  .om-combo-box[data-disabled] .om-combo-box__control {
+    background: var(--om-component-select-disabled-background);
+    color: var(--om-component-select-disabled-foreground);
+    cursor: not-allowed;
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-combo-box[data-readonly] .om-combo-box__control {
+    background: var(--om-component-select-read-only-background);
+    cursor: default;
+  }
+
+  .om-combo-box__input {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    flex: 1 1 auto;
+    font: inherit;
+    min-inline-size: 0;
+    outline: none;
+    padding: 0;
+  }
+
+  .om-combo-box__input::placeholder {
+    color: var(--om-component-select-placeholder-foreground);
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-combo-box__input[data-focus-visible] {
+    outline: var(--om-accessibility-focus-enhanced-width, 2px) solid
+      var(--om-component-select-focus-ring);
+    outline-offset: 0;
+  }
+
+  .om-combo-box__trigger {
+    align-items: center;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    min-inline-size: var(--om-component-select-option-gap);
+    padding: 0;
+  }
+
+  .om-combo-box__trigger:disabled {
+    cursor: not-allowed;
+  }
+
+  .om-combo-box__indicator {
+    font-size: 0.875em;
+    line-height: 1;
+  }
+
+  .om-combo-box__description {
+    color: var(--om-component-field-description-foreground);
+    font: inherit;
+  }
+
+  .om-combo-box__error {
+    color: var(--om-component-field-error-foreground);
+    font: inherit;
+  }
+
+  .om-combo-box__popover {
+    background: var(--om-component-select-popover-background);
+    border: var(--om-primitive-border-width-1) solid var(--om-component-select-popover-border);
+    border-radius: var(--om-component-select-radius);
+    box-shadow: var(--om-component-select-popover-shadow);
+    box-sizing: border-box;
+    max-block-size: var(--om-component-select-popover-max-height);
+    min-inline-size: max(var(--trigger-width), 16rem);
+    overflow: auto;
+    z-index: var(--om-component-select-popover-z-index);
+  }
+
+  .om-combo-box__listbox {
+    display: grid;
+    gap: 0;
+    max-block-size: inherit;
+    outline: none;
+    overflow: auto;
+    padding-block: calc(var(--om-component-select-option-padding-block) / 2);
+  }
+
+  .om-combo-box__option {
+    align-items: start;
+    background: var(--om-component-select-option-background);
+    color: var(--om-component-select-option-foreground);
+    cursor: pointer;
+    display: grid;
+    gap: var(--om-component-select-option-gap);
+    grid-template-columns: var(--om-primitive-space-4) minmax(0, 1fr);
+    padding-block: var(--om-component-select-option-padding-block);
+    padding-inline: var(--om-component-select-option-padding-inline);
+  }
+
+  .om-combo-box__option[data-focused] {
+    background: var(--om-component-select-option-focused-background);
+    outline: var(--om-accessibility-focus-enhanced-width, 2px) solid
+      var(--om-component-select-focus-ring);
+    outline-offset: calc(var(--om-primitive-border-width-1) * -1);
+  }
+
+  .om-combo-box__option[data-hovered] {
+    background: var(--om-component-select-option-hover-background);
+  }
+
+  .om-combo-box__option[data-selected] {
+    background: var(--om-component-select-option-selected-background);
+    color: var(--om-component-select-option-selected-foreground);
+  }
+
+  .om-combo-box__option[data-disabled] {
+    color: var(--om-component-select-option-disabled-foreground);
+    cursor: not-allowed;
+    opacity: var(--om-component-button-disabled-opacity);
+  }
+
+  .om-combo-box__option-check::before {
+    content: "";
+  }
+
+  .om-combo-box__option[data-selected] .om-combo-box__option-check::before {
+    content: "✓";
+  }
+
+  .om-combo-box__option-content {
+    display: grid;
+    gap: calc(var(--om-component-select-option-gap) / 2);
+    min-inline-size: 0;
+  }
+
+  .om-combo-box__option-label,
+  .om-combo-box__option-description {
+    overflow-wrap: anywhere;
+  }
+
+  .om-combo-box__option-description {
+    color: var(--om-component-field-description-foreground);
+  }
+
+  .om-combo-box__no-results {
+    color: var(--om-component-select-popover-foreground);
+    padding: var(--om-component-select-option-padding-block)
+      var(--om-component-select-option-padding-inline);
+  }
+
+  @media (forced-colors: active) {
+    .om-combo-box__control,
+    .om-combo-box__popover {
+      border-color: CanvasText;
+    }
+
+    .om-combo-box__input[data-focus-visible],
+    .om-combo-box__option[data-focused] {
+      outline-color: Highlight;
+    }
+
+    .om-combo-box__option[data-selected] {
+      background: Highlight;
+      color: HighlightText;
+    }
+
+    .om-combo-box__option[data-disabled] {
+      color: GrayText;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .om-combo-box__control,
+    .om-combo-box__option,
+    .om-combo-box__popover {
+      transition-duration: 0s;
+    }
+  }
+}

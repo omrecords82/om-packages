@@ -66,7 +66,19 @@ This repository is the canonical source for reusable Orthodox Metrics packages u
 - Public Select callbacks expose values, not native or vendor events.
 - Read-only and disabled Select behavior must remain distinct.
 - Validation and focus tokens cannot be replaced by liturgical overlays.
-- Standalone ListBox and ComboBox require separately reviewed phases.
+- Standalone ListBox remains deferred.
+- Standard editable single-selection lookup controls must be consumed through `@om/ui`.
+- Applications must not import React Aria ComboBox, ListBox, ListBoxItem, Popover, or collection primitives when an OM equivalent exists.
+- ComboBox selected values use stable strings or null.
+- Typed input text is not automatically a committed value.
+- Arbitrary custom values are prohibited in Phase 1M.
+- Filtering is local, deterministic, and option-label based.
+- Remote fetching remains application-owned.
+- Public ComboBox callbacks expose selected values or input strings, not events.
+- Vendor Key, Selection, collection, node, filter, state, and event types are prohibited publicly.
+- Disabled and read-only ComboBox behavior remain distinct.
+- Liturgical overlays cannot replace ComboBox focus, validation, or disabled-state treatment.
+- Multi-select, async loading, creatable values, fuzzy matching, grouped options, and standalone SearchField require separate reviewed phases.
 - Standard dialogs must be consumed through `@om/ui`.
 - Applications must not directly import React Aria Dialog, Modal, ModalOverlay, or DialogTrigger primitives when an OM equivalent exists.
 - Public dialog props must not extend vendor interfaces.
