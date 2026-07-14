@@ -7,6 +7,78 @@
       "value": "{semantic.text.primary}",
       "description": "Bootstrap tooltip background reference.",
       "stability": "bootstrap"
+    },
+    "component.tooltip.foreground": {
+      "type": "color",
+      "value": "{semantic.background.canvas}",
+      "description": "Experimental tooltip foreground reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.border": {
+      "type": "color",
+      "value": "{semantic.border.decorative}",
+      "description": "Experimental tooltip border reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.radius": {
+      "type": "dimension",
+      "value": "{primitive.radius.2}",
+      "description": "Experimental tooltip radius reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.shadow": {
+      "type": "shadow",
+      "value": "{primitive.shadow.none}",
+      "description": "Experimental tooltip shadow reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.paddingInline": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tooltip inline padding reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.paddingBlock": {
+      "type": "dimension",
+      "value": "0.5rem",
+      "description": "Experimental tooltip block padding reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.maxWidth": {
+      "type": "dimension",
+      "value": "20rem",
+      "description": "Experimental tooltip maximum width.",
+      "stability": "experimental"
+    },
+    "component.tooltip.zIndex": {
+      "type": "number",
+      "value": "{primitive.zIndex.overlay}",
+      "description": "Experimental tooltip overlay z-index reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.arrowSize": {
+      "type": "dimension",
+      "value": "{primitive.space.4}",
+      "description": "Experimental tooltip arrow size reference.",
+      "stability": "experimental"
+    },
+    "component.tooltip.offset": {
+      "type": "dimension",
+      "value": "0.5rem",
+      "description": "Experimental tooltip surface offset.",
+      "stability": "experimental"
+    },
+    "component.tooltip.standardDelay": {
+      "type": "duration",
+      "value": "700ms",
+      "description": "Experimental tooltip standard opening delay.",
+      "stability": "experimental"
+    },
+    "component.tooltip.closeDelay": {
+      "type": "duration",
+      "value": "120ms",
+      "description": "Experimental tooltip closing delay.",
+      "stability": "experimental"
     }
   }
 }
