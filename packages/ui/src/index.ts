@@ -2,6 +2,8 @@ export { Button } from "./button/index.js";
 export type { ButtonProps } from "./button/index.js";
 export { AlertDialog } from "./alert-dialog/index.js";
 export type { AlertDialogProps } from "./alert-dialog/index.js";
+export { Drawer } from "./drawer/index.js";
+export type { DrawerPlacement, DrawerProps, DrawerSize } from "./drawer/index.js";
 export { Checkbox } from "./checkbox/index.js";
 export type { CheckboxProps } from "./checkbox/index.js";
 export { Dialog } from "./dialog/index.js";

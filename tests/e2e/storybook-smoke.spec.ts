@@ -536,6 +536,204 @@ test("UI AlertDialog story supports confirmation, focus policy, and pending beha
   expect(consoleErrors).toEqual([]);
 });
 
+test("UI Drawer story supports modal focus, placement, dismissal, and scroll containment", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-drawer--examples");
+
+  const basicTrigger = page.getByRole("button", { name: "Open basic drawer" });
+  await tabUntilFocused(page, basicTrigger);
+  await page.keyboard.press("Enter");
+
+  const basicDrawer = page.getByRole("dialog", { name: "Basic end drawer" });
+  await expect(basicDrawer).toBeVisible();
+  const basicCloseButton = basicDrawer.getByRole("button", { name: "Close drawer" });
+  await expect(basicCloseButton).toBeFocused();
+  await basicCloseButton.click();
+  await expect(basicDrawer).toBeHidden();
+  await expect(basicTrigger).toBeFocused();
+
+  await basicTrigger.focus();
+  await page.keyboard.press("Space");
+  await expect(basicDrawer).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(basicDrawer).toBeHidden();
+
+  await page.getByRole("button", { name: "Open nondismissable drawer" }).click();
+  const nondismissable = page.getByRole("dialog", { name: "Nondismissable drawer" });
+  await expect(nondismissable).toBeVisible();
+  await page.mouse.click(4, 4);
+  await expect(nondismissable).toBeVisible();
+  await page.getByRole("button", { exact: true, name: "Close drawer" }).click();
+
+  await page.getByRole("button", { name: "Open keyboard locked drawer" }).click();
+  const locked = page.getByRole("dialog", { name: "Keyboard dismissal disabled" });
+  await expect(locked).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(locked).toBeVisible();
+  await page.getByRole("button", { exact: true, name: "Close drawer" }).click();
+
+  await page.getByRole("button", { name: "Open form drawer" }).click();
+  const formDrawer = page.getByRole("dialog", { name: "Form-like drawer" });
+  await expect(formDrawer).toBeVisible();
+  await page.keyboard.press("Tab");
+  await expect(formDrawer).toContainText("Example title");
+  expect(await formDrawer.evaluate((element) => element.contains(document.activeElement))).toBe(
+    true
+  );
+  await page.keyboard.press("Shift+Tab");
+  expect(await formDrawer.evaluate((element) => element.contains(document.activeElement))).toBe(
+    true
+  );
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open long content drawer" }).click();
+  const longDrawer = page.getByRole("dialog", { name: "Long content drawer" });
+  await expect(longDrawer).toBeVisible();
+  const bodyCanScroll = await longDrawer
+    .locator(".om-drawer__body")
+    .evaluate((element) => element.scrollHeight > element.clientHeight);
+  expect(bodyCanScroll).toBe(true);
+  await longDrawer.locator(".om-drawer__body").evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect(longDrawer.locator(".om-drawer__header")).toBeVisible();
+  await expect(longDrawer.locator(".om-drawer__footer")).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open start drawer" }).click();
+  const startDrawer = page.locator('.om-drawer__surface[data-om-placement="start"]');
+  const startBox = await startDrawer.boundingBox();
+  const startViewport = page.viewportSize();
+  expect(startBox).not.toBeNull();
+  expect(startViewport).not.toBeNull();
+  if (startBox !== null && startViewport !== null) {
+    expect(startBox.x).toBeLessThanOrEqual(2);
+    expect(startBox.height).toBeGreaterThan(0);
+  }
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open end drawer" }).click();
+  const endDrawer = page.locator('.om-drawer__surface[data-om-placement="end"]');
+  const endBox = await endDrawer.boundingBox();
+  const endViewport = page.viewportSize();
+  expect(endBox).not.toBeNull();
+  expect(endViewport).not.toBeNull();
+  if (endBox !== null && endViewport !== null) {
+    expect(endBox.x + endBox.width).toBeGreaterThanOrEqual(endViewport.width - 2);
+  }
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open top drawer" }).click();
+  const topDrawer = page.locator('.om-drawer__surface[data-om-placement="top"]');
+  const topBox = await topDrawer.boundingBox();
+  expect(topBox).not.toBeNull();
+  if (topBox !== null) {
+    expect(topBox.y).toBeLessThanOrEqual(2);
+  }
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open bottom drawer" }).click();
+  const bottomDrawer = page.locator('.om-drawer__surface[data-om-placement="bottom"]');
+  const bottomBox = await bottomDrawer.boundingBox();
+  const bottomViewport = page.viewportSize();
+  expect(bottomBox).not.toBeNull();
+  expect(bottomViewport).not.toBeNull();
+  if (bottomBox !== null && bottomViewport !== null) {
+    expect(bottomBox.y + bottomBox.height).toBeGreaterThanOrEqual(bottomViewport.height - 2);
+  }
+  await page.keyboard.press("Escape");
+
+  const originalDirection = await page.evaluate(() => document.documentElement.dir);
+  await page.evaluate(() => {
+    document.documentElement.dir = "rtl";
+  });
+  await page.getByRole("button", { name: "Open RTL drawer" }).click();
+  const rtlDrawer = page.locator('.om-drawer__surface[data-om-placement="start"]');
+  const rtlBox = await rtlDrawer.boundingBox();
+  const rtlViewport = page.viewportSize();
+  expect(rtlBox).not.toBeNull();
+  expect(rtlViewport).not.toBeNull();
+  if (rtlBox !== null && rtlViewport !== null) {
+    expect(rtlBox.x + rtlBox.width).toBeGreaterThanOrEqual(rtlViewport.width - 2);
+  }
+  await page.keyboard.press("Escape");
+  await page.evaluate((direction) => {
+    document.documentElement.dir = direction;
+  }, originalDirection);
+
+  await page.setViewportSize({ height: 420, width: 375 });
+  await page.getByRole("button", { name: "Open narrow drawer" }).click();
+  const narrowDrawer = page.getByRole("dialog", { name: "Narrow viewport drawer" });
+  await expect(narrowDrawer).toBeVisible();
+  const pageOverflow = await page.evaluate(
+    () => document.documentElement.scrollWidth <= document.documentElement.clientWidth
+  );
+  expect(pageOverflow).toBe(true);
+  await page.keyboard.press("Escape");
+
+  expect(consoleErrors).toEqual([]);
+});
+
+test("UI Drawer themes resolve tokens and preserve focus, motion, and contrast boundaries", async ({
+  page
+}) => {
+  const consoleErrors = collectConsoleErrors(page);
+  await page.goto("/iframe.html?id=ui-drawer--themes");
+
+  await page.getByRole("button", { name: "Open dark drawer" }).click();
+  const darkDrawer = page.getByRole("dialog", { name: "Dark mode drawer" });
+  await expect(darkDrawer).toBeVisible();
+  const darkColor = await darkDrawer.evaluate((element) => getComputedStyle(element).color);
+  expect(darkColor).not.toBe("rgba(0, 0, 0, 0)");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open liturgical drawer" }).focus();
+  const liturgicalOutline = await page
+    .getByRole("button", { name: "Open liturgical drawer" })
+    .evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(liturgicalOutline).not.toBe("0px");
+
+  await page.getByRole("button", { name: "Open high contrast drawer" }).click();
+  const highContrastDrawer = page.getByRole("dialog", { name: "High contrast drawer" });
+  await expect(highContrastDrawer).toBeVisible();
+  const highContrastBorder = await highContrastDrawer.evaluate(
+    (element) => getComputedStyle(element).borderColor
+  );
+  expect(highContrastBorder).not.toBe("rgba(0, 0, 0, 0)");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open forced colors drawer" }).click();
+  const forcedDrawer = page.getByRole("dialog", { name: "Forced colors drawer" });
+  await expect(forcedDrawer).toBeVisible();
+  const forcedBorder = await forcedDrawer.evaluate(
+    (element) => getComputedStyle(element).borderColor
+  );
+  expect(forcedBorder).not.toBe("rgba(0, 0, 0, 0)");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open enhanced focus drawer" }).focus();
+  const enhancedOutline = await page
+    .getByRole("button", { name: "Open enhanced focus drawer" })
+    .evaluate((element) => getComputedStyle(element).outlineWidth);
+  expect(enhancedOutline).not.toBe("0px");
+
+  await page.getByRole("button", { name: "Open reduced motion drawer" }).click();
+  const reducedDrawer = page.getByRole("dialog", { name: "Reduced motion drawer" });
+  await expect(reducedDrawer).toBeVisible();
+  const reducedTransition = await reducedDrawer.evaluate(
+    (element) => getComputedStyle(element).transitionDuration
+  );
+  expect(reducedTransition).not.toBe("");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open large text drawer" }).click();
+  await expect(page.getByRole("dialog", { name: "Large text drawer" })).toBeVisible();
+  await expect(page.getByText("Large text should not clip")).toBeVisible();
+  expect(consoleErrors).toEqual([]);
+});
+
 test("UI Menu story supports keyboard, typeahead, links, and themes", async ({ page }) => {
   const consoleErrors = collectConsoleErrors(page);
   await page.goto("/iframe.html?id=ui-menu--examples");

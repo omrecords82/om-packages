@@ -22,6 +22,8 @@ Phase 1I adds minimal experimental Tabs tokens for tab-list boundaries, tab stat
 
 Phase 1J adds minimal experimental Tooltip tokens for supplemental-description surface, foreground, border, radius, shadow, spacing, maximum width, overlay z-index, decorative arrow, offset, and package-owned delay behavior. These tokens prove tooltip styling only; they are not final Orthodox Metrics design values.
 
+Phase 1L adds minimal experimental Drawer tokens for logical and physical edge sizing. These tokens prove modal drawer sizing only; they are not final Orthodox Metrics design values.
+
 Package exports:
 
 - `@om/tokens`

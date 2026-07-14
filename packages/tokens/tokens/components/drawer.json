@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "layer": "component",
+  "tokens": {
+    "component.drawer.widthSm": {
+      "type": "dimension",
+      "value": "22rem",
+      "description": "Experimental small drawer maximum width reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.widthMd": {
+      "type": "dimension",
+      "value": "28rem",
+      "description": "Experimental medium drawer maximum width reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.widthLg": {
+      "type": "dimension",
+      "value": "36rem",
+      "description": "Experimental large drawer maximum width reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.widthXl": {
+      "type": "dimension",
+      "value": "44rem",
+      "description": "Experimental extra-large drawer maximum width reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.heightSm": {
+      "type": "dimension",
+      "value": "20rem",
+      "description": "Experimental small drawer maximum height reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.heightMd": {
+      "type": "dimension",
+      "value": "28rem",
+      "description": "Experimental medium drawer maximum height reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.heightLg": {
+      "type": "dimension",
+      "value": "36rem",
+      "description": "Experimental large drawer maximum height reference.",
+      "stability": "experimental"
+    },
+    "component.drawer.heightXl": {
+      "type": "dimension",
+      "value": "44rem",
+      "description": "Experimental extra-large drawer maximum height reference.",
+      "stability": "experimental"
+    }
+  }
+}

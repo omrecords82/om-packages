@@ -2,9 +2,9 @@
 
 This repository is the canonical monorepo for reusable Orthodox Metrics packages under the `@om/*` namespace.
 
-## Phase 1K Status
+## Phase 1L Status
 
-Phase 1K extends the permanent `@om/ui` pattern with the first semantic table component: `Table`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency where appropriate, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, and `Table`.
+Phase 1L extends the permanent `@om/ui` pattern with the first modal drawer component: `Drawer`. Orthodox Metrics owns public component APIs, React Aria Components remains an internal behavior dependency where appropriate, and `@om/tokens` owns styling values. Experimental production component families now include `Button`, `Link`, `IconButton`, `Label`, `FieldError`, `TextField`, `TextArea`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `Select`, `Dialog`, `AlertDialog`, `Menu`, `Tabs`, `Tooltip`, `Table`, and `Drawer`.
 
 The exported contracts, token source files, generated token APIs, manifest, metadata, CSS, and UI components remain experimental bootstrap architecture, not final Orthodox Metrics visual design values.
 
@@ -84,6 +84,7 @@ Package exports expose `@om/tokens`, `@om/tokens/tokens`, `@om/tokens/manifest`,
 - `@om/ui/checkbox`
 - `@om/ui/dialog`
 - `@om/ui/alert-dialog`
+- `@om/ui/drawer`
 - `@om/ui/field-error`
 - `@om/ui/icon-button`
 - `@om/ui/label`
@@ -124,6 +125,8 @@ Selection controls require accessible labels through visible child content or a 
 `Tooltip` is an experimental supplemental-description component using string-only content. Tooltip text does not replace the trigger's accessible name; icon-only triggers must provide an independent accessible name. `Tooltip` supports controlled and uncontrolled open state, package-owned immediate and standard delays, preferred placements, optional decorative arrow rendering, hover and focus opening, Escape dismissal, and a public ref to the trigger `HTMLElement`. Public `TooltipTrigger`, `TooltipContent`, `TooltipProvider`, Popover, HoverCard, interactive tooltip content, arbitrary JSX content, and application migration remain deferred.
 
 `Table` is an experimental semantic display table using native `<table>` markup. It exposes OM-owned `TableRowData` and `TableColumn` contracts with stable string IDs, requires an accessible caption or label, and requires exactly one row-header column when rows are present. `Table` supports empty and loading states, density variants, optional striped rows, responsive horizontal containment, interactive controls inside cells, and a public ref to the semantic `HTMLTableElement`. Sorting, filtering, pagination, row-click navigation, spreadsheet behavior, responsive card conversion, AG Grid replacement, and future data-table orchestration remain deferred.
+
+`Drawer` is an experimental modal overlay panel that enters from a logical or physical viewport edge. It exposes OM-owned placement and size contracts, requires a title, supports optional descriptions, controlled and uncontrolled open state, optional triggers, focus trapping and restoration, dismissable and keyboard-dismiss policies, long-content scrolling, and a public ref to the drawer surface `HTMLDivElement`. Permanent sidebars, application shells, bottom-sheet gestures, nested drawers, route-driven drawer state, and other persistent layout behaviors remain deferred.
 
 ## Theme Precedence
 
