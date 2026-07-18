@@ -198,12 +198,58 @@ Storybook lives in `apps/storybook` and is for local package preview only.
 
 Storybook includes controlled generated-token and UI component previews. They demonstrate bootstrap behavior only and must not be treated as production portal designs.
 
-## Publication Status
+## Publication Status (Option B — GitHub Packages)
 
-All initial packages are marked `private: true` to prevent accidental publication. Registry selection is deferred because the package scope is `@om` while the GitHub owner is `omrecords82`; this repository must not assume GitHub Packages can publish the `@om` scope.
+**Registry:** one private GitHub Packages npm registry for all apps (`https://npm.pkg.github.com`).
 
-No package should be published until registry ownership, package access, release workflow, and repository permissions are explicitly approved.
+**Scope decision:** GitHub Packages requires the npm scope to match the GitHub owner. This repo is owned by user `omrecords82`, so packages are **published as `@omrecords82/{contracts,tokens,ui}`**. Source package names remain `@om/*` (brand). Consumers keep `@om/*` import paths via npm aliases. Publishing `@om/*` directly to GitHub Packages under this owner is not supported (there is no controllable `om` GitHub org).
+
+Source packages stay `private: true` so accidental `npm publish` to the public registry fails. The publish script stages remapped packages and publishes them.
+
+| Source | Published name | Version |
+|--------|----------------|---------|
+| `@om/contracts` | `@omrecords82/contracts` | `0.1.0` |
+| `@om/tokens` | `@omrecords82/tokens` | `0.1.0` |
+| `@om/ui` | `@omrecords82/ui` | `0.1.0` |
+
+Full docs: [docs/publishing-github-packages.md](docs/publishing-github-packages.md) · example auth: [`.npmrc.example`](.npmrc.example) · CI template: [docs/ci/publish-github-packages.yml](docs/ci/publish-github-packages.yml) (copy to `.github/workflows/publish.yml` once a token with `workflow` scope is available)
+
+```sh
+# Dry run
+pnpm publish:github:dry-run
+
+# Publish (requires classic PAT with write:packages)
+export NODE_AUTH_TOKEN=<pat>
+pnpm publish:github
+```
+
+Or, after installing the CI workflow + `NODE_AUTH_TOKEN` secret, tag `v0.1.0`.
+
+### OM / consumer install (minimal)
+
+```ini
+# app .npmrc — do not commit real tokens
+@omrecords82:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+```json
+{
+  "dependencies": {
+    "@om/contracts": "npm:@omrecords82/contracts@0.1.0",
+    "@om/tokens": "npm:@omrecords82/tokens@0.1.0",
+    "@om/ui": "npm:@omrecords82/ui@0.1.0"
+  }
+}
+```
+
+```ts
+import "@om/tokens/css";
+import "@om/ui/css";
+```
+
+Pin exact versions in production. Do not use floating `latest` in OM prod.
 
 ## Deployment
 
-This repository must not directly deploy production services. It provides reusable package source, validation, and local preview tooling only.
+This repository must not directly deploy production services. It provides reusable package source, validation, local preview tooling, and the GitHub Packages publish path only.

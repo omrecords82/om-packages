@@ -18,7 +18,7 @@ pnpm test:e2e
 pnpm pack:check
 ```
 
-Packages are private during bootstrap phases. Do not publish packages or deploy production services from this repository.
+Source packages remain `private: true` to block accidental public npm publishes. The approved distribution path is GitHub Packages under `@omrecords82/*` (see `docs/publishing-github-packages.md`). Do not publish with raw `npm publish` from package directories. Do not deploy production services from this repository.
 
 Token work must keep JSON under `packages/tokens/tokens/` as the canonical source. Generated artifacts belong under `packages/tokens/dist/`, are build output, and must not be edited as source or committed.
 
