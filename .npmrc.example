@@ -1,0 +1,10 @@
+# Example npm config for GitHub Packages (Option B)
+#
+# Copy to your app repo as `.npmrc` (or merge lines). Do NOT commit real tokens.
+# Use env var substitution so CI/local shells inject NODE_AUTH_TOKEN.
+
+@omrecords82:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+
+# Optional: if you later obtain an `om` GitHub org and publish @om/* there:
+# @om:registry=https://npm.pkg.github.com

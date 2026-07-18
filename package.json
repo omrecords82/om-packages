@@ -24,7 +24,9 @@
     "format:check": "prettier . --check",
     "clean": "turbo run clean",
     "changeset": "changeset",
-    "pack:check": "turbo run pack:check"
+    "pack:check": "turbo run pack:check",
+    "publish:github": "node scripts/publish-github-packages.mjs",
+    "publish:github:dry-run": "node scripts/publish-github-packages.mjs --dry-run"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",

@@ -8,3 +8,6 @@ coverage/
 .DS_Store
 *.tsbuildinfo
 .tsbuildinfo/
+.om-worklog/
+.npmrc
+!.npmrc.example

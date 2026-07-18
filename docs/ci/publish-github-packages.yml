@@ -1,0 +1,98 @@
+name: Publish GitHub Packages
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "npm dist-tag (latest, next, …)"
+        required: true
+        default: "latest"
+      dry_run:
+        description: "If true, pack dry-run only (no publish)"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.18.0
+          registry-url: https://npm.pkg.github.com
+          scope: "@omrecords82"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Prepare pnpm
+        run: corepack prepare pnpm@11.10.0 --activate
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install chromium
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Token validation
+        run: pnpm validate:tokens
+
+      - name: Token artifact determinism
+        run: pnpm check:tokens
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Package dry run
+        run: pnpm pack:check
+
+      - name: Require publish token
+        if: ${{ github.event_name == 'push' || inputs.dry_run == 'false' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::error::Repository secret NODE_AUTH_TOKEN is not set."
+            echo "Create a classic PAT with write:packages + read:packages + repo,"
+            echo "add it as repo secret NODE_AUTH_TOKEN, then re-run."
+            exit 1
+          fi
+
+      - name: Publish to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || 'latest' }}"
+          if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}" = "true" ]; then
+            node scripts/publish-github-packages.mjs --dry-run --skip-build --tag "$TAG"
+          else
+            node scripts/publish-github-packages.mjs --skip-build --tag "$TAG"
+          fi

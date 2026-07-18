@@ -1,6 +1,6 @@
 {
   "name": "@om/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Bootstrap-only token exports for Orthodox Metrics packages.",
   "type": "module",
@@ -27,6 +27,15 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/tokens"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "scripts": {
     "build": "rm -rf dist .tsbuildinfo && tsc -b && corepack pnpm generate:artifacts && corepack pnpm validate:artifacts",
     "clean": "rm -rf dist .tsbuildinfo",
