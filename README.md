@@ -12,7 +12,7 @@ Canonical JSON token sources remain the only authored source of truth. Generated
 
 ## Packages
 
-- `@om/contracts`: shared framework-independent TypeScript contracts with no internal package dependencies.
+- `@om/contracts`: shared framework-independent TypeScript contracts; sacramental record schemas depend on Zod for runtime validation.
 - `@om/tokens`: canonical JSON token-source data plus validation, experimental resolution tooling, and deterministic generated artifacts.
 - `@om/ui`: React UI package that consumes `@om/tokens` and owns OM public component contracts.
 
@@ -208,7 +208,7 @@ Source packages stay `private: true` so accidental `npm publish` to the public r
 
 | Source | Published name | Version |
 |--------|----------------|---------|
-| `@om/contracts` | `@omrecords82/contracts` | `0.1.0` |
+| `@om/contracts` | `@omrecords82/contracts` | `0.2.0` |
 | `@om/tokens` | `@omrecords82/tokens` | `0.1.0` |
 | `@om/ui` | `@omrecords82/ui` | `0.1.0` |
 

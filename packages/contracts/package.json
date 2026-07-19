@@ -1,6 +1,6 @@
 {
   "name": "@om/contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Bootstrap-only shared contracts for Orthodox Metrics packages.",
   "type": "module",
@@ -23,6 +23,9 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "restricted"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
   },
   "scripts": {
     "build": "rm -rf dist .tsbuildinfo && tsc -b",

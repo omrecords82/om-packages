@@ -36,7 +36,7 @@ GitHub Packages for npm **requires the package scope to match the GitHub owner**
 
 | Source name | Published name | Version (bootstrap) |
 |-------------|----------------|---------------------|
-| `@om/contracts` | `@omrecords82/contracts` | `0.1.0` |
+| `@om/contracts` | `@omrecords82/contracts` | `0.2.0` (sacramental schemas) |
 | `@om/tokens` | `@omrecords82/tokens` | `0.1.0` |
 | `@om/ui` | `@omrecords82/ui` | `0.1.0` |
 

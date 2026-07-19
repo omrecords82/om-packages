@@ -3,6 +3,7 @@ export * from "./branding.js";
 export * from "./json.js";
 export * from "./liturgical.js";
 export * from "./preferences.js";
+export * from "./records/index.js";
 export * from "./resolution.js";
 export * from "./schema-version.js";
 export * from "./theme.js";
