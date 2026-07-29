@@ -1,0 +1,30 @@
+{
+  "name": "@om/source-analysis",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@babel/parser": "^8.0.4",
+    "@babel/traverse": "^8.0.0",
+    "@babel/types": "^8.0.0"
+  }
+}

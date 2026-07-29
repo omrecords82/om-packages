@@ -21,6 +21,15 @@
     },
     {
       "path": "./packages/workshop-module-example"
+    },
+    {
+      "path": "./packages/source-analysis"
+    },
+    {
+      "path": "./packages/style-analysis"
+    },
+    {
+      "path": "./packages/figma-make-analysis"
     }
   ]
 }
