@@ -9,6 +9,18 @@
     },
     {
       "path": "./packages/ui"
+    },
+    {
+      "path": "./packages/workshop-contracts"
+    },
+    {
+      "path": "./packages/workshop-sdk"
+    },
+    {
+      "path": "./packages/workshop-module-ui"
+    },
+    {
+      "path": "./packages/workshop-module-example"
     }
   ]
 }

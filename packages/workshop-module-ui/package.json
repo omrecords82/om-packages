@@ -1,0 +1,55 @@
+{
+  "name": "@om/workshop-module-ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared OM Workshop module UI primitives built on @om/ui and @om/tokens.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": "./dist/styles/index.css"
+  },
+  "sideEffects": [
+    "./dist/styles/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/workshop-module-ui"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b && corepack pnpm copy:css",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "copy:css": "mkdir -p dist/styles && cp src/styles/module.css dist/styles/index.css",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@om/tokens": "workspace:*",
+    "@om/ui": "workspace:*",
+    "@om/workshop-contracts": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20"
+  },
+  "devDependencies": {
+    "@testing-library/react": "16.3.2",
+    "jsdom": "29.1.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}

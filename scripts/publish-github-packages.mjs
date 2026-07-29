@@ -21,7 +21,7 @@ import {
   mkdirSync,
   readFileSync,
   rmSync,
-  writeFileSync,
+  writeFileSync
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -37,7 +37,7 @@ const REPO_URL = "https://github.com/omrecords82/om-packages.git";
 const PACKAGES = [
   { dir: "packages/contracts", short: "contracts" },
   { dir: "packages/tokens", short: "tokens" },
-  { dir: "packages/ui", short: "ui" },
+  { dir: "packages/ui", short: "ui" }
 ];
 
 function parseArgs(argv) {
@@ -48,7 +48,9 @@ function parseArgs(argv) {
     else if (a === "--skip-build") opts.skipBuild = true;
     else if (a === "--tag") opts.tag = argv[++i] || "latest";
     else if (a === "--help" || a === "-h") {
-      console.log(`Usage: node scripts/publish-github-packages.mjs [--dry-run] [--skip-build] [--tag <dist-tag>]`);
+      console.log(
+        `Usage: node scripts/publish-github-packages.mjs [--dry-run] [--skip-build] [--tag <dist-tag>]`
+      );
       process.exit(0);
     } else {
       console.error(`Unknown arg: ${a}`);
@@ -63,7 +65,7 @@ function run(cmd, args, opts = {}) {
     cwd: opts.cwd || ROOT,
     env: opts.env || process.env,
     stdio: opts.stdio || "inherit",
-    encoding: "utf8",
+    encoding: "utf8"
   });
   if (r.status !== 0) {
     throw new Error(`${cmd} ${args.join(" ")} failed with status ${r.status}`);
@@ -111,7 +113,7 @@ function main() {
     console.error(
       "Missing NODE_AUTH_TOKEN (or GITHUB_TOKEN). Create a classic PAT with write:packages + read:packages + repo, then:\n" +
         "  export NODE_AUTH_TOKEN=<pat>\n" +
-        "  node scripts/publish-github-packages.mjs",
+        "  node scripts/publish-github-packages.mjs"
     );
     process.exit(1);
   }
@@ -121,9 +123,7 @@ function main() {
     const pj = loadPackageJson(pkg.dir);
     versionBySourceName[pj.name] = pj.version;
     if (pj.private === true) {
-      console.warn(
-        `Note: ${pj.name} has private:true in source; publish staging clears it.`,
-      );
+      console.warn(`Note: ${pj.name} has private:true in source; publish staging clears it.`);
     }
     if (!existsSync(join(ROOT, pkg.dir, "dist")) && opts.skipBuild) {
       console.error(`Missing dist for ${pkg.dir}; run a build or omit --skip-build`);
@@ -161,24 +161,18 @@ function main() {
         publishConfig: {
           registry: REGISTRY,
           access: "restricted",
-          tag: opts.tag,
+          tag: opts.tag
         },
         repository: {
           type: "git",
           url: REPO_URL,
-          directory: pkg.dir,
+          directory: pkg.dir
         },
         dependencies: remapDependencyMap(srcPj.dependencies, versionBySourceName),
-        peerDependencies: remapDependencyMap(
-          srcPj.peerDependencies,
-          versionBySourceName,
-        ),
-        optionalDependencies: remapDependencyMap(
-          srcPj.optionalDependencies,
-          versionBySourceName,
-        ),
+        peerDependencies: remapDependencyMap(srcPj.peerDependencies, versionBySourceName),
+        optionalDependencies: remapDependencyMap(srcPj.optionalDependencies, versionBySourceName),
         devDependencies: undefined,
-        scripts: undefined,
+        scripts: undefined
       };
       delete staged.devDependencies;
       delete staged.scripts;
@@ -192,7 +186,7 @@ function main() {
       writeFileSync(join(stageDir, ".npmrc"), npmrcBody);
 
       console.log(
-        `${opts.dryRun ? "[dry-run] " : ""}Publishing ${srcPj.name}@${srcPj.version} as ${publishName}@${srcPj.version} (tag=${opts.tag})`,
+        `${opts.dryRun ? "[dry-run] " : ""}Publishing ${srcPj.name}@${srcPj.version} as ${publishName}@${srcPj.version} (tag=${opts.tag})`
       );
 
       if (opts.dryRun) {
@@ -202,8 +196,8 @@ function main() {
           cwd: stageDir,
           env: {
             ...process.env,
-            NODE_AUTH_TOKEN: token,
-          },
+            NODE_AUTH_TOKEN: token
+          }
         });
       }
 
@@ -211,7 +205,7 @@ function main() {
         source: srcPj.name,
         published: publishName,
         version: srcPj.version,
-        tag: opts.tag,
+        tag: opts.tag
       });
     }
   } finally {
@@ -224,7 +218,7 @@ function main() {
   }
   console.log(
     "\nConsumers: map @omrecords82:registry=https://npm.pkg.github.com and prefer npm aliases, e.g.\n" +
-      '  "@om/ui": "npm:@omrecords82/ui@0.1.0"',
+      '  "@om/ui": "npm:@omrecords82/ui@0.1.0"'
   );
 }
 

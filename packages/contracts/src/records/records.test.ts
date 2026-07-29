@@ -8,7 +8,7 @@ import {
   parseBaptismRecordsListResponse,
   parseFuneralRecordCreate,
   parseMarriageRecordCreate,
-  parseMarriageRecordsListResponse,
+  parseMarriageRecordsListResponse
 } from "./index.js";
 
 describe("@om/contracts sacramental record schemas", () => {
@@ -27,7 +27,7 @@ describe("@om/contracts sacramental record schemas", () => {
       entry_type: "Baptism",
       sponsors: "Jane Doe",
       parents: "Mary & Joseph Doe",
-      clergy: "Fr. Michael",
+      clergy: "Fr. Michael"
     });
 
     expect(parsed).toMatchObject({
@@ -35,7 +35,7 @@ describe("@om/contracts sacramental record schemas", () => {
       first_name: "John",
       last_name: "Doe",
       birth_date: "2010-05-01",
-      clergy: "Fr. Michael",
+      clergy: "Fr. Michael"
     });
   });
 
@@ -45,7 +45,7 @@ describe("@om/contracts sacramental record schemas", () => {
       lastName: "Smith",
       dateOfBirth: "2001-01-02",
       baptismDate: "2001-02-03",
-      priest: "Fr. Paul",
+      priest: "Fr. Paul"
     });
 
     expect(parsed).toMatchObject({
@@ -53,7 +53,7 @@ describe("@om/contracts sacramental record schemas", () => {
       last_name: "Smith",
       birth_date: "2001-01-02",
       reception_date: "2001-02-03",
-      clergy: "Fr. Paul",
+      clergy: "Fr. Paul"
     });
   });
 
@@ -62,8 +62,8 @@ describe("@om/contracts sacramental record schemas", () => {
       parseBaptismRecordCreate({
         first_name: "John",
         last_name: "Doe",
-        clergy: "Fr. Michael",
-      }),
+        clergy: "Fr. Michael"
+      })
     ).toThrow();
   });
 
@@ -79,7 +79,7 @@ describe("@om/contracts sacramental record schemas", () => {
       parentsb: "Parents Bride",
       witness: "John Witness",
       mlicense: "ML-123",
-      clergy: "Fr. Andrew",
+      clergy: "Fr. Andrew"
     });
 
     expect(parsed.fname_groom).toBe("George");
@@ -95,7 +95,7 @@ describe("@om/contracts sacramental record schemas", () => {
       age: "72",
       clergy: "Fr. Nicholas",
       burial_location: "Holy Trinity Cemetery",
-      burial_location_id: 12,
+      burial_location_id: 12
     });
 
     expect(parsed).toMatchObject({
@@ -103,7 +103,7 @@ describe("@om/contracts sacramental record schemas", () => {
       lastname: "Ioannou",
       deceased_date: "2024-03-01",
       age: 72,
-      burial_location_id: 12,
+      burial_location_id: 12
     });
   });
 
@@ -114,7 +114,7 @@ describe("@om/contracts sacramental record schemas", () => {
       limit: "25",
       search: "smith",
       sortField: "reception_date",
-      sortDirection: "desc",
+      sortDirection: "desc"
     });
 
     expect(parsed).toEqual({
@@ -123,7 +123,7 @@ describe("@om/contracts sacramental record schemas", () => {
       limit: 25,
       search: "smith",
       sortField: "reception_date",
-      sortDirection: "desc",
+      sortDirection: "desc"
     });
   });
 
@@ -135,12 +135,12 @@ describe("@om/contracts sacramental record schemas", () => {
           church_id: 46,
           first_name: "John",
           last_name: "Doe",
-          clergy: "Fr. Michael",
-        },
+          clergy: "Fr. Michael"
+        }
       ],
       totalRecords: 1,
       currentPage: 1,
-      totalPages: 1,
+      totalPages: 1
     });
 
     expect(baptism.rows).toHaveLength(1);
@@ -155,11 +155,11 @@ describe("@om/contracts sacramental record schemas", () => {
           lname_groom: "B",
           fname_bride: "C",
           lname_bride: "D",
-          clergy: "Fr. Andrew",
-        },
+          clergy: "Fr. Andrew"
+        }
       ],
       total: 1,
-      page: 1,
+      page: 1
     });
 
     expect(marriage.rows[0]?.id).toBe(2);

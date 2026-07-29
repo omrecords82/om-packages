@@ -7,7 +7,7 @@ import {
   recordIdSchema,
   recordsListQueryBaseSchema,
   sacramentRecordStatusSchema,
-  createRecordsListResponseSchema,
+  createRecordsListResponseSchema
 } from "./common.js";
 
 /** Sortable columns accepted by `GET /api/marriage-records`. */
@@ -24,7 +24,7 @@ export const MARRIAGE_SORT_FIELDS = [
   "mlicense",
   "clergy",
   "created_at",
-  "updated_at",
+  "updated_at"
 ] as const;
 
 export type MarriageSortField = (typeof MARRIAGE_SORT_FIELDS)[number];
@@ -47,7 +47,7 @@ export const marriageRecordRowSchema = z.object({
   clergy: nonEmptyStringSchema,
   status: sacramentRecordStatusSchema.default("Recorded"),
   verified_by: z.union([z.string(), z.number(), z.null()]).optional(),
-  verified_at: z.string().nullable().optional(),
+  verified_at: z.string().nullable().optional()
 });
 
 export type MarriageRecordRow = z.infer<typeof marriageRecordRowSchema>;
@@ -63,14 +63,14 @@ export const marriageRecordWriteSchema = z.object({
   parentsb: optionalNullableStringSchema,
   witness: optionalNullableStringSchema,
   mlicense: optionalNullableStringSchema,
-  clergy: nonEmptyStringSchema,
+  clergy: nonEmptyStringSchema
 });
 
 export type MarriageRecordWrite = z.infer<typeof marriageRecordWriteSchema>;
 
 /** `POST /api/marriage-records` and `PUT /api/marriage-records/:id` required fields. */
 export const marriageRecordCreateSchema = marriageRecordWriteSchema.extend({
-  mdate: nonEmptyStringSchema,
+  mdate: nonEmptyStringSchema
 });
 
 export type MarriageRecordCreate = z.infer<typeof marriageRecordCreateSchema>;
@@ -80,7 +80,7 @@ export const marriageRecordUpdateSchema = marriageRecordCreateSchema;
 export type MarriageRecordUpdate = z.infer<typeof marriageRecordUpdateSchema>;
 
 export const marriageRecordsListQuerySchema = recordsListQueryBaseSchema.extend({
-  sortField: marriageSortFieldSchema.default("id"),
+  sortField: marriageSortFieldSchema.default("id")
 });
 
 export type MarriageRecordsListQuery = z.infer<typeof marriageRecordsListQuerySchema>;
@@ -103,7 +103,7 @@ export function normalizeMarriageWriteInput(raw: unknown): Record<string, unknow
     parentsb: input.parentsb ?? input.brideParents,
     witness: input.witness ?? input.witnesses,
     mlicense: input.mlicense ?? input.marriageLicense,
-    clergy: input.clergy ?? input.priest ?? input.celebrant,
+    clergy: input.clergy ?? input.priest ?? input.celebrant
   };
 }
 
