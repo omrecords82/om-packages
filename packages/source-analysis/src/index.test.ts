@@ -16,4 +16,13 @@ describe("@om/source-analysis", () => {
     const result = analyzeJsxSource("Page.tsx", src);
     expect(result.textLiterals.some((h) => h.kind === "unsupported")).toBe(true);
   });
+
+  it("finds and edits simple string prop literals", () => {
+    const src = `const Enrollment = () => {\n  return <PublicSeo title="Enroll Your Parish" />;\n};\n`;
+    const result = analyzeJsxSource("Enrollment.tsx", src);
+    const hit = result.textLiterals.find((h) => h.value === "Enroll Your Parish");
+    expect(hit?.form).toBe("string-prop");
+    const next = applySupportedTextEdit(src, hit!, "Hello Community Parish");
+    expect(next).toContain('title="Hello Community Parish"');
+  });
 });
