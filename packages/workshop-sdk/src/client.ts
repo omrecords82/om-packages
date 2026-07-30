@@ -1,11 +1,18 @@
 import type {
   CorrelationId,
+  CreateChangeSetRequest,
+  CreateChangeSetResult,
+  CreateRevisionRequest,
+  CreateRevisionResult,
   DiagnosticsJob,
+  DirtyWorkspaceResult,
   FormatWorkspaceFileRequest,
   FormatWorkspaceFileResult,
+  RevisionDetail,
   RevertWorkspaceFileRequest,
   SaveWorkspaceFileRequest,
   SaveWorkspaceFileResponse,
+  SealRevisionRequest,
   StartDiagnosticsRequest,
   StructuredEditAnalyzeResult,
   StructuredEditApplyRequest,
@@ -22,9 +29,13 @@ import type {
 } from "@om/workshop-contracts";
 
 import {
+  createChangeSetResultSchema,
   createCorrelationId,
+  createRevisionResultSchema,
   diagnosticsJobSchema,
+  dirtyWorkspaceResultSchema,
   formatWorkspaceFileResultSchema,
+  revisionDetailSchema,
   saveWorkspaceFileResponseSchema,
   structuredEditAnalyzeResultSchema,
   structuredEditApplyResultSchema,
@@ -122,6 +133,20 @@ export type WorkshopClient = {
     repositoryId: string,
     body: StructuredEditApplyRequest
   ) => Promise<StructuredEditApplyResult>;
+  readonly listDirtyWorkspaceFiles: (
+    workspaceId: string,
+    repositoryId: string
+  ) => Promise<DirtyWorkspaceResult>;
+  readonly createChangeSet: (body: CreateChangeSetRequest) => Promise<CreateChangeSetResult>;
+  readonly createRevision: (
+    changeSetId: string,
+    body: CreateRevisionRequest
+  ) => Promise<CreateRevisionResult>;
+  readonly getRevision: (revisionId: string) => Promise<RevisionDetail>;
+  readonly sealRevision: (
+    revisionId: string,
+    body: SealRevisionRequest
+  ) => Promise<RevisionDetail>;
 };
 
 function joinUrl(baseUrl: string, path: string): string {
@@ -351,6 +376,38 @@ export function createWorkshopClient(options: CreateWorkshopClientOptions = {}):
       return request(
         `${workspaceBase(workspaceId, repositoryId)}/structured-edits/apply`,
         structuredEditApplyResultSchema,
+        { method: "POST", body }
+      );
+    },
+    listDirtyWorkspaceFiles(workspaceId, repositoryId) {
+      return request(
+        `${workspaceBase(workspaceId, repositoryId)}/dirty`,
+        dirtyWorkspaceResultSchema
+      );
+    },
+    createChangeSet(body) {
+      return request("/__server/workshop/change-sets", createChangeSetResultSchema, {
+        method: "POST",
+        body
+      });
+    },
+    createRevision(changeSetId, body) {
+      return request(
+        `/__server/workshop/change-sets/${encodeURIComponent(changeSetId)}/revisions`,
+        createRevisionResultSchema,
+        { method: "POST", body }
+      );
+    },
+    getRevision(revisionId) {
+      return request(
+        `/__server/workshop/revisions/${encodeURIComponent(revisionId)}`,
+        revisionDetailSchema
+      );
+    },
+    sealRevision(revisionId, body) {
+      return request(
+        `/__server/workshop/revisions/${encodeURIComponent(revisionId)}/seal`,
+        revisionDetailSchema,
         { method: "POST", body }
       );
     }
