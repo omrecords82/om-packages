@@ -30,6 +30,18 @@
     },
     {
       "path": "./packages/figma-make-analysis"
+    },
+    {
+      "path": "./packages/mantis-shared"
+    },
+    {
+      "path": "./packages/mantis-theme"
+    },
+    {
+      "path": "./packages/mantis-extended"
+    },
+    {
+      "path": "./packages/mantis-card"
     }
   ]
 }

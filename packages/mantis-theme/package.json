@@ -1,0 +1,63 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "name": "@om/mantis-theme",
+  "description": "Mantis MUI theme (ThemeCustomization, palette, overrides) extracted for OM packages.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/mantis-theme"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20",
+    "@mui/material": ">=6 <10",
+    "@emotion/react": ">=11",
+    "@emotion/styled": ">=11",
+    "@ant-design/colors": ">=7",
+    "@ant-design/icons": ">=5",
+    "lodash-es": ">=4"
+  },
+  "devDependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "typescript": "5.9.3",
+    "@mui/material": "9.0.1",
+    "@mui/x-date-pickers": "9.2.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@ant-design/colors": "8.0.1",
+    "@ant-design/icons": "6.1.0",
+    "lodash-es": "4.18.1",
+    "@om/mantis-shared": "workspace:*",
+    "@types/lodash-es": "4.17.12"
+  },
+  "dependencies": {
+    "@om/mantis-shared": "workspace:*",
+    "csstype": "3.2.3"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "name": "@om/mantis-shared",
+  "description": "Shared config, types, and color utils extracted from CodedThemes Mantis React TS for OM packages.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/mantis-shared"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
+    "./types/config": {
+      "types": "./dist/types/config.d.ts",
+      "import": "./dist/types/config.js"
+    },
+    "./types/theme": {
+      "types": "./dist/types/theme.d.ts",
+      "import": "./dist/types/theme.js"
+    },
+    "./types/extended": {
+      "types": "./dist/types/extended.d.ts",
+      "import": "./dist/types/extended.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20",
+    "@mui/material": ">=6 <10"
+  },
+  "devDependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "typescript": "5.9.3",
+    "@mui/material": "9.0.1",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1"
+  }
+}
