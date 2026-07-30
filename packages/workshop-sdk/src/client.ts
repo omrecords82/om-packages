@@ -8,6 +8,8 @@ import type {
   DecideApprovalRequest,
   DecideApprovalResult,
   DirtyWorkspaceResult,
+  GetEditableRouteResult,
+  ListEditableRoutesResult,
   FormatWorkspaceFileRequest,
   FormatWorkspaceFileResult,
   PushApprovedRevisionRequest,
@@ -49,6 +51,8 @@ import {
   diagnosticsJobSchema,
   dirtyWorkspaceResultSchema,
   formatWorkspaceFileResultSchema,
+  getEditableRouteResultSchema,
+  listEditableRoutesResultSchema,
   pushApprovedRevisionResultSchema,
   revisionDetailSchema,
   runtimeLocateResultSchema,
@@ -182,6 +186,8 @@ export type WorkshopClient = {
   readonly pushApprovedRevision: (
     body: PushApprovedRevisionRequest
   ) => Promise<PushApprovedRevisionResult>;
+  readonly listEditableRoutes: () => Promise<ListEditableRoutesResult>;
+  readonly getEditableRoute: (route: string) => Promise<GetEditableRouteResult>;
 };
 
 function joinUrl(baseUrl: string, path: string): string {
@@ -505,6 +511,15 @@ export function createWorkshopClient(options: CreateWorkshopClientOptions = {}):
         "/__server/workshop/push/approved-revision",
         pushApprovedRevisionResultSchema,
         { method: "POST", body }
+      );
+    },
+    listEditableRoutes() {
+      return request("/__server/workshop/routes", listEditableRoutesResultSchema);
+    },
+    getEditableRoute(route) {
+      return request(
+        `/__server/workshop/routes/${encodeURIComponent(route)}`,
+        getEditableRouteResultSchema
       );
     }
   };

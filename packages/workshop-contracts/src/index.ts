@@ -1,4 +1,5 @@
 export * from "./actor.js";
+export * from "./editable-routes.js";
 export * from "./errors.js";
 export * from "./governance-push.js";
 export * from "./host.js";

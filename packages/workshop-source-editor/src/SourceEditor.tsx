@@ -40,6 +40,8 @@ export type SourceEditorIdentity = {
   readonly baseCommit: string;
   readonly workspaceKey: string;
   readonly routeOrArtifact: string;
+  /** Production comparison URL — always treated as read-only reference. */
+  readonly productionUrl?: string;
 };
 
 export type SourceEditorProps = {
@@ -699,6 +701,14 @@ export function SourceEditor({
           <strong>Route / artifact</strong>
           {identity.routeOrArtifact}
         </div>
+        {identity.productionUrl ? (
+          <div>
+            <strong>Production (read-only)</strong>
+            <a href={identity.productionUrl} target="_blank" rel="noreferrer">
+              {identity.productionUrl}
+            </a>
+          </div>
+        ) : null}
         <div>
           <strong>Writable</strong>
           <span className="om-source-editor__badge">
