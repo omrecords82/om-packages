@@ -1,3 +1,8 @@
+/**
+ * Candidate classifications for Figma Make sandbox applications.
+ * Promotion into om-packages is always a governed Package Studio change set —
+ * never automatic from Applications import.
+ */
 export type CandidateClassification =
   | "REUSE_EXISTING"
   | "ADD_VARIANT"
@@ -6,6 +11,19 @@ export type CandidateClassification =
   | "REFERENCE_ONLY"
   | "REJECT"
   | "NEEDS_REVIEW";
+
+export const CANDIDATE_CLASSIFICATIONS: readonly CandidateClassification[] = [
+  "REUSE_EXISTING",
+  "ADD_VARIANT",
+  "CREATE_NEW_COMPONENT",
+  "COMPOSE_FROM_EXISTING",
+  "REFERENCE_ONLY",
+  "REJECT",
+  "NEEDS_REVIEW"
+] as const;
+
+export const PROMOTION_BOUNDARY =
+  "Applications classifies candidates; Package Studio / om-packages change sets perform promotion. No auto-publish.";
 
 export type ZipInventoryItem = {
   readonly path: string;
