@@ -5,9 +5,13 @@ import type {
   CreateRevisionRequest,
   CreateRevisionResult,
   DiagnosticsJob,
+  DecideApprovalRequest,
+  DecideApprovalResult,
   DirtyWorkspaceResult,
   FormatWorkspaceFileRequest,
   FormatWorkspaceFileResult,
+  PushApprovedRevisionRequest,
+  PushApprovedRevisionResult,
   RevisionDetail,
   RevertWorkspaceFileRequest,
   RuntimeAttachRequest,
@@ -21,6 +25,8 @@ import type {
   SaveWorkspaceFileResponse,
   SealRevisionRequest,
   StartDiagnosticsRequest,
+  SubmitApprovalRequest,
+  SubmitApprovalResult,
   StructuredEditAnalyzeResult,
   StructuredEditApplyRequest,
   StructuredEditApplyResult,
@@ -39,15 +45,18 @@ import {
   createChangeSetResultSchema,
   createCorrelationId,
   createRevisionResultSchema,
+  decideApprovalResultSchema,
   diagnosticsJobSchema,
   dirtyWorkspaceResultSchema,
   formatWorkspaceFileResultSchema,
+  pushApprovedRevisionResultSchema,
   revisionDetailSchema,
   runtimeLocateResultSchema,
   runtimeLogsSchema,
   runtimePrepareResultSchema,
   runtimeStatusSchema,
   saveWorkspaceFileResponseSchema,
+  submitApprovalResultSchema,
   structuredEditAnalyzeResultSchema,
   structuredEditApplyResultSchema,
   structuredEditPreviewResultSchema,
@@ -168,6 +177,11 @@ export type WorkshopClient = {
   readonly getRuntimeStatus: (workspaceKey?: string) => Promise<RuntimeStatus>;
   readonly getRuntimeLogs: (workspaceKey?: string) => Promise<RuntimeLogs>;
   readonly locateRuntimeSource: (body?: RuntimeLocateRequest) => Promise<RuntimeLocateResult>;
+  readonly submitApproval: (body: SubmitApprovalRequest) => Promise<SubmitApprovalResult>;
+  readonly decideApproval: (body: DecideApprovalRequest) => Promise<DecideApprovalResult>;
+  readonly pushApprovedRevision: (
+    body: PushApprovedRevisionRequest
+  ) => Promise<PushApprovedRevisionResult>;
 };
 
 function joinUrl(baseUrl: string, path: string): string {
@@ -473,6 +487,25 @@ export function createWorkshopClient(options: CreateWorkshopClientOptions = {}):
         method: "POST",
         body
       });
+    },
+    submitApproval(body) {
+      return request("/__server/workshop/governance/requests", submitApprovalResultSchema, {
+        method: "POST",
+        body
+      });
+    },
+    decideApproval(body) {
+      return request("/__server/workshop/governance/decide", decideApprovalResultSchema, {
+        method: "POST",
+        body
+      });
+    },
+    pushApprovedRevision(body) {
+      return request(
+        "/__server/workshop/push/approved-revision",
+        pushApprovedRevisionResultSchema,
+        { method: "POST", body }
+      );
     }
   };
 }
