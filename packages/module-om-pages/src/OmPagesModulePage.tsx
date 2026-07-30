@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { createWorkshopClient } from "@om/workshop-sdk";
 import { ModuleHeader, ModulePage } from "@om/workshop-module-ui";
 import { SourceEditor } from "@om/workshop-source-editor";
-import "@om/workshop-source-editor/css";
 
 /**
  * Operator-facing OM Pages editor surface.
