@@ -1,0 +1,67 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "name": "@om/berry-theme",
+  "description": "Berry MUI theme (ThemeCustomization, palette, overrides) extracted for OM packages.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/berry-theme"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20",
+    "@mui/material": ">=6 <10",
+    "@emotion/react": ">=11",
+    "@emotion/styled": ">=11",
+    "@mui/x-data-grid": ">=7",
+    "@mui/x-date-pickers": ">=7",
+    "lodash-es": ">=4",
+    "@mui/icons-material": ">=6 <10"
+  },
+  "devDependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "typescript": "5.9.3",
+    "@mui/material": "7.3.5",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@om/berry-shared": "workspace:*",
+    "lodash-es": "4.17.21",
+    "@types/lodash-es": "4.17.12",
+    "@mui/x-data-grid": "8.19.0",
+    "@mui/x-date-pickers": "8.19.0",
+    "@mui/icons-material": "7.3.5",
+    "@mui/system": "7.3.5"
+  },
+  "dependencies": {
+    "@om/berry-shared": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "csstype": "3.2.3",
+    "@mui/icons-material": "7.3.5"
+  }
+}
