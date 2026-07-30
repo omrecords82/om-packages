@@ -10,6 +10,13 @@ import type {
   FormatWorkspaceFileResult,
   RevisionDetail,
   RevertWorkspaceFileRequest,
+  RuntimeAttachRequest,
+  RuntimeLocateRequest,
+  RuntimeLocateResult,
+  RuntimeLogs,
+  RuntimePrepareResult,
+  RuntimeStartRequest,
+  RuntimeStatus,
   SaveWorkspaceFileRequest,
   SaveWorkspaceFileResponse,
   SealRevisionRequest,
@@ -36,6 +43,10 @@ import {
   dirtyWorkspaceResultSchema,
   formatWorkspaceFileResultSchema,
   revisionDetailSchema,
+  runtimeLocateResultSchema,
+  runtimeLogsSchema,
+  runtimePrepareResultSchema,
+  runtimeStatusSchema,
   saveWorkspaceFileResponseSchema,
   structuredEditAnalyzeResultSchema,
   structuredEditApplyResultSchema,
@@ -147,6 +158,16 @@ export type WorkshopClient = {
     revisionId: string,
     body: SealRevisionRequest
   ) => Promise<RevisionDetail>;
+  readonly prepareRuntimeWorkspace: (body?: {
+    workspaceKey?: string;
+    sourceCommit?: string;
+  }) => Promise<RuntimePrepareResult>;
+  readonly attachRuntimeWorkspace: (body: RuntimeAttachRequest) => Promise<RuntimePrepareResult>;
+  readonly startRuntimePreview: (body?: RuntimeStartRequest) => Promise<RuntimeStatus>;
+  readonly stopRuntimePreview: (body?: { workspaceKey?: string }) => Promise<RuntimeStatus>;
+  readonly getRuntimeStatus: (workspaceKey?: string) => Promise<RuntimeStatus>;
+  readonly getRuntimeLogs: (workspaceKey?: string) => Promise<RuntimeLogs>;
+  readonly locateRuntimeSource: (body?: RuntimeLocateRequest) => Promise<RuntimeLocateResult>;
 };
 
 function joinUrl(baseUrl: string, path: string): string {
@@ -410,6 +431,48 @@ export function createWorkshopClient(options: CreateWorkshopClientOptions = {}):
         revisionDetailSchema,
         { method: "POST", body }
       );
+    },
+    prepareRuntimeWorkspace(body = {}) {
+      return request("/__server/workshop/runtime/prepare", runtimePrepareResultSchema, {
+        method: "POST",
+        body
+      });
+    },
+    attachRuntimeWorkspace(body) {
+      return request("/__server/workshop/runtime/attach", runtimePrepareResultSchema, {
+        method: "POST",
+        body
+      });
+    },
+    startRuntimePreview(body = {}) {
+      return request("/__server/workshop/runtime/start", runtimeStatusSchema, {
+        method: "POST",
+        body
+      });
+    },
+    stopRuntimePreview(body = {}) {
+      return request("/__server/workshop/runtime/stop", runtimeStatusSchema, {
+        method: "POST",
+        body
+      });
+    },
+    getRuntimeStatus(workspaceKey) {
+      return request(
+        `/__server/workshop/runtime/status${encodeQuery({ workspaceKey })}`,
+        runtimeStatusSchema
+      );
+    },
+    getRuntimeLogs(workspaceKey) {
+      return request(
+        `/__server/workshop/runtime/logs${encodeQuery({ workspaceKey })}`,
+        runtimeLogsSchema
+      );
+    },
+    locateRuntimeSource(body = {}) {
+      return request("/__server/workshop/runtime/locate", runtimeLocateResultSchema, {
+        method: "POST",
+        body
+      });
     }
   };
 }

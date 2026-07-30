@@ -5,6 +5,8 @@ import type {
   DiagnosticItem,
   DirtyWorkspaceResult,
   RevisionDetail,
+  RuntimeLocateResult,
+  RuntimeStatus,
   StructuredEditAnalyzeResult,
   WorkspaceFileTreeEntry,
   WorkspaceSearchHit
@@ -48,6 +50,8 @@ export type SourceEditorProps = {
   readonly initialPath?: string;
   /** Optional existing change set; created on demand from the Changes panel when empty. */
   readonly changeSetId?: string;
+  /** Preview route for the real OM runtime (default /enroll). */
+  readonly previewRoute?: string;
 };
 
 function languageToMonaco(language: string): string {
@@ -67,7 +71,8 @@ export function SourceEditor({
   repositoryId,
   identity,
   initialPath,
-  changeSetId: changeSetIdProp
+  changeSetId: changeSetIdProp,
+  previewRoute = "/enroll"
 }: SourceEditorProps) {
   const [state, dispatch] = useReducer(sourceEditorReducer, undefined, createInitialState);
   const [entries, setEntries] = useState<WorkspaceFileTreeEntry[]>([]);
@@ -82,6 +87,11 @@ export function SourceEditor({
   const [changeSetId, setChangeSetId] = useState(changeSetIdProp || "");
   const [dirtyInfo, setDirtyInfo] = useState<DirtyWorkspaceResult | null>(null);
   const [revision, setRevision] = useState<CreateRevisionResult | RevisionDetail | null>(null);
+  const [runtimeKey, setRuntimeKey] = useState("");
+  const [runtimeStatus, setRuntimeStatus] = useState<RuntimeStatus | null>(null);
+  const [runtimeLogs, setRuntimeLogs] = useState("");
+  const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
+  const [locateInfo, setLocateInfo] = useState<RuntimeLocateResult | null>(null);
 
   const active = useMemo(
     () => state.tabs.find((t) => t.key === state.activeKey) ?? null,
@@ -374,6 +384,112 @@ export function SourceEditor({
     }
   };
 
+  const viewportWidth = viewport === "mobile" ? 390 : viewport === "tablet" ? 768 : 1100;
+
+  const refreshRuntimeStatus = async (key = runtimeKey) => {
+    if (!key) return;
+    const st = await client.getRuntimeStatus(key);
+    setRuntimeStatus(st);
+  };
+
+  const startPreview = async () => {
+    if (anyDirty(state)) {
+      setStatus("Save buffers first — unsaved content is Not in preview");
+      dispatch({ type: "set_preview_uses_saved", value: false });
+      dispatch({ type: "set_panel", panel: "preview" });
+      return;
+    }
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "preview" });
+    try {
+      let key = runtimeKey;
+      if (!key) {
+        const attached = await client.attachRuntimeWorkspace({
+          workspaceId,
+          repositoryId,
+          route: previewRoute
+        });
+        if (!attached.ok || !attached.workspaceKey) {
+          // Disposable prepare fallback when DB workspace is not an OM clone root
+          const prepared = await client.prepareRuntimeWorkspace({});
+          if (!prepared.ok || !prepared.workspaceKey) {
+            setStatus(attached.error || prepared.error || "Runtime prepare failed");
+            return;
+          }
+          key = prepared.workspaceKey;
+          setStatus(
+            `Prepared disposable runtime ${key} (registered attach: ${attached.error || "n/a"})`
+          );
+        } else {
+          key = attached.workspaceKey;
+        }
+        setRuntimeKey(key);
+      }
+      const started = await client.startRuntimePreview({
+        workspaceKey: key,
+        route: previewRoute,
+        mode: "mock"
+      });
+      setRuntimeStatus(started);
+      dispatch({ type: "set_preview_uses_saved", value: true });
+      setStatus(
+        started.previewUrl
+          ? `Preview ready @ ${started.previewUrl} (commit ${(started.sourceCommit || "").slice(0, 10)})`
+          : started.error || "Preview start returned no URL"
+      );
+      const logs = await client.getRuntimeLogs(key);
+      setRuntimeLogs(logs.logs || "");
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Preview start failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const stopPreview = async () => {
+    if (!runtimeKey) return;
+    setBusy(true);
+    try {
+      const st = await client.stopRuntimePreview({ workspaceKey: runtimeKey });
+      setRuntimeStatus(st);
+      setStatus("Preview stopped");
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Preview stop failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const openFromPreview = async () => {
+    if (!runtimeKey) {
+      setStatus("Start preview before Open in Source");
+      return;
+    }
+    setBusy(true);
+    try {
+      const located = await client.locateRuntimeSource({
+        workspaceKey: runtimeKey,
+        route: previewRoute
+      });
+      setLocateInfo(located);
+      if (located.ok && located.relativePath) {
+        // Editor paths are relative to the registered repo root; strip front-end/ when needed.
+        const editorPath = located.relativePath.replace(/^front-end\//, "");
+        await openPath(editorPath).catch(() => openPath(located.relativePath!));
+        setStatus(
+          `Open in Source → ${located.relativePath}:${located.line}:${located.column}` +
+            (located.structuredEditSupported ? " (structured edit supported)" : " (source mode)")
+        );
+      } else {
+        setStatus(located.error || "Locate failed");
+      }
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Locate failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const analyzeStructured = async () => {
     if (!active) return;
     setBusy(true);
@@ -646,6 +762,15 @@ export function SourceEditor({
             >
               Seal revision
             </button>
+            <button type="button" disabled={busy} onClick={() => void startPreview()}>
+              Preview start
+            </button>
+            <button type="button" disabled={busy || !runtimeKey} onClick={() => void stopPreview()}>
+              Preview stop
+            </button>
+            <button type="button" disabled={busy || !runtimeKey} onClick={() => void openFromPreview()}>
+              Open in Source
+            </button>
           </div>
 
           {active?.conflict ? (
@@ -762,7 +887,57 @@ export function SourceEditor({
             {structuredPreview ? <pre>{structuredPreview}</pre> : null}
           </div>
         ) : null}
-        {state.panel === "preview" ? "Preview logs surface (runtime wires in E05)." : null}
+        {state.panel === "preview" ? (
+          <div>
+            <div style={{ fontWeight: 600 }}>
+              Real OM runtime preview — saved worktree only (unsaved = Not in preview)
+            </div>
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", margin: "0.5rem 0" }}>
+              {(["desktop", "tablet", "mobile"] as const).map((v) => (
+                <button key={v} type="button" onClick={() => setViewport(v)} disabled={viewport === v}>
+                  {v}
+                </button>
+              ))}
+              <button
+                type="button"
+                disabled={busy || !runtimeKey}
+                onClick={() => void refreshRuntimeStatus()}
+              >
+                Refresh status
+              </button>
+              <span>
+                {runtimeStatus?.running || runtimeStatus?.runtimeRunning
+                  ? `running · route ${runtimeStatus.route || previewRoute}`
+                  : "stopped"}
+                {runtimeStatus?.sourceCommit
+                  ? ` · ${(runtimeStatus.sourceCommit || "").slice(0, 10)}`
+                  : ""}
+              </span>
+            </div>
+            {!state.previewUsesSaved || anyDirty(state) ? (
+              <p role="status">Not in preview — save buffers before claiming runtime fidelity.</p>
+            ) : null}
+            {runtimeStatus?.previewUrl ? (
+              <iframe
+                title="OM runtime preview"
+                src={runtimeStatus.previewUrl}
+                style={{
+                  width: viewportWidth,
+                  maxWidth: "100%",
+                  height: "22rem",
+                  border: "1px solid #ccc",
+                  background: "#fff"
+                }}
+              />
+            ) : (
+              <p>Start preview to load the real OM route iframe (production comparison stays read-only).</p>
+            )}
+            {locateInfo?.notes ? <p>{locateInfo.notes}</p> : null}
+            <pre style={{ maxHeight: "8rem", overflow: "auto", fontSize: "0.75rem" }}>
+              {runtimeLogs || "(no runtime logs yet)"}
+            </pre>
+          </div>
+        ) : null}
         {state.panel === "changes" ? (
           <div>
             <div style={{ fontWeight: 600 }}>
