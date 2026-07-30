@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useReducer, useState, type JSX } from "react";
 import type { WorkshopClient } from "@om/workshop-sdk";
 import type {
+  CreateRevisionResult,
   DiagnosticItem,
+  DirtyWorkspaceResult,
+  RevisionDetail,
   StructuredEditAnalyzeResult,
   WorkspaceFileTreeEntry,
   WorkspaceSearchHit
@@ -43,6 +46,8 @@ export type SourceEditorProps = {
   readonly repositoryId: string;
   readonly identity: SourceEditorIdentity;
   readonly initialPath?: string;
+  /** Optional existing change set; created on demand from the Changes panel when empty. */
+  readonly changeSetId?: string;
 };
 
 function languageToMonaco(language: string): string {
@@ -61,7 +66,8 @@ export function SourceEditor({
   workspaceId,
   repositoryId,
   identity,
-  initialPath
+  initialPath,
+  changeSetId: changeSetIdProp
 }: SourceEditorProps) {
   const [state, dispatch] = useReducer(sourceEditorReducer, undefined, createInitialState);
   const [entries, setEntries] = useState<WorkspaceFileTreeEntry[]>([]);
@@ -73,6 +79,9 @@ export function SourceEditor({
   const [searchHits, setSearchHits] = useState<WorkspaceSearchHit[]>([]);
   const [structured, setStructured] = useState<StructuredEditAnalyzeResult | null>(null);
   const [structuredPreview, setStructuredPreview] = useState<string>("");
+  const [changeSetId, setChangeSetId] = useState(changeSetIdProp || "");
+  const [dirtyInfo, setDirtyInfo] = useState<DirtyWorkspaceResult | null>(null);
+  const [revision, setRevision] = useState<CreateRevisionResult | RevisionDetail | null>(null);
 
   const active = useMemo(
     () => state.tabs.find((t) => t.key === state.activeKey) ?? null,
@@ -284,6 +293,82 @@ export function SourceEditor({
       setStatus(`Search: ${result.hits.length} hit(s)${result.truncated ? " (truncated)" : ""}`);
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Search failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const refreshDirty = async () => {
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "changes" });
+    try {
+      const result = await client.listDirtyWorkspaceFiles(workspaceId, repositoryId);
+      setDirtyInfo(result);
+      dispatch({ type: "set_workspace_dirty", dirty: result.dirty });
+      setStatus(
+        result.dirty
+          ? `${result.files.length} saved dirty file(s) in worktree (unsaved buffers listed separately)`
+          : "Worktree clean — save is not a revision"
+      );
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Dirty listing failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const ensureChangeSet = async (): Promise<string> => {
+    if (changeSetId) return changeSetId;
+    const created = await client.createChangeSet({ workspaceId, repositoryId });
+    setChangeSetId(created.changeSetId);
+    return created.changeSetId;
+  };
+
+  const createRevisionAction = async () => {
+    if (anyDirty(state)) {
+      setStatus("Save or discard unsaved buffers before creating a revision");
+      return;
+    }
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "changes" });
+    try {
+      const csId = await ensureChangeSet();
+      const result = await client.createRevision(csId, {
+        workspaceId,
+        repositoryId,
+        summary: `Editor revision for ${identity.routeOrArtifact}`
+      });
+      setRevision(result);
+      setStatus(
+        `Revision #${result.revisionNumber} created (unsealed). Seal is separate from save/create.`
+      );
+      await refreshDirty();
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Create revision failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const sealRevisionAction = async () => {
+    if (!revision?.revisionId) {
+      setStatus("Create a revision before sealing");
+      return;
+    }
+    setBusy(true);
+    try {
+      const sealed = await client.sealRevision(revision.revisionId, {
+        workspaceId,
+        repositoryId
+      });
+      setRevision(sealed);
+      setStatus(
+        sealed.sealed
+          ? `Revision sealed @ ${sealed.contentSha256.slice(0, 12)}… — approval/push remain separate`
+          : "Seal returned without sealed flag"
+      );
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Seal failed");
     } finally {
       setBusy(false);
     }
@@ -548,6 +633,19 @@ export function SourceEditor({
             <button type="button" onClick={() => dispatch({ type: "close_saved" })}>
               Close saved
             </button>
+            <button type="button" disabled={busy} onClick={() => void refreshDirty()}>
+              Changes
+            </button>
+            <button type="button" disabled={busy} onClick={() => void createRevisionAction()}>
+              Create revision
+            </button>
+            <button
+              type="button"
+              disabled={busy || !revision || ("sealed" in revision && revision.sealed)}
+              onClick={() => void sealRevisionAction()}
+            >
+              Seal revision
+            </button>
           </div>
 
           {active?.conflict ? (
@@ -601,7 +699,7 @@ export function SourceEditor({
       <footer className="om-source-editor__panels" aria-label="Editor panels">
         <div>
           Panels:{" "}
-          {(["problems", "diff", "validation", "preview"] as const).map((panel) => (
+          {(["problems", "diff", "validation", "preview", "changes"] as const).map((panel) => (
             <button
               key={panel}
               type="button"
@@ -665,6 +763,52 @@ export function SourceEditor({
           </div>
         ) : null}
         {state.panel === "preview" ? "Preview logs surface (runtime wires in E05)." : null}
+        {state.panel === "changes" ? (
+          <div>
+            <div style={{ fontWeight: 600 }}>
+              Change drawer — save ≠ revision ≠ seal ≠ approval ≠ push
+            </div>
+            <p style={{ margin: "0.35rem 0" }}>
+              Change set: {changeSetId || "(none yet — created on Create revision)"}
+            </p>
+            <div style={{ marginBottom: "0.5rem" }}>
+              Unsaved buffers:{" "}
+              {state.tabs.filter((t) => t.dirty).length
+                ? state.tabs
+                    .filter((t) => t.dirty)
+                    .map((t) => t.relativePath)
+                    .join(", ")
+                : "none"}
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              Saved dirty worktree files:{" "}
+              {!dirtyInfo
+                ? "Click Changes to refresh"
+                : dirtyInfo.files.length === 0
+                  ? "none"
+                  : null}
+              {dirtyInfo?.files.map((f) => (
+                <button
+                  key={f.relativePath}
+                  type="button"
+                  style={{ display: "block", width: "100%", textAlign: "left" }}
+                  onClick={() => void openPath(f.relativePath)}
+                >
+                  [{f.changeType}] {f.relativePath}{" "}
+                  {f.resultSha256 ? f.resultSha256.slice(0, 10) : "(deleted)"}…
+                </button>
+              ))}
+            </div>
+            {revision ? (
+              <div>
+                Revision #{revision.revisionNumber} id={revision.revisionId}{" "}
+                {revision.sealed ? "SEALED" : "draft"} sha={revision.contentSha256.slice(0, 12)}…
+              </div>
+            ) : (
+              <div>No revision created in this session.</div>
+            )}
+          </div>
+        ) : null}
         {status ? (
           <p role="status" style={{ color: "#b45309" }}>
             {status}

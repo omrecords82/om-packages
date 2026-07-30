@@ -17,6 +17,7 @@ export function OmPagesModulePage(props?: {
   const workspaceId = props?.workspaceId || params.get("workspaceId") || "";
   const repositoryId = props?.repositoryId || params.get("repositoryId") || "";
   const initialPath = props?.initialPath || params.get("path") || undefined;
+  const changeSetId = params.get("changeSetId") || undefined;
   const [manualWorkspace, setManualWorkspace] = useState(workspaceId);
   const [manualRepository, setManualRepository] = useState(repositoryId);
 
@@ -57,6 +58,7 @@ export function OmPagesModulePage(props?: {
           workspaceId={manualWorkspace}
           repositoryId={manualRepository}
           {...(initialPath ? { initialPath } : {})}
+          {...(changeSetId ? { changeSetId } : {})}
           identity={{
             systemKey: "om",
             repositoryKey: manualRepository,

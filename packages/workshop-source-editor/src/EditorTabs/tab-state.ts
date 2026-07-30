@@ -19,7 +19,7 @@ export type SourceEditorState = {
   readonly tabs: readonly EditorTab[];
   readonly activeKey: string | null;
   readonly treeFilter: string;
-  readonly panel: "problems" | "diff" | "validation" | "preview";
+  readonly panel: "problems" | "diff" | "validation" | "preview" | "changes";
   readonly workspaceDirty: boolean;
   readonly previewUsesSaved: boolean;
 };
