@@ -1,0 +1,49 @@
+{
+  "name": "@om/module-om-pages",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OM Pages module integrating the Workshop source editor.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/module-om-pages"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@om/workshop-contracts": "workspace:*",
+    "@om/workshop-module-ui": "workspace:*",
+    "@om/workshop-sdk": "workspace:*",
+    "@om/workshop-source-editor": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20"
+  },
+  "devDependencies": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}
