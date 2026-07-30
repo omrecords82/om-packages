@@ -85,6 +85,9 @@ export function SourceEditor({
   const [structured, setStructured] = useState<StructuredEditAnalyzeResult | null>(null);
   const [structuredPreview, setStructuredPreview] = useState<string>("");
   const [changeSetId, setChangeSetId] = useState(changeSetIdProp || "");
+  const [changeSetKey, setChangeSetKey] = useState("");
+  const [approvalRequestKey, setApprovalRequestKey] = useState("");
+  const [pushResult, setPushResult] = useState<string>("");
   const [dirtyInfo, setDirtyInfo] = useState<DirtyWorkspaceResult | null>(null);
   const [revision, setRevision] = useState<CreateRevisionResult | RevisionDetail | null>(null);
   const [runtimeKey, setRuntimeKey] = useState("");
@@ -331,6 +334,7 @@ export function SourceEditor({
     if (changeSetId) return changeSetId;
     const created = await client.createChangeSet({ workspaceId, repositoryId });
     setChangeSetId(created.changeSetId);
+    setChangeSetKey(created.changeSetKey);
     return created.changeSetId;
   };
 
@@ -346,9 +350,11 @@ export function SourceEditor({
       const result = await client.createRevision(csId, {
         workspaceId,
         repositoryId,
-        summary: `Editor revision for ${identity.routeOrArtifact}`
+        summary: `Editor revision for ${identity.routeOrArtifact}`,
+        actorExternalKey: "omworkshop-user:1"
       });
       setRevision(result);
+      setChangeSetKey(result.changeSetKey || changeSetKey);
       setStatus(
         `Revision #${result.revisionNumber} created (unsealed). Seal is separate from save/create.`
       );
@@ -379,6 +385,92 @@ export function SourceEditor({
       );
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Seal failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const submitApprovalAction = async () => {
+    const key = changeSetKey || ("changeSetKey" in (revision || {}) ? (revision as CreateRevisionResult).changeSetKey : "");
+    if (!key) {
+      setStatus("Create/seal a revision first (need change set key)");
+      return;
+    }
+    if (!revision?.sealed) {
+      setStatus("Seal the revision before submitting for approval");
+      return;
+    }
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "changes" });
+    try {
+      const result = await client.submitApproval({
+        changeSetKey: key,
+        requesterExternalKey: "omworkshop-user:1",
+        reason: "Source editor approval request"
+      });
+      if (!result.ok) {
+        setStatus(result.error || "Submit approval failed");
+        return;
+      }
+      setApprovalRequestKey(result.requestKey || "");
+      setStatus(
+        `Submitted ${result.requestKey} — awaiting independent approver (self-approve blocked)`
+      );
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Submit approval failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const approveAsIndependentAction = async () => {
+    if (!approvalRequestKey) {
+      setStatus("Submit for approval first");
+      return;
+    }
+    setBusy(true);
+    try {
+      const result = await client.decideApproval({
+        requestKey: approvalRequestKey,
+        actorExternalKey: "omworkshop-user:5",
+        decision: "approve",
+        reason: "Independent human approval"
+      });
+      if (!result.ok) {
+        setStatus(result.error || "Approval decision failed");
+        return;
+      }
+      setStatus(`Approved ${approvalRequestKey} as omworkshop-user:5`);
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Approval failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const pushApprovedAction = async () => {
+    if (!approvalRequestKey) {
+      setStatus("Need an approved request key before push");
+      return;
+    }
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "changes" });
+    try {
+      const result = await client.pushApprovedRevision({
+        requestKey: approvalRequestKey,
+        workspaceId,
+        repositoryId,
+        actorExternalKey: "omworkshop-user:1"
+      });
+      if (!result.ok) {
+        setStatus(result.message || result.code || "Push failed");
+        return;
+      }
+      const summary = `${result.outputBranch}@${result.outputCommitSha?.slice(0, 12)} (merged=${result.merged} deployed=${result.deployed})`;
+      setPushResult(summary);
+      setStatus(`Pushed governed branch ${summary}`);
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Push failed");
     } finally {
       setBusy(false);
     }
@@ -762,6 +854,28 @@ export function SourceEditor({
             >
               Seal revision
             </button>
+            <button
+              type="button"
+              disabled={busy || !revision?.sealed}
+              onClick={() => void submitApprovalAction()}
+            >
+              Submit approval
+            </button>
+            <button
+              type="button"
+              disabled={busy || !approvalRequestKey}
+              onClick={() => void approveAsIndependentAction()}
+              title="Uses distinct human actor omworkshop-user:5"
+            >
+              Approve (user:5)
+            </button>
+            <button
+              type="button"
+              disabled={busy || !approvalRequestKey}
+              onClick={() => void pushApprovedAction()}
+            >
+              Push approved
+            </button>
             <button type="button" disabled={busy} onClick={() => void startPreview()}>
               Preview start
             </button>
@@ -945,6 +1059,11 @@ export function SourceEditor({
             </div>
             <p style={{ margin: "0.35rem 0" }}>
               Change set: {changeSetId || "(none yet — created on Create revision)"}
+              {changeSetKey ? ` · key ${changeSetKey}` : ""}
+            </p>
+            <p style={{ margin: "0.35rem 0" }}>
+              Approval: {approvalRequestKey || "(not submitted)"}
+              {pushResult ? ` · pushed ${pushResult}` : ""}
             </p>
             <div style={{ marginBottom: "0.5rem" }}>
               Unsaved buffers:{" "}
