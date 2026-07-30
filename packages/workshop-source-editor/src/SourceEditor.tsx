@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useReducer, useState, type JSX } from "react";
 import type { WorkshopClient } from "@om/workshop-sdk";
-import type { WorkspaceFileTreeEntry } from "@om/workshop-contracts";
+import type {
+  DiagnosticItem,
+  StructuredEditAnalyzeResult,
+  WorkspaceFileTreeEntry,
+  WorkspaceSearchHit
+} from "@om/workshop-contracts";
 import * as MonacoReact from "@monaco-editor/react";
 import { WorkshopSdkError } from "@om/workshop-sdk";
 
@@ -63,6 +68,11 @@ export function SourceEditor({
   const [diffText, setDiffText] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [diagnostics, setDiagnostics] = useState<DiagnosticItem[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchHits, setSearchHits] = useState<WorkspaceSearchHit[]>([]);
+  const [structured, setStructured] = useState<StructuredEditAnalyzeResult | null>(null);
+  const [structuredPreview, setStructuredPreview] = useState<string>("");
 
   const active = useMemo(
     () => state.tabs.find((t) => t.key === state.activeKey) ?? null,
@@ -211,6 +221,160 @@ export function SourceEditor({
     }
   };
 
+  const formatActive = async (apply: boolean) => {
+    if (!active || active.readOnly) return;
+    setBusy(true);
+    try {
+      const result = await client.formatWorkspaceFile(workspaceId, repositoryId, {
+        relativePath: active.relativePath,
+        expectedOriginalSha256: active.loadedSha256,
+        apply
+      });
+      if (apply && result.applied) {
+        dispatch({
+          type: "mark_saved",
+          key: active.key,
+          contentSha256: result.contentSha256,
+          content: result.content,
+          workspaceDirty: true
+        });
+      } else {
+        dispatch({ type: "set_buffer", key: active.key, content: result.content });
+      }
+      setStatus(result.unchanged ? "Already formatted" : apply ? "Formatted" : "Format preview loaded");
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Format failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const runDiagnostics = async () => {
+    if (!active) return;
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "problems" });
+    try {
+      const job = await client.startWorkspaceDiagnostics(workspaceId, repositoryId, {
+        scope: "file",
+        relativePath: active.relativePath
+      });
+      setDiagnostics(job.diagnostics || []);
+      setStatus(`Diagnostics ${job.status} (${job.diagnostics.length} findings)`);
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Diagnostics failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const runSearch = async () => {
+    if (!searchQuery.trim()) return;
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "problems" });
+    try {
+      const result = await client.searchWorkspace(workspaceId, repositoryId, {
+        query: searchQuery,
+        mode: "literal",
+        path: "",
+        includeGlobs: [],
+        excludeGlobs: [],
+        maxResults: 100
+      });
+      setSearchHits(result.hits);
+      setStatus(`Search: ${result.hits.length} hit(s)${result.truncated ? " (truncated)" : ""}`);
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Search failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const analyzeStructured = async () => {
+    if (!active) return;
+    setBusy(true);
+    dispatch({ type: "set_panel", panel: "validation" });
+    try {
+      const result = await client.analyzeStructuredEdits(
+        workspaceId,
+        repositoryId,
+        active.relativePath
+      );
+      setStructured(result);
+      setStructuredPreview("");
+      setStatus(
+        `Structured analysis: ${result.hits.filter((h) => h.kind === "supported").length} supported / ${result.hits.filter((h) => h.kind === "unsupported").length} unsupported`
+      );
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Structured analyze failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const previewAndApplyStructured = async (hit: StructuredEditAnalyzeResult["hits"][number]) => {
+    if (!active || hit.kind !== "supported" || hit.value == null || !hit.form) return;
+    const nextValue = window.prompt("New value for structured edit", hit.value);
+    if (nextValue == null) return;
+    const operation =
+      hit.form === "jsx-text"
+        ? "replace_jsx_text"
+        : hit.form === "boolean-prop"
+          ? "replace_boolean_prop"
+          : hit.form === "className"
+            ? "update_classname"
+            : "replace_string_prop";
+    setBusy(true);
+    try {
+      const preview = await client.previewStructuredEdit(workspaceId, repositoryId, {
+        relativePath: active.relativePath,
+        expectedOriginalSha256: active.loadedSha256,
+        operation,
+        span: {
+          line: hit.line,
+          column: hit.column,
+          endLine: hit.endLine,
+          endColumn: hit.endColumn,
+          form: hit.form,
+          originalValue: hit.value,
+          ...(hit.propName ? { propName: hit.propName } : {})
+        },
+        nextValue
+      });
+      setStructuredPreview(preview.unifiedDiff || preview.previewContent);
+      if (!window.confirm("Apply structured edit preview?")) return;
+      const applied = await client.applyStructuredEdit(workspaceId, repositoryId, {
+        relativePath: active.relativePath,
+        expectedOriginalSha256: active.loadedSha256,
+        previewChecksum: preview.previewChecksum,
+        operation,
+        span: {
+          line: hit.line,
+          column: hit.column,
+          endLine: hit.endLine,
+          endColumn: hit.endColumn,
+          form: hit.form,
+          originalValue: hit.value,
+          ...(hit.propName ? { propName: hit.propName } : {})
+        },
+        nextValue,
+        formatAfter: true
+      });
+      dispatch({
+        type: "mark_saved",
+        key: active.key,
+        contentSha256: applied.contentSha256,
+        content: applied.content,
+        workspaceDirty: applied.workspaceDirty
+      });
+      setStatus("Structured edit applied");
+      await analyzeStructured();
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : "Structured edit failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const filtered = entries.filter((e) =>
     e.relativePath.toLowerCase().includes(state.treeFilter.toLowerCase())
   );
@@ -335,6 +499,40 @@ export function SourceEditor({
             </button>
             <button
               type="button"
+              disabled={!active || active.readOnly || busy}
+              onClick={() => void formatActive(false)}
+            >
+              Format preview
+            </button>
+            <button
+              type="button"
+              disabled={!active || active.readOnly || busy}
+              onClick={() => void formatActive(true)}
+            >
+              Format apply
+            </button>
+            <button type="button" disabled={!active || busy} onClick={() => void runDiagnostics()}>
+              Diagnostics
+            </button>
+            <button
+              type="button"
+              disabled={!active || busy}
+              onClick={() => void analyzeStructured()}
+            >
+              Structured analyze
+            </button>
+            <input
+              aria-label="Workspace search"
+              placeholder="Search…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ width: "8rem" }}
+            />
+            <button type="button" disabled={busy || !searchQuery.trim()} onClick={() => void runSearch()}>
+              Search
+            </button>
+            <button
+              type="button"
               disabled={!active}
               onClick={() => active && dispatch({ type: "close_tab", key: active.key })}
             >
@@ -415,8 +613,57 @@ export function SourceEditor({
           ))}
         </div>
         {state.panel === "diff" ? diffText || "Open Diff to load worktree diff." : null}
-        {state.panel === "problems" ? "Problems panel (host diagnostics land in E03)." : null}
-        {state.panel === "validation" ? "Validation panel placeholder." : null}
+        {state.panel === "problems" ? (
+          <div>
+            <div style={{ fontWeight: 600, marginBottom: "0.35rem" }}>
+              Problems (Monaco ≠ host authority — tsc/eslint/build shown separately)
+            </div>
+            {diagnostics.length === 0 && searchHits.length === 0 ? (
+              <div>No host diagnostics or search hits yet.</div>
+            ) : null}
+            {diagnostics.map((d, i) => (
+              <button
+                key={`d-${i}`}
+                type="button"
+                style={{ display: "block", width: "100%", textAlign: "left" }}
+                onClick={() => void openPath(d.relativePath)}
+              >
+                [{d.source || "host"}:{d.severity}] {d.relativePath}:{d.line}:{d.column}{" "}
+                {d.code ? `${d.code} ` : ""}
+                {d.message}
+                {d.fixAvailable ? " (fix available)" : ""}
+              </button>
+            ))}
+            {searchHits.map((h, i) => (
+              <button
+                key={`s-${i}`}
+                type="button"
+                style={{ display: "block", width: "100%", textAlign: "left" }}
+                onClick={() => void openPath(h.relativePath)}
+              >
+                [search] {h.relativePath}:{h.line}:{h.column} {h.preview}
+              </button>
+            ))}
+          </div>
+        ) : null}
+        {state.panel === "validation" ? (
+          <div>
+            <div style={{ fontWeight: 600 }}>Structured edits (AST/span-checked)</div>
+            {!structured ? <div>Run Structured analyze on the active file.</div> : null}
+            {structured?.hits.map((hit, i) => (
+              <div key={`h-${i}`} style={{ marginTop: "0.35rem" }}>
+                <button
+                  type="button"
+                  disabled={hit.kind !== "supported" || busy || active?.readOnly}
+                  onClick={() => void previewAndApplyStructured(hit)}
+                >
+                  {hit.kind}: {hit.form || "?"} {hit.value ?? hit.reason} @ {hit.line}:{hit.column}
+                </button>
+              </div>
+            ))}
+            {structuredPreview ? <pre>{structuredPreview}</pre> : null}
+          </div>
+        ) : null}
         {state.panel === "preview" ? "Preview logs surface (runtime wires in E05)." : null}
         {status ? (
           <p role="status" style={{ color: "#b45309" }}>

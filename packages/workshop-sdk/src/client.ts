@@ -7,6 +7,11 @@ import type {
   SaveWorkspaceFileRequest,
   SaveWorkspaceFileResponse,
   StartDiagnosticsRequest,
+  StructuredEditAnalyzeResult,
+  StructuredEditApplyRequest,
+  StructuredEditApplyResult,
+  StructuredEditPreviewRequest,
+  StructuredEditPreviewResult,
   WorkspaceDiff,
   WorkspaceFileContent,
   WorkspaceFileTree,
@@ -21,6 +26,9 @@ import {
   diagnosticsJobSchema,
   formatWorkspaceFileResultSchema,
   saveWorkspaceFileResponseSchema,
+  structuredEditAnalyzeResultSchema,
+  structuredEditApplyResultSchema,
+  structuredEditPreviewResultSchema,
   workshopErrorSchema,
   workshopHostCapabilitiesSchema,
   workshopHostStatusSchema,
@@ -99,6 +107,21 @@ export type WorkshopClient = {
     repositoryId: string,
     runId: string
   ) => Promise<DiagnosticsJob>;
+  readonly analyzeStructuredEdits: (
+    workspaceId: string,
+    repositoryId: string,
+    relativePath: string
+  ) => Promise<StructuredEditAnalyzeResult>;
+  readonly previewStructuredEdit: (
+    workspaceId: string,
+    repositoryId: string,
+    body: StructuredEditPreviewRequest
+  ) => Promise<StructuredEditPreviewResult>;
+  readonly applyStructuredEdit: (
+    workspaceId: string,
+    repositoryId: string,
+    body: StructuredEditApplyRequest
+  ) => Promise<StructuredEditApplyResult>;
 };
 
 function joinUrl(baseUrl: string, path: string): string {
@@ -308,6 +331,27 @@ export function createWorkshopClient(options: CreateWorkshopClientOptions = {}):
         `${workspaceBase(workspaceId, repositoryId)}/diagnostics/${encodeURIComponent(runId)}/cancel`,
         diagnosticsJobSchema,
         { method: "POST", body: {} }
+      );
+    },
+    analyzeStructuredEdits(workspaceId, repositoryId, relativePath) {
+      return request(
+        `${workspaceBase(workspaceId, repositoryId)}/structured-edits/analyze`,
+        structuredEditAnalyzeResultSchema,
+        { method: "POST", body: { relativePath } }
+      );
+    },
+    previewStructuredEdit(workspaceId, repositoryId, body) {
+      return request(
+        `${workspaceBase(workspaceId, repositoryId)}/structured-edits/preview`,
+        structuredEditPreviewResultSchema,
+        { method: "POST", body }
+      );
+    },
+    applyStructuredEdit(workspaceId, repositoryId, body) {
+      return request(
+        `${workspaceBase(workspaceId, repositoryId)}/structured-edits/apply`,
+        structuredEditApplyResultSchema,
+        { method: "POST", body }
       );
     }
   };

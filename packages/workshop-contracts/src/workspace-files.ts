@@ -195,10 +195,13 @@ export const diagnosticItemSchema = z.object({
   relativePath: z.string().trim().min(1),
   line: z.number().int().positive(),
   column: z.number().int().positive(),
+  endLine: z.number().int().positive().optional(),
+  endColumn: z.number().int().positive().optional(),
   severity: z.enum(["error", "warning", "info", "hint"]),
   message: z.string(),
   code: z.string().optional(),
-  source: z.string().optional()
+  source: z.enum(["monaco", "eslint", "tsc", "build", "runtime", "host"]).optional(),
+  fixAvailable: z.boolean().default(false)
 });
 
 export type DiagnosticItem = z.infer<typeof diagnosticItemSchema>;
@@ -216,3 +219,90 @@ export const diagnosticsJobSchema = z.object({
 });
 
 export type DiagnosticsJob = z.infer<typeof diagnosticsJobSchema>;
+
+export const structuredEditOperationSchema = z.enum([
+  "replace_jsx_text",
+  "replace_string_prop",
+  "replace_boolean_prop",
+  "update_classname"
+]);
+
+export type StructuredEditOperation = z.infer<typeof structuredEditOperationSchema>;
+
+export const structuredEditSpanSchema = z.object({
+  line: z.number().int().positive(),
+  column: z.number().int().positive(),
+  endLine: z.number().int().positive(),
+  endColumn: z.number().int().positive(),
+  form: z.enum(["jsx-text", "string-prop", "boolean-prop", "className"]).optional(),
+  propName: z.string().optional(),
+  originalValue: z.string()
+});
+
+export type StructuredEditSpan = z.infer<typeof structuredEditSpanSchema>;
+
+export const structuredEditPreviewRequestSchema = z.object({
+  relativePath: workspaceRelativePathSchema,
+  expectedOriginalSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  operation: structuredEditOperationSchema,
+  span: structuredEditSpanSchema,
+  nextValue: z.string().max(8192)
+});
+
+export type StructuredEditPreviewRequest = z.infer<typeof structuredEditPreviewRequestSchema>;
+
+export const structuredEditPreviewResultSchema = z.object({
+  relativePath: z.string().trim().min(1),
+  operation: structuredEditOperationSchema,
+  originalSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  previewContent: z.string(),
+  previewSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  previewChecksum: z.string().regex(/^[a-f0-9]{64}$/),
+  unifiedDiff: z.string(),
+  supported: z.literal(true)
+});
+
+export type StructuredEditPreviewResult = z.infer<typeof structuredEditPreviewResultSchema>;
+
+export const structuredEditApplyRequestSchema = z.object({
+  relativePath: workspaceRelativePathSchema,
+  expectedOriginalSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  previewChecksum: z.string().regex(/^[a-f0-9]{64}$/),
+  operation: structuredEditOperationSchema,
+  span: structuredEditSpanSchema,
+  nextValue: z.string().max(8192),
+  formatAfter: z.boolean().default(true)
+});
+
+export type StructuredEditApplyRequest = z.infer<typeof structuredEditApplyRequestSchema>;
+
+export const structuredEditApplyResultSchema = z.object({
+  relativePath: z.string().trim().min(1),
+  previousSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  contentSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  content: z.string(),
+  formatted: z.boolean(),
+  workspaceDirty: z.boolean()
+});
+
+export type StructuredEditApplyResult = z.infer<typeof structuredEditApplyResultSchema>;
+
+export const structuredEditAnalyzeResultSchema = z.object({
+  relativePath: z.string().trim().min(1),
+  contentSha256: z.string().regex(/^[a-f0-9]{64}$/),
+  hits: z.array(
+    z.object({
+      kind: z.enum(["supported", "unsupported"]),
+      value: z.string().optional(),
+      reason: z.string().optional(),
+      line: z.number().int().positive(),
+      column: z.number().int().positive(),
+      endLine: z.number().int().positive(),
+      endColumn: z.number().int().positive(),
+      form: z.enum(["jsx-text", "string-prop", "boolean-prop", "className"]).optional(),
+      propName: z.string().optional()
+    })
+  )
+});
+
+export type StructuredEditAnalyzeResult = z.infer<typeof structuredEditAnalyzeResultSchema>;
