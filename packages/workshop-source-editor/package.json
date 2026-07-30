@@ -1,0 +1,53 @@
+{
+  "name": "@om/workshop-source-editor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable OM Workshop Monaco source editor for registered workspace worktrees.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": "./dist/styles/source-editor.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/workshop-source-editor"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b && mkdir -p dist/styles && cp src/styles/source-editor.css dist/styles/source-editor.css",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@om/workshop-contracts": "workspace:*",
+    "@om/workshop-module-ui": "workspace:*",
+    "@om/workshop-sdk": "workspace:*",
+    "monaco-editor": "^0.52.2"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.0 <20",
+    "react-dom": ">=18.3.0 <20"
+  },
+  "devDependencies": {
+    "@testing-library/react": "16.3.2",
+    "jsdom": "29.1.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  }
+}
