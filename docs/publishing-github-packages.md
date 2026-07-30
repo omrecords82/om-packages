@@ -6,12 +6,12 @@
 
 GitHub Packages for npm **requires the package scope to match the GitHub owner** (user or organization). See [Working with the npm registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
 
-| Fact | Value |
-|------|--------|
-| GitHub owner of this repo | **user** `omrecords82` (not an organization) |
-| Source package names (brand) | `@om/contracts`, `@om/tokens`, `@om/ui` |
+| Fact                          | Value                                                              |
+| ----------------------------- | ------------------------------------------------------------------ |
+| GitHub owner of this repo     | **user** `omrecords82` (not an organization)                       |
+| Source package names (brand)  | `@om/contracts`, `@om/tokens`, `@om/ui`                            |
 | GitHub Packages publish names | `@omrecords82/contracts`, `@omrecords82/tokens`, `@omrecords82/ui` |
-| Registry URL | `https://npm.pkg.github.com` |
+| Registry URL                  | `https://npm.pkg.github.com`                                       |
 
 ### Why not publish as `@om/*`?
 
@@ -22,23 +22,23 @@ GitHub Packages for npm **requires the package scope to match the GitHub owner**
 
 ### Options considered
 
-| Option | Viable? | Notes |
-|--------|---------|--------|
-| A. Keep `@om/*` on GitHub Packages under `omrecords82` | **No** | Scope must equal owner |
-| B. Create/use GitHub org `om` | **No** | Name blocked by existing user `Om` |
-| C. Rename source packages permanently to `@omrecords82/*` | Yes | Large rename; loses `@om` brand in `package.json` |
-| D. **Publish as `@omrecords82/*`, keep `@om/*` in source** (chosen) | **Yes** | Publish script remaps names; consumers use npm aliases |
-| E. External registry (npmjs private / Verdaccio) with `@om` | Yes, but not Option B | Separate decision |
+| Option                                                              | Viable?               | Notes                                                  |
+| ------------------------------------------------------------------- | --------------------- | ------------------------------------------------------ |
+| A. Keep `@om/*` on GitHub Packages under `omrecords82`              | **No**                | Scope must equal owner                                 |
+| B. Create/use GitHub org `om`                                       | **No**                | Name blocked by existing user `Om`                     |
+| C. Rename source packages permanently to `@omrecords82/*`           | Yes                   | Large rename; loses `@om` brand in `package.json`      |
+| D. **Publish as `@omrecords82/*`, keep `@om/*` in source** (chosen) | **Yes**               | Publish script remaps names; consumers use npm aliases |
+| E. External registry (npmjs private / Verdaccio) with `@om`         | Yes, but not Option B | Separate decision                                      |
 
 **Chosen for Option B:** one GitHub Packages registry under `omrecords82`, published names `@omrecords82/*`, source brand remains `@om/*`, apps install via npm aliases so import paths stay `@om/...`.
 
 ## Packages
 
-| Source name | Published name | Version (bootstrap) |
-|-------------|----------------|---------------------|
+| Source name     | Published name           | Version (bootstrap)           |
+| --------------- | ------------------------ | ----------------------------- |
 | `@om/contracts` | `@omrecords82/contracts` | `0.2.0` (sacramental schemas) |
-| `@om/tokens` | `@omrecords82/tokens` | `0.1.0` |
-| `@om/ui` | `@omrecords82/ui` | `0.1.0` |
+| `@om/tokens`    | `@omrecords82/tokens`    | `0.1.0`                       |
+| `@om/ui`        | `@omrecords82/ui`        | `0.1.0`                       |
 
 Dependency order: contracts → tokens → ui.
 

@@ -8,7 +8,7 @@ import {
   recordIdSchema,
   recordsListQueryBaseSchema,
   sacramentRecordStatusSchema,
-  createRecordsListResponseSchema,
+  createRecordsListResponseSchema
 } from "./common.js";
 
 /** Sortable columns accepted by `GET /api/funeral-records`. */
@@ -22,7 +22,7 @@ export const FUNERAL_SORT_FIELDS = [
   "burial_location",
   "age",
   "created_at",
-  "updated_at",
+  "updated_at"
 ] as const;
 
 export type FuneralSortField = (typeof FUNERAL_SORT_FIELDS)[number];
@@ -45,7 +45,7 @@ export const funeralRecordRowSchema = z.object({
   notes: z.string().nullable().optional(),
   status: sacramentRecordStatusSchema.default("Recorded"),
   verified_by: z.union([z.string(), z.number(), z.null()]).optional(),
-  verified_at: z.string().nullable().optional(),
+  verified_at: z.string().nullable().optional()
 });
 
 export type FuneralRecordRow = z.infer<typeof funeralRecordRowSchema>;
@@ -60,14 +60,14 @@ export const funeralRecordWriteSchema = z.object({
   clergy: nonEmptyStringSchema,
   burial_location: optionalNullableStringSchema,
   burial_location_id: z.coerce.number().int().positive().nullable().optional(),
-  burial_location_original: optionalNullableStringSchema,
+  burial_location_original: optionalNullableStringSchema
 });
 
 export type FuneralRecordWrite = z.infer<typeof funeralRecordWriteSchema>;
 
 /** `POST /api/funeral-records` body — OM requires name, lastname, deceased_date, clergy. */
 export const funeralRecordCreateSchema = funeralRecordWriteSchema.extend({
-  deceased_date: nonEmptyStringSchema,
+  deceased_date: nonEmptyStringSchema
 });
 
 export type FuneralRecordCreate = z.infer<typeof funeralRecordCreateSchema>;
@@ -77,7 +77,7 @@ export const funeralRecordUpdateSchema = funeralRecordCreateSchema;
 export type FuneralRecordUpdate = z.infer<typeof funeralRecordUpdateSchema>;
 
 export const funeralRecordsListQuerySchema = recordsListQueryBaseSchema.extend({
-  sortField: funeralSortFieldSchema.default("id"),
+  sortField: funeralSortFieldSchema.default("id")
 });
 
 export type FuneralRecordsListQuery = z.infer<typeof funeralRecordsListQuerySchema>;
@@ -99,7 +99,7 @@ export function normalizeFuneralWriteInput(raw: unknown): Record<string, unknown
     clergy: input.clergy ?? input.priest,
     burial_location: input.burial_location ?? input.burialPlace ?? input.burialLocation,
     burial_location_id: input.burial_location_id ?? input.burialLocationId,
-    burial_location_original: input.burial_location_original ?? input.burialLocationOriginal,
+    burial_location_original: input.burial_location_original ?? input.burialLocationOriginal
   };
 }
 

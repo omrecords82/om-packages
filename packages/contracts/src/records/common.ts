@@ -1,11 +1,7 @@
 import { z } from "zod";
 
 /** OM sacrament row status values (`PATCH /api/*-records/:id/status`). */
-export const SACRAMENT_RECORD_STATUSES = [
-  "Recorded",
-  "Verified",
-  "Awaiting Clergy",
-] as const;
+export const SACRAMENT_RECORD_STATUSES = ["Recorded", "Verified", "Awaiting Clergy"] as const;
 
 export type SacramentRecordStatus = (typeof SACRAMENT_RECORD_STATUSES)[number];
 
@@ -51,7 +47,7 @@ export const sortDirectionSchema = z
 export const recordsListMetaSchema = z.object({
   totalRecords: z.coerce.number().int().nonnegative(),
   currentPage: z.coerce.number().int().positive(),
-  totalPages: z.coerce.number().int().positive(),
+  totalPages: z.coerce.number().int().positive()
 });
 
 export type RecordsListMeta = z.infer<typeof recordsListMetaSchema>;
@@ -62,13 +58,13 @@ export const recordsListQueryBaseSchema = z.object({
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().min(1).max(200).default(25),
   search: z.string().optional().default(""),
-  sortDirection: sortDirectionSchema.default("desc"),
+  sortDirection: sortDirectionSchema.default("desc")
 });
 
 export type RecordsListQueryBase = z.infer<typeof recordsListQueryBaseSchema>;
 
 /** Unwrap list payloads (`records` or `data` key) from OM list endpoints. */
-export function createRecordsListResponseSchema<T extends z.ZodTypeAny>(rowSchema: T) {
+export function createRecordsListResponseSchema<T extends z.ZodType>(rowSchema: T) {
   return z
     .object({
       records: z.array(rowSchema).optional(),
@@ -77,7 +73,7 @@ export function createRecordsListResponseSchema<T extends z.ZodTypeAny>(rowSchem
       total: z.coerce.number().int().nonnegative().optional(),
       currentPage: z.coerce.number().int().positive().optional(),
       page: z.coerce.number().int().positive().optional(),
-      totalPages: z.coerce.number().int().positive().optional(),
+      totalPages: z.coerce.number().int().positive().optional()
     })
     .transform((payload) => {
       const rows = payload.records ?? payload.data ?? [];
@@ -91,7 +87,7 @@ export function createRecordsListResponseSchema<T extends z.ZodTypeAny>(rowSchem
 
 export const sacramentStatusPatchSchema = z.object({
   status: sacramentRecordStatusSchema,
-  church_id: churchIdSchema.optional(),
+  church_id: churchIdSchema.optional()
 });
 
 export type SacramentStatusPatch = z.infer<typeof sacramentStatusPatchSchema>;

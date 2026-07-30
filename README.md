@@ -206,11 +206,11 @@ Storybook includes controlled generated-token and UI component previews. They de
 
 Source packages stay `private: true` so accidental `npm publish` to the public registry fails. The publish script stages remapped packages and publishes them.
 
-| Source | Published name | Version |
-|--------|----------------|---------|
+| Source          | Published name           | Version |
+| --------------- | ------------------------ | ------- |
 | `@om/contracts` | `@omrecords82/contracts` | `0.2.0` |
-| `@om/tokens` | `@omrecords82/tokens` | `0.1.0` |
-| `@om/ui` | `@omrecords82/ui` | `0.1.0` |
+| `@om/tokens`    | `@omrecords82/tokens`    | `0.1.0` |
+| `@om/ui`        | `@omrecords82/ui`        | `0.1.0` |
 
 Full docs: [docs/publishing-github-packages.md](docs/publishing-github-packages.md) · example auth: [`.npmrc.example`](.npmrc.example) · CI template: [docs/ci/publish-github-packages.yml](docs/ci/publish-github-packages.yml) (copy to `.github/workflows/publish.yml` once a token with `workflow` scope is available)
 

@@ -1,0 +1,38 @@
+{
+  "name": "@om/workshop-sdk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser-safe OM Workshop host SDK returning contract DTOs.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omrecords82/om-packages.git",
+    "directory": "packages/workshop-sdk"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@om/workshop-contracts": "workspace:*"
+  },
+  "scripts": {
+    "build": "rm -rf dist .tsbuildinfo && tsc -b",
+    "clean": "rm -rf dist .tsbuildinfo",
+    "lint": "eslint .",
+    "pack:check": "corepack pnpm pack --dry-run",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -b --pretty false"
+  }
+}

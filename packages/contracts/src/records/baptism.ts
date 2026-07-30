@@ -3,12 +3,11 @@ import { z } from "zod";
 import {
   churchIdSchema,
   nonEmptyStringSchema,
-  optionalAgeSchema,
   optionalNullableStringSchema,
   recordIdSchema,
   recordsListQueryBaseSchema,
   sacramentRecordStatusSchema,
-  createRecordsListResponseSchema,
+  createRecordsListResponseSchema
 } from "./common.js";
 
 /** Sortable columns accepted by `GET /api/baptism-records`. */
@@ -24,7 +23,7 @@ export const BAPTISM_SORT_FIELDS = [
   "sponsors",
   "parents",
   "created_at",
-  "updated_at",
+  "updated_at"
 ] as const;
 
 export type BaptismSortField = (typeof BAPTISM_SORT_FIELDS)[number];
@@ -47,7 +46,7 @@ export const baptismRecordRowSchema = z.object({
   clergy: nonEmptyStringSchema,
   status: sacramentRecordStatusSchema.default("Recorded"),
   verified_by: z.union([z.string(), z.number(), z.null()]).optional(),
-  verified_at: z.string().nullable().optional(),
+  verified_at: z.string().nullable().optional()
 });
 
 export type BaptismRecordRow = z.infer<typeof baptismRecordRowSchema>;
@@ -63,14 +62,14 @@ export const baptismRecordWriteSchema = z.object({
   entry_type: optionalNullableStringSchema,
   sponsors: optionalNullableStringSchema,
   parents: optionalNullableStringSchema,
-  clergy: nonEmptyStringSchema,
+  clergy: nonEmptyStringSchema
 });
 
 export type BaptismRecordWrite = z.infer<typeof baptismRecordWriteSchema>;
 
 /** `POST /api/baptism-records` body — OM requires first_name, last_name, birth_date, clergy. */
 export const baptismRecordCreateSchema = baptismRecordWriteSchema.extend({
-  birth_date: nonEmptyStringSchema,
+  birth_date: nonEmptyStringSchema
 });
 
 export type BaptismRecordCreate = z.infer<typeof baptismRecordCreateSchema>;
@@ -81,7 +80,7 @@ export const baptismRecordUpdateSchema = baptismRecordWriteSchema;
 export type BaptismRecordUpdate = z.infer<typeof baptismRecordUpdateSchema>;
 
 export const baptismRecordsListQuerySchema = recordsListQueryBaseSchema.extend({
-  sortField: baptismSortFieldSchema.default("id"),
+  sortField: baptismSortFieldSchema.default("id")
 });
 
 export type BaptismRecordsListQuery = z.infer<typeof baptismRecordsListQuerySchema>;
@@ -103,7 +102,7 @@ export function normalizeBaptismWriteInput(raw: unknown): Record<string, unknown
     entry_type: input.entry_type ?? input.entryType,
     sponsors: input.sponsors ?? input.godparents,
     parents: input.parents,
-    clergy: input.clergy ?? input.priest,
+    clergy: input.clergy ?? input.priest
   };
 }
 
