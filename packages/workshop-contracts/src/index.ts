@@ -4,3 +4,4 @@ export * from "./host.js";
 export * from "./ids.js";
 export * from "./manifest.js";
 export * from "./source.js";
+export * from "./workspace-files.js";
